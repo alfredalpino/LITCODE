@@ -12,7 +12,7 @@
     "build": "next build",
     "start": "next start -p 3000 -H 0.0.0.0",
     "lint": "oxlint",
-    "test": "node --test scripts/test-module-status.mjs scripts/test-learning-infra.mjs scripts/test-phase6-judged-bank.mjs scripts/test-phase8-unified.mjs",
+    "test": "tsx --test scripts/test-module-status.mjs scripts/test-learning-infra.mjs scripts/test-phase6-judged-bank.mjs scripts/test-phase8-unified.mjs scripts/test-catalog-smoke.mjs scripts/test-company-packs.mjs scripts/test-browser-runners.mts scripts/test-judge-languages.mts scripts/test-remote-execute.mts scripts/test-lang-icon.mts scripts/test-execute-route.mts",
     "dsa:phase6": "node scripts/phase6-build-judged-bank.mjs && npm run dsa:gen",
     "test:runners": "node scripts/smoke-runners.mjs"
   },
@@ -38,6 +38,7 @@
     "@types/react-dom": "^19.2.7",
     "eslint-config-next": "16.3.7",
     "oxlint": "^1.81.0",
+    "tsx": "^4.20.5",
     "typescript": "~6.0.2"
   }
 }

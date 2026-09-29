@@ -32,7 +32,7 @@ interface LangIconProps {
 }
 
 /** Normalize catalog language/id strings to an icon key. */
-function toKey(lang: string): LangIconKey | null {
+export function langIconToKey(lang: string): LangIconKey | null {
   const l = lang.toLowerCase();
   if (l === "javascript" || l === "js") return "javascript";
   if (l === "typescript" || l === "ts") return "typescript";
@@ -91,7 +91,7 @@ function Badge({
 }
 
 export function LangIcon({ lang, size = 18, className }: LangIconProps) {
-  const key = toKey(lang);
+  const key = langIconToKey(lang);
   const style: CSSProperties = { flex: "0 0 auto", display: "inline-block" };
   const wrap = (node: React.ReactNode) => (
     <span className={className} style={style} aria-hidden="true">
