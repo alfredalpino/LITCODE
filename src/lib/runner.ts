@@ -4,6 +4,12 @@ import {
   isBrowserRunnable,
   runnableLanguageLabels,
 } from "./browser-runners";
+import { buildRemoteJudgeProgram, parseRemoteCaseResults } from "./judge-harness";
+import {
+  executeRemote,
+  remoteExecutable,
+  remoteResultToLines,
+} from "./remote-execute";
 
 const RUBY_WASM_WASI_UMD =
   "https://cdn.jsdelivr.net/npm/@ruby/wasm-wasi@2.10.1/dist/browser.umd.js";
@@ -420,12 +426,23 @@ export async function runPhp(code: string): Promise<RunResult> {
   }
 }
 
+async function runRemote(language: string, code: string, stdin?: string): Promise<RunResult> {
+  const res = await executeRemote({ language, code, stdin });
+  const lines = remoteResultToLines(res, (kind, text) => line(kind, text)) as ConsoleLine[];
+  lines.unshift(line("info", `Engine: Judge0 CE · ${res.status}`));
+  return { lines, ok: res.ok };
+}
+
 export async function runCode(language: string, code: string): Promise<RunResult> {
   if (language === "python" || language === "python3") return runPython(code);
   if (language === "typescript") return runTypeScript(code);
   if (language === "javascript") return runJavaScript(code);
   if (language === "ruby") return runRuby(code);
   if (language === "php") return runPhp(code);
+
+  if (remoteExecutable(language)) {
+    return runRemote(language, code);
+  }
 
   const avail = getRunnerAvailability(language);
   if (avail.status === "planned") {
@@ -437,7 +454,7 @@ export async function runCode(language: string, code: string): Promise<RunResult
         ),
         line(
           "warn",
-          `Not wired yet — pick ${runnableLanguageLabels()} to Run/Submit now. No remote sandboxes.`
+          `Not wired yet — pick ${runnableLanguageLabels()} or a Judge0-backed language (C++, Rust, …).`
         ),
       ],
       ok: false,
@@ -478,6 +495,33 @@ export async function judgeSolution(opts: {
   }> = [];
   const lines: ConsoleLine[] = [];
 
+  if (remoteExecutable(language)) {
+    const program =
+      buildRemoteJudgeProgram(language, code, functionName, tests) ?? code;
+    const res = await executeRemote({ language, code: program });
+    const parsed = parseRemoteCaseResults(res.stdout, tests);
+    for (const r of parsed) {
+      lines.push(
+        line(
+          r.pass ? "log" : "error",
+          `${r.id}: ${r.pass ? "Accepted" : r.error ?? "Wrong Answer"}`
+        )
+      );
+      results.push({
+        id: r.id,
+        pass: r.pass,
+        expected: r.expected,
+        error: r.error,
+      });
+    }
+    if (!res.ok && results.every((r) => !r.pass)) {
+      lines.push(...remoteResultToLines(res, (kind, text) => line(kind, text)));
+    }
+    lines.unshift(line("info", `Engine: Judge0 CE · ${res.status}`));
+    const passed = results.filter((r) => r.pass).length;
+    return { lines, results, passed, total: tests.length };
+  }
+
   if (!isBrowserRunnable(language)) {
     const avail = getRunnerAvailability(language);
     return {
@@ -486,15 +530,15 @@ export async function judgeSolution(opts: {
           "warn",
           avail.status === "planned"
             ? `Submit grading for ${language} is planned (${avail.engine}). ${avail.note}`
-            : `Submit grading needs a browser runtime. ${avail.note}`
+            : `Submit grading needs a browser or Judge0 runtime. ${avail.note}`
         ),
-        line("info", `Graded today: ${runnableLanguageLabels()}.`),
+        line("info", `Graded in-browser: ${runnableLanguageLabels()}.`),
       ],
       results: tests.map((t) => ({
         id: t.id,
         pass: false,
         expected: t.expected,
-        error: avail.status === "planned" ? "Runtime planned" : "No browser runner",
+        error: avail.status === "planned" ? "Runtime planned" : "No runner",
       })),
       passed: 0,
       total: tests.length,

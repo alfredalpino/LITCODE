@@ -26,6 +26,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { SplitPane } from "./SplitPane";
 import { judgeSolution, runCode } from "../lib/runner";
+import { remoteExecutable } from "../lib/remote-execute";
 import { loadDsaProblem } from "../lib/dsa/loader";
 import { appendEvent } from "../lib/events";
 import {
@@ -270,9 +271,10 @@ export function DsaArena({
     setConsoleTab("result");
     const started = performance.now();
     const runnerLang = toRunnerLanguage(language);
+    const execLang = runnerLang ?? language;
 
     try {
-      if (!runnerLang) {
+      if (!runnerLang && !remoteExecutable(language)) {
         const avail = getRunnerAvailability(language);
         setLines([
           {
@@ -287,7 +289,7 @@ export function DsaArena({
           {
             id: `lang-hint-${Date.now()}`,
             kind: "info",
-            text: `Run/Submit today: ${runnableLanguageLabels()}. Runtimes download in-browser on first use — no remote sandboxes.`,
+            text: `Run/Submit: ${runnableLanguageLabels()} in-browser, or C++/Rust/Java/Go via Judge0.`,
             ts: Date.now(),
           },
         ]);
@@ -317,7 +319,7 @@ export function DsaArena({
         const suite =
           interviewMode && !submit && visible.length > 0 ? visible : scored;
         const judged = await judgeSolution({
-          language: runnerLang,
+          language: execLang,
           code,
           functionName: problem.functionName,
           tests: suite,
@@ -367,7 +369,7 @@ export function DsaArena({
           if (allPass) onAccepted?.(problem.id);
         }
       } else {
-        const result = await runCode(runnerLang, code);
+        const result = await runCode(execLang, code);
         setLines([
           {
             id: `info-${Date.now()}`,

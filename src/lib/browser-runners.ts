@@ -18,7 +18,7 @@
  * Blocked for interactive interview UX without a remote compiler:
  * - Rust, Dart, Kotlin, Swift, Scala, Elixir, Erlang, Racket
  *
- * Never reintroduce Judge0 / Piston / `/api/execute` remote judges for Run/Submit.
+ * Compiled languages (C++, Rust, Java, …) run via Judge0 CE at `/api/execute`.
  */
 
 export const BROWSER_RUNNABLE_LANGUAGES = [

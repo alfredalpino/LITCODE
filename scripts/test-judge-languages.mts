@@ -7,6 +7,7 @@ import {
   toRunnerLanguage,
 } from "../src/lib/judge-languages.ts";
 import { isBrowserRunnable } from "../src/lib/browser-runners.ts";
+import { remoteExecutable } from "../src/lib/remote-execute.ts";
 
 describe("judge language catalog", () => {
   it("maps runnable UI langs to browser runner ids", () => {
@@ -20,20 +21,22 @@ describe("judge language catalog", () => {
     assert.equal(toRunnerLanguage("java"), null);
   });
 
-  it("keeps runnable flag aligned with browser-runners", () => {
+  it("keeps runnable flag aligned with browser or Judge0 runners", () => {
     for (const lang of JUDGE_LANGUAGES) {
-      assert.equal(lang.runnable, isBrowserRunnable(lang.id), lang.id);
-      if (lang.runnable) {
+      const expected = isBrowserRunnable(lang.id) || remoteExecutable(lang.id);
+      assert.equal(lang.runnable, expected, lang.id);
+      if (isBrowserRunnable(lang.id)) {
         assert.equal(lang.availability, "ready", lang.id);
         assert.ok(toRunnerLanguage(lang.id), lang.id);
       }
     }
   });
 
-  it("marks compiled langs as planned or unsupported, not ready runners", () => {
+  it("marks compiled langs as Judge0-runnable while availability stays planned", () => {
     const cpp = getJudgeLanguage("cpp");
     assert.ok(cpp);
-    assert.equal(cpp.runnable, false);
+    assert.equal(cpp.runnable, true);
+    assert.equal(remoteExecutable("cpp"), true);
     assert.notEqual(cpp.availability, "ready");
     const rust = getJudgeLanguage("rust");
     assert.ok(rust);

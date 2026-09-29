@@ -1,6 +1,6 @@
 /**
  * Language catalog for the studio editor.
- * Run/Submit is browser-only (lazy WASM where needed).
+ * Run/Submit: JS/TS/Python (+ Ruby/PHP WASM) in-browser; compiled langs via Judge0 `/api/execute`.
  * See `browser-runners.ts` for runnable vs planned vs unsupported.
  */
 
@@ -9,6 +9,7 @@ import {
   isBrowserRunnable,
   runnableLanguageLabels,
 } from "./browser-runners";
+import { remoteExecutable } from "./remote-execute";
 
 export type JudgeLanguageId =
   | "cpp"
@@ -44,7 +45,7 @@ export type JudgeLanguage = {
 };
 
 function canRun(id: JudgeLanguageId): boolean {
-  return isBrowserRunnable(id);
+  return isBrowserRunnable(id) || remoteExecutable(id);
 }
 
 /** Three-column language picker order. */
