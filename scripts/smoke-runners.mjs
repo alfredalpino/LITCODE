@@ -43,4 +43,6 @@ await new AsyncFunction("console", `"use strict";\n${jsFromTs}`)({
 });
 assert(logs2[0] === "hi lab", `TS transpile failed: ${logs2[0]}`);
 
-console.log("smoke-runners: JS OK · TS/Sucrase OK · (Python via Pyodide in browser)");
+console.log(
+  "smoke-runners: JS OK · TS/Sucrase OK · (Python/Ruby/PHP via WASM CDN in browser)"
+);

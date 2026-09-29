@@ -18,7 +18,6 @@ import { CompaniesPack } from "@/components/CompaniesPack";
 import { Reader } from "@/components/Reader";
 import { itemsForCompany, companyFromSlug, companySlug } from "@/lib/dsa/company-filter";
 import { SplitPane } from "@/components/SplitPane";
-import { SiteFooter } from "@/components/SiteFooter";
 
 const CodeWorkbench = dynamic(
   () => import("@/components/CodeWorkbench").then((m) => m.CodeWorkbench),
@@ -209,6 +208,7 @@ export function StudioShell() {
         onAppTheme={(theme) => s.setSettings((x) => ({ ...x, theme }))}
         fontSize={s.settings.fontSize}
         onFontSize={(fontSize) => s.setSettings((x) => ({ ...x, fontSize }))}
+        showStopwatch={s.view === "solve" && s.mode === "dsa" && Boolean(s.dsaId)}
       />
 
       <ShellBody
@@ -555,6 +555,7 @@ export function StudioShell() {
                   s.setView("list");
                   router.push(`/companies/${companySlug(name)}`);
                 }}
+                companyPacks={s.companyPacks}
                 onOpenModule={(labId, moduleId) => {
                   s.setLabId(labId);
                   const lab = s.catalog?.labs.find((l) => l.id === labId);
@@ -570,7 +571,6 @@ export function StudioShell() {
           </>
         }
       />
-      <SiteFooter />
     </div>
   );
 }

@@ -39,11 +39,13 @@ import { splitVisibleHidden } from "../lib/workbench";
 import {
   JUDGE_LANGUAGES,
   getJudgeLanguage,
+  runnableLanguageLabels,
   starterForLanguage,
   toRunnerLanguage,
   type JudgeLanguageId,
 } from "../lib/judge-languages";
-import type { DsaIndexItem, DsaProblem } from "../lib/dsa/types";
+import { getRunnerAvailability } from "../lib/browser-runners";
+import type { CompanyPacksFile, DsaIndexItem, DsaProblem } from "../lib/dsa/types";
 import type { ConsoleLine, MobilePane } from "../types";
 import { PatternRelatedLabs } from "./PatternRelatedLabs";
 
@@ -60,13 +62,16 @@ interface DsaArenaProps {
   onOpenModule?: (labId: string, moduleId: string) => void;
   /** Open company pack page (unlocked — no paywall). */
   onOpenCompany?: (name: string) => void;
+  /** Optional packs — used to rank company chips by interview frequency. */
+  companyPacks?: CompanyPacksFile | null;
 }
 
 type LeftTab = "description" | "editorial" | "solutions" | "submissions" | "comments";
 type ConsoleTab = "testcase" | "result";
-type LayoutId = "default" | "leet" | "focus";
+type LayoutId = "default" | "stack" | "focus";
 
 const COMMENTS_KEY = "sde-lab-problem-comments-v1";
+const REACTIONS_KEY = "sde-lab-problem-reactions-v1";
 
 type LocalComment = {
   id: string;
@@ -74,6 +79,33 @@ type LocalComment = {
   body: string;
   ts: number;
 };
+
+type Reaction = "up" | "down" | null;
+
+function loadReaction(problemId: string): Reaction {
+  try {
+    const raw = localStorage.getItem(REACTIONS_KEY);
+    if (!raw) return null;
+    const all = JSON.parse(raw) as Record<string, Reaction>;
+    return all[problemId] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function saveReaction(problemId: string, reaction: Reaction) {
+  try {
+    const raw = localStorage.getItem(REACTIONS_KEY);
+    const all: Record<string, Reaction> = raw
+      ? (JSON.parse(raw) as Record<string, Reaction>)
+      : {};
+    if (!reaction) delete all[problemId];
+    else all[problemId] = reaction;
+    localStorage.setItem(REACTIONS_KEY, JSON.stringify(all));
+  } catch {
+    /* ignore quota */
+  }
+}
 
 function loadComments(problemId: string): LocalComment[] {
   try {
@@ -110,6 +142,7 @@ export function DsaArena({
   interviewMode = false,
   onOpenModule,
   onOpenCompany,
+  companyPacks = null,
 }: DsaArenaProps) {
   const [problem, setProblem] = useState<DsaProblem | null>(null);
   const [language, setLanguage] = useState<JudgeLanguageId>("javascript");
@@ -124,14 +157,16 @@ export function DsaArena({
   >(null);
   const [hintLevel, setHintLevel] = useState(0);
   const [showPattern, setShowPattern] = useState(false);
+  const [companiesExpanded, setCompaniesExpanded] = useState(false);
   const [showTopics, setShowTopics] = useState(false);
   const [showCompanies, setShowCompanies] = useState(false);
   const [showHints, setShowHints] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [layoutOpen, setLayoutOpen] = useState(false);
-  const [layout, setLayout] = useState<LayoutId>("leet");
+  const [layout, setLayout] = useState<LayoutId>("stack");
   const [commentDraft, setCommentDraft] = useState("");
   const [comments, setComments] = useState<LocalComment[]>([]);
+  const [reaction, setReaction] = useState<Reaction>(null);
   const [savedFlash, setSavedFlash] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
   const layoutRef = useRef<HTMLDivElement>(null);
@@ -139,6 +174,35 @@ export function DsaArena({
   const selectedIndex = items.findIndex((i) => i.id === problemId);
   const indexMeta = items[selectedIndex];
   const langMeta = getJudgeLanguage(language);
+
+  const COMPANY_PREVIEW = 12;
+  const rankedCompanies = useMemo(() => {
+    const names =
+      problem?.companies?.length
+        ? problem.companies
+        : indexMeta?.companies ?? [];
+    const slug = problem?.slug || indexMeta?.slug || "";
+    const pack = slug ? companyPacks?.problems?.[slug] : undefined;
+    if (pack?.companies?.length) {
+      return pack.companies
+        .map((c: { name: string; frequency: number }) => ({
+          name: c.name,
+          frequency: c.frequency || 0,
+        }))
+        .sort(
+          (
+            a: { name: string; frequency: number },
+            b: { name: string; frequency: number }
+          ) => b.frequency - a.frequency || a.name.localeCompare(b.name)
+        );
+    }
+    return names.map((name) => ({ name, frequency: 0 }));
+  }, [problem, indexMeta, companyPacks]);
+
+  const visibleCompanies = companiesExpanded
+    ? rankedCompanies
+    : rankedCompanies.slice(0, COMPANY_PREVIEW);
+  const hiddenCompanyCount = Math.max(0, rankedCompanies.length - COMPANY_PREVIEW);
 
   useEffect(() => {
     let cancelled = false;
@@ -155,8 +219,10 @@ export function DsaArena({
       setShowPattern(false);
       setShowTopics(false);
       setShowCompanies(false);
+      setCompaniesExpanded(false);
       setShowHints(false);
       setComments(loadComments(problemId));
+      setReaction(loadReaction(problemId));
     });
     return () => {
       cancelled = true;
@@ -207,15 +273,26 @@ export function DsaArena({
 
     try {
       if (!runnerLang) {
+        const avail = getRunnerAvailability(language);
         setLines([
           {
             id: `lang-${Date.now()}`,
-            kind: "warn",
-            text: `${langMeta?.label ?? language} is available for editing with a LeetCode-style starter. Browser Run/Submit currently executes JavaScript, TypeScript, and Python (Pyodide). Switch language to judge in-app, or run ${langMeta?.label ?? language} locally.`,
+            kind: avail.status === "planned" ? "info" : "warn",
+            text:
+              avail.status === "planned"
+                ? `${langMeta?.label ?? language}: ${avail.engine} runtime is on the ship list (${avail.sizeHint ?? "WASM"}). ${avail.note}`
+                : `${langMeta?.label ?? language}: ${avail.note}`,
+            ts: Date.now(),
+          },
+          {
+            id: `lang-hint-${Date.now()}`,
+            kind: "info",
+            text: `Run/Submit today: ${runnableLanguageLabels()}. Runtimes download in-browser on first use — no remote sandboxes.`,
             ts: Date.now(),
           },
         ]);
         setCaseResults(null);
+        setRunning(false);
         return;
       }
 
@@ -224,7 +301,7 @@ export function DsaArena({
           {
             id: `debug-${Date.now()}`,
             kind: "info",
-            text: "Debug: step-through debugger ships with worker isolation. For now, Run with console.log / print breakpoints.",
+            text: "Debug: step-through debugger ships with worker isolation. For now, Run with console.log / print / echo breakpoints.",
             ts: Date.now(),
           },
         ]);
@@ -251,9 +328,9 @@ export function DsaArena({
           {
             id: `timing-${Date.now()}`,
             kind: "info",
-            text: `Runtime (browser): ${elapsed}ms · ${submit ? "Submit" : "Run"}${
+            text: `Runtime: ${elapsed}ms · ${submit ? "Submit" : "Run"}${
               debug ? " · Debug note attached" : ""
-            }`,
+            } · ${langMeta?.label ?? language}`,
             ts: Date.now(),
           },
         ]);
@@ -296,8 +373,8 @@ export function DsaArena({
             id: `info-${Date.now()}`,
             kind: "info",
             text: interviewMode
-              ? "No auto-judge on this title — Interview mode prefers judged packs."
-              : "Practice mode (no auto-judge). Output below.",
+              ? `No auto-judge on this title — ${langMeta?.label ?? language} console below.`
+              : `${langMeta?.label ?? language} console (practice mode).`,
             ts: Date.now(),
           },
           ...result.lines,
@@ -311,7 +388,7 @@ export function DsaArena({
   }
 
   const leftRatio = layout === "focus" ? 0.28 : layout === "default" ? 0.5 : 0.42;
-  const editorRatio = layout === "leet" ? 0.62 : 0.7;
+  const editorRatio = layout === "stack" ? 0.62 : 0.7;
 
   const descriptionPane = (
     <section className="lc-prob-left">
@@ -409,30 +486,58 @@ export function DsaArena({
 
             {showCompanies && (
               <div className="lc-prob-panel">
-                <h3>Companies</h3>
+                <h3>
+                  Companies
+                  {rankedCompanies.length > 0 ? (
+                    <span className="lc-muted"> · {rankedCompanies.length}</span>
+                  ) : null}
+                </h3>
                 <p className="lc-muted">
-                  Unlocked — open a company pack to see only that company&apos;s problems.
+                  Only companies that have asked this problem (merged interview lists).
+                  Sorted by reported frequency. Click a tag to open that pack.
                 </p>
                 <div className="lc-prob-panel__chips">
-                  {(problem.companies.length
-                    ? problem.companies
-                    : indexMeta?.companies ?? []
-                  ).length === 0 ? (
-                    <span className="lc-muted">No company tags on this title.</span>
+                  {rankedCompanies.length === 0 ? (
+                    <span className="lc-muted">No company has this title tagged yet.</span>
                   ) : (
-                    (problem.companies.length
-                      ? problem.companies
-                      : indexMeta?.companies ?? []
-                    ).map((c) => (
-                      <button
-                        key={c}
-                        type="button"
-                        className="topic-chip lc-prob-company"
-                        onClick={() => onOpenCompany?.(c)}
-                      >
-                        {c}
-                      </button>
-                    ))
+                    <>
+                      {visibleCompanies.map((c) => (
+                        <button
+                          key={c.name}
+                          type="button"
+                          className="topic-chip lc-prob-company"
+                          title={
+                            c.frequency
+                              ? `${c.name} · frequency ${c.frequency}`
+                              : c.name
+                          }
+                          onClick={() => onOpenCompany?.(c.name)}
+                        >
+                          {c.name}
+                          {c.frequency > 0 ? (
+                            <span className="lc-prob-company__freq">{c.frequency}</span>
+                          ) : null}
+                        </button>
+                      ))}
+                      {!companiesExpanded && hiddenCompanyCount > 0 ? (
+                        <button
+                          type="button"
+                          className="topic-chip lc-prob-company lc-prob-company--more"
+                          onClick={() => setCompaniesExpanded(true)}
+                        >
+                          +{hiddenCompanyCount} more
+                        </button>
+                      ) : null}
+                      {companiesExpanded && rankedCompanies.length > COMPANY_PREVIEW ? (
+                        <button
+                          type="button"
+                          className="topic-chip lc-prob-company lc-prob-company--more"
+                          onClick={() => setCompaniesExpanded(false)}
+                        >
+                          Show less
+                        </button>
+                      ) : null}
+                    </>
                   )}
                 </div>
               </div>
@@ -512,12 +617,20 @@ export function DsaArena({
               onOpenModule={onOpenModule}
             />
             {problem.patternDiscussion && (
-              <div className="dsa-pattern-box">
-                <h3>Pattern discussion</h3>
+              <section className="dsa-pattern-box" aria-label="Pattern discussion">
+                <header className="dsa-pattern-box__head">
+                  <Lightbulb size={16} aria-hidden />
+                  <div>
+                    <h3>Pattern discussion</h3>
+                    <p className="dsa-pattern-box__lead">
+                      Approach and trade-offs — not a full code dump.
+                    </p>
+                  </div>
+                </header>
                 {!showPattern ? (
                   <button
                     type="button"
-                    className="tool-btn"
+                    className="dsa-pattern-box__reveal"
                     onClick={() => {
                       setShowPattern(true);
                       appendEvent({
@@ -527,16 +640,24 @@ export function DsaArena({
                       });
                     }}
                   >
-                    Show pattern teaching (spoiler)
+                    Reveal pattern teaching
+                    <span>Spoiler</span>
                   </button>
                 ) : (
-                  <article className="markdown-body markdown-body--dark">
+                  <article className="markdown-body markdown-body--dark dsa-pattern-box__body">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {problem.patternDiscussion}
                     </ReactMarkdown>
+                    <button
+                      type="button"
+                      className="dsa-pattern-box__hide"
+                      onClick={() => setShowPattern(false)}
+                    >
+                      Hide discussion
+                    </button>
                   </article>
                 )}
-              </div>
+              </section>
             )}
           </>
         )}
@@ -577,11 +698,14 @@ export function DsaArena({
 
         {leftTab === "comments" && (
           <div className="lc-prob-comments">
-            <h2>
-              <MessageSquare size={16} /> Comments
-            </h2>
+            <header className="lc-prob-comments__head">
+              <h2>
+                <MessageSquare size={16} /> Comments
+              </h2>
+              <span className="lc-prob-comments__count">{comments.length}</span>
+            </header>
             <p className="lc-muted">
-              Local-only notes on this device (not a public forum yet).
+              Private notes on this device — not a public forum yet.
             </p>
             <textarea
               value={commentDraft}
@@ -589,18 +713,20 @@ export function DsaArena({
               placeholder="Leave a note for yourself…"
               rows={3}
             />
-            <button
-              type="button"
-              className="run-btn"
-              disabled={!commentDraft.trim()}
-              onClick={() => {
-                saveComment(problemId, commentDraft.trim());
-                setCommentDraft("");
-                setComments(loadComments(problemId));
-              }}
-            >
-              Post locally
-            </button>
+            <div className="lc-prob-comments__actions">
+              <button
+                type="button"
+                className="run-btn"
+                disabled={!commentDraft.trim()}
+                onClick={() => {
+                  saveComment(problemId, commentDraft.trim());
+                  setCommentDraft("");
+                  setComments(loadComments(problemId));
+                }}
+              >
+                Post locally
+              </button>
+            </div>
             <ul className="lc-prob-comments__list">
               {comments.map((c) => (
                 <li key={c.id}>
@@ -609,7 +735,7 @@ export function DsaArena({
                 </li>
               ))}
               {comments.length === 0 && (
-                <li className="lc-muted">No comments yet.</li>
+                <li className="lc-muted">No comments yet — be the first note here.</li>
               )}
             </ul>
           </div>
@@ -617,16 +743,42 @@ export function DsaArena({
       </div>
 
       <footer className="lc-prob-left__foot">
-        <div className="lc-prob-left__social">
-          <button type="button" className="lc-icon-btn" title="Helpful" disabled>
+        <div className="lc-prob-left__social" role="group" aria-label="Feedback">
+          <button
+            type="button"
+            className={clsx("lc-icon-btn lc-prob-react", reaction === "up" && "is-active is-up")}
+            title={reaction === "up" ? "Remove helpful" : "Helpful"}
+            aria-pressed={reaction === "up"}
+            onClick={() => {
+              const next: Reaction = reaction === "up" ? null : "up";
+              setReaction(next);
+              saveReaction(problemId, next);
+            }}
+          >
             <ThumbsUp size={14} />
           </button>
-          <button type="button" className="lc-icon-btn" title="Not helpful" disabled>
+          <button
+            type="button"
+            className={clsx(
+              "lc-icon-btn lc-prob-react",
+              reaction === "down" && "is-active is-down"
+            )}
+            title={reaction === "down" ? "Remove not helpful" : "Not helpful"}
+            aria-pressed={reaction === "down"}
+            onClick={() => {
+              const next: Reaction = reaction === "down" ? null : "down";
+              setReaction(next);
+              saveReaction(problemId, next);
+            }}
+          >
             <ThumbsDown size={14} />
           </button>
           <button
             type="button"
-            className="lc-icon-btn"
+            className={clsx(
+              "lc-icon-btn lc-prob-react lc-prob-react--comments",
+              leftTab === "comments" && "is-active"
+            )}
             title="Comments"
             onClick={() => setLeftTab("comments")}
           >
@@ -691,20 +843,28 @@ export function DsaArena({
                       >
                         {language === l.id ? <Check size={14} /> : <span />}
                         {l.label}
-                        {!l.runnable && <em>edit</em>}
+                        {!l.runnable && (
+                          <em>{l.availability === "planned" ? "soon" : "soon*"}</em>
+                        )}
                       </button>
                     ))}
                   </div>
                 ))}
                 <p className="lc-prob-lang__note">
-                  Run/Submit in browser: JavaScript, TypeScript, Python. Others are
-                  editable with starters — same list as LeetCode.
+                  Run/Submit in-browser: {runnableLanguageLabels()}. WASM engines
+                  download on first Run. Go / C / C++ / Java next — no remote sandboxes.
                 </p>
               </div>
             )}
           </div>
-          {!langMeta?.runnable && (
-            <span className="lc-prob-code__badge">Edit only</span>
+          {langMeta && !langMeta.runnable && langMeta.availability === "planned" && (
+            <span className="lc-prob-code__badge">Runtime soon</span>
+          )}
+          {langMeta && !langMeta.runnable && langMeta.availability !== "planned" && (
+            <span className="lc-prob-code__badge">Coming later</span>
+          )}
+          {langMeta?.runnable && (
+            <span className="lc-prob-code__badge lc-prob-code__badge--ok">In-browser</span>
           )}
         </div>
         <div className="lc-prob-code__right">
@@ -928,7 +1088,7 @@ export function DsaArena({
                 {(
                   [
                     ["default", "Default", "Equal description / code"],
-                    ["leet", "Leet", "Code + tests stacked (recommended)"],
+                    ["stack", "Stack", "Code + tests stacked (recommended)"],
                     ["focus", "Focus", "Narrow statement, wide editor"],
                   ] as const
                 ).map(([id, title, sub]) => (
@@ -948,7 +1108,7 @@ export function DsaArena({
                 ))}
               </div>
               <p className="lc-prob-layouts__note">
-                All layouts unlocked — no premium gate.
+                Pick a workspace layout — all options free.
               </p>
             </div>
           )}

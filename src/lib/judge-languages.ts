@@ -1,8 +1,14 @@
 /**
- * Judge language catalog aligned with LeetCode’s public language list.
- * Browser LITCODE runners execute JS / TS / Python only; others get Monaco
- * editing + starters and an honest “not runnable in-browser” result.
+ * Language catalog for the studio editor.
+ * Run/Submit is browser-only (lazy WASM where needed).
+ * See `browser-runners.ts` for runnable vs planned vs unsupported.
  */
+
+import {
+  getRunnerAvailability,
+  isBrowserRunnable,
+  runnableLanguageLabels,
+} from "./browser-runners";
 
 export type JudgeLanguageId =
   | "cpp"
@@ -30,45 +36,73 @@ export type JudgeLanguage = {
   label: string;
   /** Monaco editor language id */
   monaco: string;
-  /** Can execute via LITCODE browser runners today */
+  /** Can execute in-browser today */
   runnable: boolean;
+  /** planned | unsupported when not runnable */
+  availability: "ready" | "planned" | "unsupported";
   column: 1 | 2 | 3;
 };
 
-/** Display order matches LeetCode’s three-column language picker. */
-export const JUDGE_LANGUAGES: JudgeLanguage[] = [
-  { id: "cpp", label: "C++", monaco: "cpp", runnable: false, column: 1 },
-  { id: "java", label: "Java", monaco: "java", runnable: false, column: 1 },
-  { id: "python3", label: "Python3", monaco: "python", runnable: true, column: 1 },
-  { id: "python", label: "Python", monaco: "python", runnable: true, column: 1 },
-  { id: "javascript", label: "JavaScript", monaco: "javascript", runnable: true, column: 1 },
-  { id: "typescript", label: "TypeScript", monaco: "typescript", runnable: true, column: 1 },
-  { id: "csharp", label: "C#", monaco: "csharp", runnable: false, column: 1 },
-  { id: "c", label: "C", monaco: "c", runnable: false, column: 1 },
-  { id: "golang", label: "Go", monaco: "go", runnable: false, column: 2 },
-  { id: "kotlin", label: "Kotlin", monaco: "kotlin", runnable: false, column: 2 },
-  { id: "swift", label: "Swift", monaco: "swift", runnable: false, column: 2 },
-  { id: "rust", label: "Rust", monaco: "rust", runnable: false, column: 2 },
-  { id: "ruby", label: "Ruby", monaco: "ruby", runnable: false, column: 2 },
-  { id: "php", label: "PHP", monaco: "php", runnable: false, column: 2 },
-  { id: "dart", label: "Dart", monaco: "dart", runnable: false, column: 2 },
-  { id: "scala", label: "Scala", monaco: "scala", runnable: false, column: 2 },
-  { id: "elixir", label: "Elixir", monaco: "elixir", runnable: false, column: 3 },
-  { id: "erlang", label: "Erlang", monaco: "erlang", runnable: false, column: 3 },
-  { id: "racket", label: "Racket", monaco: "scheme", runnable: false, column: 3 },
-];
+function canRun(id: JudgeLanguageId): boolean {
+  return isBrowserRunnable(id);
+}
+
+/** Three-column language picker order. */
+export const JUDGE_LANGUAGES: JudgeLanguage[] = (
+  [
+    { id: "cpp", label: "C++", monaco: "cpp", column: 1 },
+    { id: "java", label: "Java", monaco: "java", column: 1 },
+    { id: "python3", label: "Python3", monaco: "python", column: 1 },
+    { id: "python", label: "Python", monaco: "python", column: 1 },
+    { id: "javascript", label: "JavaScript", monaco: "javascript", column: 1 },
+    { id: "typescript", label: "TypeScript", monaco: "typescript", column: 1 },
+    { id: "csharp", label: "C#", monaco: "csharp", column: 1 },
+    { id: "c", label: "C", monaco: "c", column: 1 },
+    { id: "golang", label: "Go", monaco: "go", column: 2 },
+    { id: "kotlin", label: "Kotlin", monaco: "kotlin", column: 2 },
+    { id: "swift", label: "Swift", monaco: "swift", column: 2 },
+    { id: "rust", label: "Rust", monaco: "rust", column: 2 },
+    { id: "ruby", label: "Ruby", monaco: "ruby", column: 2 },
+    { id: "php", label: "PHP", monaco: "php", column: 2 },
+    { id: "dart", label: "Dart", monaco: "dart", column: 2 },
+    { id: "scala", label: "Scala", monaco: "scala", column: 2 },
+    { id: "elixir", label: "Elixir", monaco: "elixir", column: 3 },
+    { id: "erlang", label: "Erlang", monaco: "erlang", column: 3 },
+    { id: "racket", label: "Racket", monaco: "scheme", column: 3 },
+  ] as const
+).map((l) => {
+  const avail = getRunnerAvailability(l.id);
+  return {
+    ...l,
+    runnable: canRun(l.id),
+    availability: avail.status,
+  };
+});
 
 export function getJudgeLanguage(id: string): JudgeLanguage | undefined {
   return JUDGE_LANGUAGES.find((l) => l.id === id);
 }
 
-/** Map UI lang → runner id (python3 → python). */
-export function toRunnerLanguage(id: JudgeLanguageId): "javascript" | "typescript" | "python" | null {
+export type RunnerLanguageId =
+  | "javascript"
+  | "typescript"
+  | "python"
+  | "ruby"
+  | "php";
+
+/**
+ * Map UI lang → local browser runner id when browser-executable.
+ */
+export function toRunnerLanguage(id: JudgeLanguageId): RunnerLanguageId | null {
   if (id === "javascript") return "javascript";
   if (id === "typescript") return "typescript";
   if (id === "python" || id === "python3") return "python";
+  if (id === "ruby") return "ruby";
+  if (id === "php") return "php";
   return null;
 }
+
+export { runnableLanguageLabels };
 
 export function starterForLanguage(
   lang: JudgeLanguageId,
@@ -103,7 +137,7 @@ export function starterForLanguage(
     case "swift":
       return `class Solution {\n    func ${fn}(/* args */) {\n        \n    }\n}\n`;
     case "rust":
-      return `impl Solution {\n    pub fn ${fn}(/* args */) {\n        \n    }\n}\n`;
+      return `struct Solution;\n\nimpl Solution {\n    pub fn ${fn}(/* args */) {\n        \n    }\n}\n`;
     case "ruby":
       return `# @param args\n# @return\ndef ${fn}(*args)\n  \nend\n`;
     case "php":

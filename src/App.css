@@ -1,5 +1,5 @@
-/* LITCODE tokens — Omarchy-inspired (Tokyo Night Night defaults from Omarchy colors.toml)
-   Soft blue accent, editor-grade neutrals. No neon teal. See LITCODE/colors.md */
+/* LITCODE tokens — Omarchy-inspired (Tokyo Night Night neutrals from Omarchy colors.toml)
+   Fiery-orange brand accent (campfire), editor-grade neutrals. No neon. See LITCODE/colors.md */
 :root,
 html[data-theme="dark"] {
   --lf-void: #0e0e14;
@@ -10,8 +10,10 @@ html[data-theme="dark"] {
   --lf-steel: #565f89;
   --lf-chalk: #a9b1d6;
   --lf-bright: #c0caf5;
-  --lf-signal: #7aa2f7;
-  --lf-signal-dim: #5d7dc7;
+  /* Brand accent — fiery campfire orange (was Tokyo-Night blue). Drives CTAs,
+     active pills, focus rings, selected states, and the LitcodeMark spark. */
+  --lf-signal: #ff7a33;
+  --lf-signal-dim: #e85d1f;
   --lf-warn: #e0af68;
   --lf-danger: #f7768e;
   --lf-pass: #9ece6a;
@@ -58,8 +60,9 @@ html[data-theme="light"] {
   --lf-steel: #61708a;
   --lf-chalk: #2e3440;
   --lf-bright: #1a1b26;
-  --lf-signal: #3d59a1;
-  --lf-signal-dim: #2f457d;
+  /* Brand accent — fiery orange, darkened for contrast on light surfaces. */
+  --lf-signal: #c2410c;
+  --lf-signal-dim: #9a3412;
   --lf-warn: #8f6c2f;
   --lf-danger: #c25a6c;
   --lf-pass: #4a7c59;
@@ -1115,8 +1118,77 @@ html[data-theme="light"] .markdown-body pre {
 
 .dsa-hints h3,
 .dsa-pattern-box h3 {
-  margin: 0 0 8px;
+  margin: 0 0 4px;
   font-size: 14px;
+}
+
+.dsa-pattern-box {
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-soft, rgba(255, 255, 255, 0.08));
+  background: color-mix(in srgb, var(--bg-panel, #161b22) 88%, transparent);
+}
+
+.dsa-pattern-box__head {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  color: var(--lf-signal, #3b82f6);
+}
+
+.dsa-pattern-box__head h3 {
+  color: var(--text, #e6edf3);
+}
+
+.dsa-pattern-box__lead {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted, #8b949e);
+  line-height: 1.4;
+}
+
+.dsa-pattern-box__reveal {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  border: 1px dashed color-mix(in srgb, var(--lf-signal, #3b82f6) 40%, transparent);
+  background: color-mix(in srgb, var(--lf-signal, #3b82f6) 8%, transparent);
+  color: var(--text, #e6edf3);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dsa-pattern-box__reveal span {
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--lf-warn, #e8a54b);
+  background: color-mix(in srgb, var(--lf-warn, #e8a54b) 14%, transparent);
+}
+
+.dsa-pattern-box__body {
+  margin-top: 4px;
+}
+
+.dsa-pattern-box__hide {
+  margin-top: 12px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text-muted, #8b949e);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .dsa-hints__lead,

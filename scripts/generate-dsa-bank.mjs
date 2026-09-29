@@ -339,7 +339,7 @@ fs.writeFileSync(
       companyCount: COMPANY_PACKS.companyCount,
       companyProblemCount: COMPANY_PACKS.problemCount,
       sourceNote:
-        "Interview-crucial DSA set from liquidslr/leetcode-company-wise-problems (student-reported company tags). Includes curated judged seeds. Filter: ≥3 companies or peak frequency ≥40.",
+        "Interview-crucial DSA set merged from liquidslr/leetcode-company-wise-problems and snehasishroy/leetcode-companywise-interview-questions. Each problem lists only companies that tagged it. Includes curated judged seeds. Filter: ≥3 companies or peak frequency ≥40.",
     },
     index,
   })

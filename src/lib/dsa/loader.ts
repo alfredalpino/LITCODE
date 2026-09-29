@@ -96,6 +96,12 @@ export async function loadDsaProblem(id: string): Promise<DsaProblem> {
     const seeds = await loadSeeds();
     const p = seeds[id];
     if (!p) throw new Error(`Seed ${id} missing`);
+    // Prefer index slug when seed JSON omitted it
+    if (!p.slug) {
+      const indexFile = await loadDsaIndex();
+      const meta = indexFile.index.find((i) => i.id === id);
+      if (meta?.slug) return { ...p, slug: meta.slug };
+    }
     return p;
   }
 
@@ -121,7 +127,7 @@ export async function loadDsaProblem(id: string): Promise<DsaProblem> {
       companies: meta.companies,
       functionName: "solve",
       description: [
-        `Interview problem tagged by real company lists ([liquidslr company-wise pack](${link.includes("leetcode") ? "https://github.com/liquidslr/leetcode-company-wise-problems" : link})).`,
+        `Interview problem tagged by real company lists ([company-wise packs](https://github.com/snehasishroy/leetcode-companywise-interview-questions)).`,
         "",
         `**${meta.title}** · ${meta.difficulty}`,
         "",
@@ -152,6 +158,7 @@ export async function loadDsaProblem(id: string): Promise<DsaProblem> {
       tests: [{ id: "Explore", input: [] }],
       kind: "leetcode",
       hasJudge: false,
+      slug,
     };
   }
 

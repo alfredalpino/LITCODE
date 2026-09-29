@@ -88,9 +88,17 @@ export function RightPanel({
           </div>
         </div>
         <div className="lc-cal">
-          {["S", "M", "T", "W", "T", "F", "S"].map((d) => (
-            <span key={d} className="lc-cal__dow">
-              {d}
+          {[
+            ["Sun", "S"],
+            ["Mon", "M"],
+            ["Tue", "T"],
+            ["Wed", "W"],
+            ["Thu", "T"],
+            ["Fri", "F"],
+            ["Sat", "S"],
+          ].map(([key, label]) => (
+            <span key={key} className="lc-cal__dow">
+              {label}
             </span>
           ))}
           {cells.map((c, i) => (

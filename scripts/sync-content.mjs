@@ -67,6 +67,87 @@ const LABS = [
       "will-it-compile",
     ]),
   },
+  {
+    id: "ruby",
+    title: "Ruby Laboratory",
+    short: "Ruby",
+    language: "ruby",
+    accent: "#cc342d",
+    source: path.join(WORKSPACE, "ruby-laboratory"),
+    excludeDirs: new Set(["node_modules", ".git", "dist"]),
+  },
+  {
+    id: "rust",
+    title: "Rust Laboratory",
+    short: "Rust",
+    language: "rust",
+    accent: "#f74c00",
+    source: path.join(WORKSPACE, "rust-laboratory"),
+    excludeDirs: new Set(["node_modules", ".git", "dist", "target"]),
+  },
+  {
+    id: "cpp",
+    title: "C / C++ Laboratory",
+    short: "C/C++",
+    language: "cpp",
+    accent: "#00599c",
+    source: path.join(WORKSPACE, "cpp-laboratory"),
+    excludeDirs: new Set(["node_modules", ".git", "dist", "build"]),
+  },
+  {
+    id: "java",
+    title: "Java Laboratory",
+    short: "Java",
+    language: "java",
+    accent: "#f89820",
+    source: path.join(WORKSPACE, "java-laboratory"),
+    excludeDirs: new Set(["node_modules", ".git", "dist", "target", "build"]),
+  },
+  {
+    id: "go",
+    title: "Go Laboratory",
+    short: "Go",
+    language: "go",
+    accent: "#00add8",
+    source: path.join(WORKSPACE, "go-laboratory"),
+    excludeDirs: new Set(["node_modules", ".git", "dist", "bin", "vendor"]),
+  },
+  {
+    id: "kotlin",
+    title: "Kotlin Laboratory",
+    short: "Kotlin",
+    language: "kotlin",
+    accent: "#7f52ff",
+    source: path.join(WORKSPACE, "kotlin-laboratory"),
+    excludeDirs: new Set(["node_modules", ".git", "dist", "build", ".gradle"]),
+  },
+  {
+    id: "swift",
+    title: "Swift Laboratory",
+    short: "Swift",
+    language: "swift",
+    accent: "#f05138",
+    source: path.join(WORKSPACE, "swift-laboratory"),
+    excludeDirs: new Set(["node_modules", ".git", "dist", ".build"]),
+  },
+  {
+    id: "php",
+    title: "PHP Laboratory",
+    short: "PHP",
+    language: "php",
+    accent: "#777bb4",
+    source: path.join(WORKSPACE, "php-laboratory"),
+    excludeDirs: new Set(["node_modules", ".git", "dist", "vendor"]),
+  },
+  {
+    id: "csharp",
+    title: "C# Laboratory",
+    short: "C#",
+    language: "csharp",
+    accent: "#512bd4",
+    source: path.join(WORKSPACE, "csharp-laboratory"),
+    excludeDirs: new Set(["node_modules", ".git", "dist", "bin", "obj"]),
+  },
 ];
 
 const TEXT_EXT = new Set([
@@ -77,11 +158,46 @@ const TEXT_EXT = new Set([
   ".ts",
   ".tsx",
   ".py",
+  ".rb",
+  ".rs",
+  ".c",
+  ".h",
+  ".cc",
+  ".cpp",
+  ".hpp",
+  ".java",
+  ".go",
+  ".kt",
+  ".kts",
+  ".swift",
+  ".php",
+  ".cs",
   ".json",
   ".txt",
 ]);
 
-const CODE_EXT = new Set([".js", ".mjs", ".cjs", ".ts", ".tsx", ".py"]);
+const CODE_EXT = new Set([
+  ".js",
+  ".mjs",
+  ".cjs",
+  ".ts",
+  ".tsx",
+  ".py",
+  ".rb",
+  ".rs",
+  ".c",
+  ".h",
+  ".cc",
+  ".cpp",
+  ".hpp",
+  ".java",
+  ".go",
+  ".kt",
+  ".kts",
+  ".swift",
+  ".php",
+  ".cs",
+]);
 
 function shouldSkipDir(name, exclude) {
   return exclude.has(name) || name.startsWith(".");
@@ -99,6 +215,16 @@ function langFromExt(ext) {
   if (ext === ".py") return "python";
   if (ext === ".ts" || ext === ".tsx") return "typescript";
   if (ext === ".js" || ext === ".mjs" || ext === ".cjs") return "javascript";
+  if (ext === ".rb") return "ruby";
+  if (ext === ".rs") return "rust";
+  if (ext === ".java") return "java";
+  if (ext === ".c" || ext === ".h") return "c";
+  if (ext === ".cc" || ext === ".cpp" || ext === ".hpp") return "cpp";
+  if (ext === ".go") return "go";
+  if (ext === ".kt" || ext === ".kts") return "kotlin";
+  if (ext === ".swift") return "swift";
+  if (ext === ".php") return "php";
+  if (ext === ".cs") return "csharp";
   return "plaintext";
 }
 

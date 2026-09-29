@@ -74,6 +74,8 @@ export interface DsaProblem {
   patternDiscussion?: string;
   kind: string;
   hasJudge: boolean;
+  /** LeetCode slug when known — used for company-pack frequency ranking. */
+  slug?: string;
 }
 
 export interface DsaIndexFile {

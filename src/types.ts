@@ -1,4 +1,17 @@
-export type LabLanguage = "javascript" | "typescript" | "python";
+export type LabLanguage =
+  | "javascript"
+  | "typescript"
+  | "python"
+  | "ruby"
+  | "rust"
+  | "cpp"
+  | "c"
+  | "java"
+  | "go"
+  | "kotlin"
+  | "swift"
+  | "php"
+  | "csharp";
 export type AppMode = "labs" | "dsa";
 export type MobilePane = "read" | "code";
 

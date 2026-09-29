@@ -36,6 +36,67 @@ console.log(message);
   python: `# Predict before you run.
 print("ready")
 `,
+  ruby: `# Everything is an object. Predict before you run.
+puts "ready"
+`,
+  rust: `// Predict what the borrow checker allows, then run.
+fn main() {
+    println!("ready");
+}
+`,
+  cpp: `// Predict lifetimes and output, then run.
+#include <iostream>
+
+int main() {
+    std::cout << "ready" << std::endl;
+    return 0;
+}
+`,
+  c: `/* Predict the output, then run. */
+#include <stdio.h>
+
+int main(void) {
+    printf("ready\\n");
+    return 0;
+}
+`,
+  java: `// Compiles to bytecode, runs on the JVM. Predict, then run.
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("ready");
+    }
+}
+`,
+  go: `// Predict zero values and output before you run.
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("ready")
+}
+`,
+  kotlin: `// Null-safe on the JVM. Predict before you run.
+fun main() {
+    println("ready")
+}
+`,
+  swift: `// Value types and optionals. Predict before you run.
+print("ready")
+`,
+  php: `<?php
+// Predict type juggling and output before you run.
+echo "ready\\n";
+`,
+  csharp: `// C# on .NET. Predict before you run.
+using System;
+
+class Program {
+    static void Main() {
+        Console.WriteLine("ready");
+    }
+}
+`,
 };
 
 export function CodeWorkbench({
@@ -129,12 +190,22 @@ export function CodeWorkbench({
     setLines([]);
   }
 
-  const monacoLang =
-    language === "python"
-      ? "python"
-      : language === "typescript"
-        ? "typescript"
-        : "javascript";
+  const MONACO_LANG: Record<LabLanguage, string> = {
+    python: "python",
+    typescript: "typescript",
+    javascript: "javascript",
+    ruby: "ruby",
+    rust: "rust",
+    cpp: "cpp",
+    c: "c",
+    java: "java",
+    go: "go",
+    kotlin: "kotlin",
+    swift: "swift",
+    php: "php",
+    csharp: "csharp",
+  };
+  const monacoLang = MONACO_LANG[language] ?? "javascript";
 
   const editorPane = (
     <div className="workbench__editor">

@@ -79,6 +79,11 @@ html[data-theme="light"] .lc-table th {
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--lf-chalk) 10%, transparent);
 }
 
+.lc-nav__mark-svg {
+  display: block;
+  flex-shrink: 0;
+}
+
 .lc-nav__brand-text {
   font-family: var(--font-display);
   font-size: 15px;
@@ -1923,6 +1928,9 @@ html[data-theme="light"] .lc-subcat.is-active {
 }
 
 .lc-lab-switch__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   padding: 8px 14px;
   border-radius: 999px;
   border: 1px solid var(--lc-border);
@@ -1932,10 +1940,8 @@ html[data-theme="light"] .lc-subcat.is-active {
   font-weight: 600;
 }
 
-.lc-lab-switch__btn em {
-  font-style: normal;
-  margin-left: 6px;
-  color: var(--lc-text);
+.lc-lab-switch__btn svg {
+  flex: 0 0 auto;
 }
 
 .lc-lab-switch__btn.is-active {
@@ -2701,6 +2707,121 @@ html[data-theme="light"] .lc-subcat.is-active {
   gap: 10px;
 }
 
+/* Fixed 4×5 page: 4 columns on desktop */
+.lf-companies-grid--paged {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  min-height: 0;
+}
+
+.lf-companies-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem 1rem;
+  margin-top: 1.75rem;
+  padding: 1.15rem 1rem 0.35rem;
+  border-top: 1px solid var(--lf-line);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--lf-panel) 55%, transparent) 0%,
+    transparent 100%
+  );
+  border-radius: 0 0 12px 12px;
+}
+
+.lf-companies-pager__nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--lf-line);
+  background: var(--lf-panel);
+  color: var(--lf-chalk);
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    border-color 150ms var(--ease),
+    background 150ms var(--ease),
+    color 150ms var(--ease),
+    transform 150ms var(--ease);
+}
+
+.lf-companies-pager__nav:hover:not(:disabled) {
+  border-color: color-mix(in srgb, var(--lf-signal) 45%, var(--lf-line));
+  color: var(--lf-bright, var(--lf-chalk));
+  transform: translateY(-1px);
+}
+
+.lf-companies-pager__nav:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.lf-companies-pager__pages {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0.25rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--lf-line) 80%, transparent);
+  background: color-mix(in srgb, var(--lf-ink, #0e0e14) 35%, var(--lf-panel));
+}
+
+.lf-companies-pager__page {
+  min-width: 2.1rem;
+  height: 2.1rem;
+  padding: 0 0.45rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--lf-steel);
+  font-size: 0.8125rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition:
+    background 150ms var(--ease),
+    color 150ms var(--ease),
+    border-color 150ms var(--ease),
+    box-shadow 150ms var(--ease);
+}
+
+.lf-companies-pager__page:hover {
+  color: var(--lf-chalk);
+  background: color-mix(in srgb, var(--lf-panel) 80%, transparent);
+  border-color: var(--lf-line);
+}
+
+.lf-companies-pager__page.is-active {
+  color: #0e0e14;
+  background: var(--lf-signal);
+  border-color: var(--lf-signal);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--lf-signal) 40%, transparent);
+}
+
+.lf-companies-pager__ellipsis {
+  color: var(--lf-steel);
+  padding: 0 0.15rem;
+  font-weight: 600;
+  user-select: none;
+}
+
+.lf-companies-pager__meta {
+  flex-basis: 100%;
+  margin: 0.15rem 0 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--lf-steel);
+  font-variant-numeric: tabular-nums;
+}
+
 .lf-company-card {
   width: 100%;
   display: grid;
@@ -2798,9 +2919,24 @@ html[data-theme="light"] .lc-subcat.is-active {
   font-size: 18px;
 }
 
+@media (max-width: 1100px) {
+  .lf-companies-grid--paged {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .lf-companies-grid--paged {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 720px) {
   .lf-companies-page__hero h1 {
     font-size: 22px;
+  }
+  .lf-companies-grid--paged {
+    grid-template-columns: 1fr;
   }
   .lf-company-card {
     grid-template-columns: 36px minmax(0, 1fr);
@@ -2811,6 +2947,11 @@ html[data-theme="light"] .lc-subcat.is-active {
 }
 
 /* —— App nav stopwatch —— */
+.lc-nav__timer-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 .lc-nav__timer {
   display: inline-flex;
   align-items: center;
@@ -2831,6 +2972,117 @@ html[data-theme="light"] .lc-subcat.is-active {
 }
 .lc-nav__timer.is-active .lc-nav__timer-label {
   color: var(--lf-signal);
+}
+.lc-nav__timer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--lf-line);
+  background: color-mix(in srgb, var(--lf-void) 55%, var(--lf-panel));
+}
+.lc-nav__timer-pill.is-active {
+  border-color: color-mix(in srgb, var(--lf-signal) 40%, var(--lf-line));
+}
+.lc-nav__timer-ctrl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--lf-steel);
+  cursor: pointer;
+}
+.lc-nav__timer-ctrl:hover,
+.lc-nav__timer-ctrl.is-open {
+  color: var(--lf-chalk);
+  background: color-mix(in srgb, var(--lf-signal) 12%, transparent);
+}
+.lc-nav__timer-expanded {
+  min-width: 6.5ch;
+  padding: 0 4px;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  color: var(--lf-signal);
+  text-align: center;
+}
+.lc-nav__timer-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 60;
+  width: 220px;
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px solid var(--lf-line);
+  background: var(--lf-panel);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+}
+.lc-nav__timer-modes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.lc-nav__timer-modes button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 8px;
+  border-radius: 12px;
+  border: 1px solid var(--lf-line);
+  background: color-mix(in srgb, var(--lf-void) 40%, var(--lf-panel));
+  color: var(--lf-steel);
+  cursor: pointer;
+  font-size: 11px;
+}
+.lc-nav__timer-modes button.is-active {
+  border-color: color-mix(in srgb, var(--lf-signal) 50%, var(--lf-line));
+  color: var(--lf-chalk);
+}
+.lc-nav__timer-modes button.is-active svg {
+  color: var(--lf-signal);
+}
+.lc-nav__timer-preset {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: var(--lf-steel);
+}
+.lc-nav__timer-preset select {
+  border-radius: 8px;
+  border: 1px solid var(--lf-line);
+  background: var(--lf-void);
+  color: var(--lf-chalk);
+  padding: 4px 8px;
+}
+.lc-nav__timer-reset {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--lf-line);
+  background: color-mix(in srgb, var(--lf-void) 50%, var(--lf-panel));
+  color: var(--lf-chalk);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+}
+.lc-nav__timer-reset:hover {
+  border-color: color-mix(in srgb, var(--lf-signal) 40%, var(--lf-line));
 }
 
 /* —— Company pack —— */
@@ -3014,6 +3266,16 @@ html[data-theme="light"] .lc-subcat.is-active {
   border-color: var(--lf-signal);
   color: var(--lf-signal);
 }
+.lc-prob-company__freq {
+  margin-left: 0.35em;
+  opacity: 0.65;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85em;
+}
+.lc-prob-company--more {
+  border-style: dashed;
+  color: var(--lf-steel);
+}
 .lc-prob-left__foot {
   display: flex;
   justify-content: space-between;
@@ -3025,12 +3287,37 @@ html[data-theme="light"] .lc-subcat.is-active {
 }
 .lc-prob-left__social {
   display: flex;
-  gap: 4px;
+  gap: 6px;
   align-items: center;
 }
 .lc-prob-left__social .lc-icon-btn span {
   font-size: 11px;
   margin-left: 2px;
+}
+.lc-prob-react {
+  min-width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+}
+.lc-prob-react.is-active {
+  border-color: color-mix(in srgb, var(--lf-signal) 35%, var(--lf-line));
+  background: color-mix(in srgb, var(--lf-signal) 12%, transparent);
+  color: var(--lf-signal);
+}
+.lc-prob-react.is-down.is-active {
+  border-color: color-mix(in srgb, var(--lf-warn, #e8a54b) 40%, var(--lf-line));
+  background: color-mix(in srgb, var(--lf-warn, #e8a54b) 12%, transparent);
+  color: var(--lf-warn, #e8a54b);
+}
+.lc-prob-react--comments {
+  padding: 0 10px;
+  width: auto;
+  gap: 4px;
+}
+.lc-prob-code__badge--ok {
+  color: var(--lf-signal);
+  border-color: color-mix(in srgb, var(--lf-signal) 35%, var(--lf-line));
 }
 .lc-prob-left__nav {
   display: flex;
@@ -3055,6 +3342,34 @@ html[data-theme="light"] .lc-subcat.is-active {
   color: var(--lf-chalk);
   font: inherit;
   resize: vertical;
+}
+.lc-prob-comments__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.lc-prob-comments__head h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 16px;
+}
+.lc-prob-comments__count {
+  min-width: 22px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 650;
+  color: var(--lf-steel);
+  background: color-mix(in srgb, var(--lf-void) 60%, var(--lf-panel));
+  text-align: center;
+}
+.lc-prob-comments__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
 }
 .lc-prob-comments__list {
   list-style: none;
@@ -3276,7 +3591,7 @@ html[data-theme="light"] .lc-subcat.is-active {
     var(--lf-void);
   margin-bottom: 4px;
 }
-.lc-prob-layouts__thumb.is-leet {
+.lc-prob-layouts__thumb.is-stack {
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--lf-signal) 22%, transparent) 40%, transparent 40%),
     linear-gradient(0deg, transparent 55%, color-mix(in srgb, var(--lf-warn) 20%, transparent) 55%),
@@ -3307,12 +3622,12 @@ html[data-theme="light"] .lc-subcat.is-active {
 
 /* Production flatness — kill remaining decorative gradients in problem chrome */
 .lc-prob-layouts__thumb,
-.lc-prob-layouts__thumb.is-leet,
+.lc-prob-layouts__thumb.is-stack,
 .lc-prob-layouts__thumb.is-focus {
   background: var(--lf-elevated, var(--lf-panel));
   border: 1px solid var(--lf-line);
 }
-.lc-prob-layouts__thumb.is-leet {
+.lc-prob-layouts__thumb.is-stack {
   box-shadow: inset -58% 0 0 0 color-mix(in srgb, var(--lf-signal) 18%, transparent);
 }
 .lc-prob-layouts__thumb.is-default {
@@ -3326,4 +3641,215 @@ html[data-theme="light"] .lc-subcat.is-active {
 }
 .run-btn {
   box-shadow: none !important;
+}
+
+/* ===========================================================================
+   Mobile responsiveness — phones (<=720px) and small phones (<=480px)
+   Appended last so it cascades over earlier studio rules. CSS-only; no JS or
+   markup changes. Targets: studio nav, DsaArena top bar + mobile panes,
+   companies grid/pager, labs pills/toolbar.
+   =========================================================================== */
+@media (max-width: 720px) {
+  /* --- Studio nav: wrap cleanly, no horizontal overflow --- */
+  .lc-nav {
+    padding: 8px 10px;
+    gap: 6px;
+  }
+
+  /* .lc-nav__mobile lives inside .lc-nav__left, which was a non-wrapping row
+     next to the brand — force it to wrap so the scroller gets its own row. */
+  .lc-nav__left {
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 8px 12px;
+  }
+
+  .lc-nav__mobile {
+    order: 0;
+    width: 100%;
+    margin-top: 2px;
+    gap: 6px;
+  }
+
+  .lc-nav__mobile .lc-nav__link {
+    min-height: 40px;
+  }
+
+  /* Right cluster wraps under the brand row instead of overflowing. */
+  .lc-nav__right {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+
+  .lc-nav__search-wrap {
+    flex: 1 1 100%;
+    order: -1;
+  }
+
+  .lc-nav__search {
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Comfortable tap targets for the icon cluster. */
+  .lc-icon-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* --- DsaArena top bar: allow wrap, keep Run/Submit reachable --- */
+  .lc-prob-top {
+    flex-wrap: wrap;
+    height: auto;
+    gap: 8px;
+    padding: 8px 10px;
+  }
+
+  .lc-prob-top__center {
+    order: 3;
+    width: 100%;
+    justify-content: stretch;
+    gap: 6px;
+  }
+
+  .lc-prob-top__center .run-btn {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 10px;
+    min-height: 40px;
+  }
+
+  .lc-prob-top__right {
+    margin-left: auto;
+  }
+
+  .dsa-back {
+    padding: 6px 8px;
+  }
+
+  /* --- DsaArena mobile pane toggle: full-width, touch friendly --- */
+  .workspace__mobile-bar {
+    padding: 6px 10px;
+  }
+
+  .workspace__mobile-bar .topbar__mobile-toggle {
+    display: inline-flex;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .workspace__mobile-bar .pane-tab {
+    flex: 1;
+    justify-content: center;
+    min-height: 40px;
+  }
+
+  /* --- Companies: stack hero, full-width controls, tappable pager --- */
+  .lf-companies-page__hero-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .lf-companies-page__stat {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .lf-companies-page__controls {
+    gap: 8px;
+  }
+
+  .lf-companies-page__search {
+    flex: 1 1 100%;
+  }
+
+  .lf-companies-page__sort {
+    flex: 1 1 auto;
+  }
+
+  .lc-window-tab {
+    min-height: 36px;
+  }
+
+  .lf-companies-pager__nav,
+  .lf-companies-pager__page {
+    min-height: 36px;
+  }
+
+  /* --- Labs: pills + toolbar wrap and stay tappable --- */
+  .lc-lab-switch {
+    gap: 6px;
+  }
+
+  .lc-lab-switch__btn {
+    min-height: 36px;
+  }
+
+  .lc-toolbar select {
+    flex: 1 1 auto;
+    min-height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Trim the nav right cluster so it never overflows on small phones. */
+  .lc-nav__timer .lc-nav__timer-label {
+    display: none;
+  }
+
+  .lc-nav__timer {
+    padding: 0 8px !important;
+  }
+
+  .lc-nav__right {
+    gap: 6px;
+  }
+
+  .lc-nav__mobile .lc-nav__link span {
+    font-size: 12px;
+  }
+
+  /* DsaArena: keep primary actions visible, tighten chrome. */
+  .lc-prob-top {
+    padding: 6px 8px;
+  }
+
+  .lc-prob-top__left {
+    gap: 4px;
+  }
+
+  .lc-prob-top__center .run-btn {
+    font-size: 12px;
+    padding: 8px 6px;
+  }
+
+  .lc-prob-left__scroll {
+    padding: 12px 12px 20px;
+  }
+
+  .lc-prob-left__title-row h1 {
+    font-size: 18px;
+  }
+
+  /* Companies: compact cards + hero. */
+  .lf-companies-page__hero h1 {
+    font-size: 20px;
+  }
+
+  .lf-company-card {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  /* Labs: compact hero. */
+  .lc-labs__hero {
+    padding: 16px;
+  }
+
+  .lc-labs__hero h1 {
+    font-size: 1.2rem;
+  }
 }

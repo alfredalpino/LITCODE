@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { LitMark } from "./LitMark";
+import { LitcodeMark } from "@/components/brand/LitcodeMark";
 import { ProductPreview } from "./ProductPreview";
 import "./landing.css";
 
@@ -102,11 +103,20 @@ export function LandingPage() {
         <section className="lf-hero" aria-labelledby="lf-brand">
           <div className="lf-hero__grid" aria-hidden />
           <div className="lf-hero__copy">
+            <motion.div
+              className="lf-hero__mark"
+              initial={reduce ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease }}
+              aria-hidden
+            >
+              <LitcodeMark size="lg" />
+            </motion.div>
             <motion.p
               className="lf-hero__tag"
               initial={enter}
               animate={shown}
-              transition={{ duration: 0.55, ease }}
+              transition={{ duration: 0.55, ease, delay: reduce ? 0 : 0.02 }}
             >
               Predict. Run. Break. Prove.
             </motion.p>

@@ -5,7 +5,6 @@ import {
   BookOpen,
   CheckCircle2,
   Circle,
-  Code2,
   Play,
   Shuffle,
   Star,
@@ -16,6 +15,7 @@ import { moduleKey } from "@/lib/progress";
 import { moduleStatus } from "@/lib/module-status";
 import { FeatureCards } from "./FeatureCards";
 import { ContentStatusBadge } from "./ContentStatusBadge";
+import { LangIcon } from "./LangIcon";
 
 interface LabLibraryProps {
   labs: Lab[];
@@ -41,6 +41,15 @@ const LANG_BLURB: Record<string, string> = {
   javascript: "Runtime, language core, and browser mental models — learn by predicting then running.",
   "python-dsa": "Pythonic DSA drills and language labs — predict, run, explain.",
   typescript: "Types erase at runtime. Build intuition for what the compiler knows vs what survives.",
+  ruby: "Everything is an object. Predict message sends, blocks, and metaprogramming — then run.",
+  rust: "Ownership, borrowing, and fearless concurrency — predict what the borrow checker allows.",
+  cpp: "C and C++ from the machine up — pointers, RAII, the STL, and modern C++ mental models.",
+  java: "Core Java and the JVM — objects, collections, generics, and concurrency by prediction.",
+  go: "Goroutines, interfaces, and a tiny standard library — predict zero values and concurrency, then run.",
+  kotlin: "Null safety, coroutines, and expressive syntax on the JVM — predict what the type system guarantees.",
+  swift: "Value types, optionals, and protocol-oriented design — predict optional flows, then run.",
+  php: "Modern PHP from the request up — types, arrays, and OOP. Predict type juggling and output, then run.",
+  csharp: "C# and .NET — types, LINQ, and async/await. Predict deferred execution and null-state, then run.",
 };
 
 export function LabLibrary({
@@ -145,26 +154,17 @@ export function LabLibrary({
       </header>
 
       <div className="lc-lab-switch">
-        {labs.map((l) => {
-          const ready = l.modules.filter((m) => moduleStatus(m) === "ready").length;
-          const done = l.modules.filter(
-            (m) => moduleStatus(m) === "ready" && progress[moduleKey(l.id, m.id)]
-          ).length;
-          return (
-            <button
-              key={l.id}
-              type="button"
-              className={clsx("lc-lab-switch__btn", lab.id === l.id && "is-active")}
-              onClick={() => onLabChange(l.id)}
-            >
-              <Code2 size={14} />
-              {l.short}
-              <em>
-                {done}/{ready} ready
-              </em>
-            </button>
-          );
-        })}
+        {labs.map((l) => (
+          <button
+            key={l.id}
+            type="button"
+            className={clsx("lc-lab-switch__btn", lab.id === l.id && "is-active")}
+            onClick={() => onLabChange(l.id)}
+          >
+            <LangIcon lang={l.language} size={16} />
+            {l.short}
+          </button>
+        ))}
       </div>
 
       <FeatureCards

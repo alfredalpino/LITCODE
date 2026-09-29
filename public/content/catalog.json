@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-29T21:05:05.937Z",
+  "generatedAt": "2026-09-29T22:09:55.683Z",
   "labs": [
     {
       "id": "javascript",
@@ -7495,6 +7495,3186 @@
         "scaffold": 18,
         "docs": 195,
         "codeFiles": 127
+      }
+    },
+    {
+      "id": "ruby",
+      "title": "Ruby Laboratory",
+      "short": "Ruby",
+      "language": "ruby",
+      "accent": "#cc342d",
+      "modules": [
+        {
+          "id": "00-environment-runtime",
+          "slug": "00-environment-runtime",
+          "title": "Environment Runtime",
+          "order": 0,
+          "docs": [
+            {
+              "id": "ruby/00-environment-runtime/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "ruby/00-environment-runtime/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "ruby/00-environment-runtime/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "ruby/00-environment-runtime/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "01-syntax-values-types",
+          "slug": "01-syntax-values-types",
+          "title": "Syntax Values Types",
+          "order": 1,
+          "docs": [
+            {
+              "id": "ruby/01-syntax-values-types/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "ruby/01-syntax-values-types/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "ruby/01-syntax-values-types/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "ruby/01-syntax-values-types/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "02-control-flow-methods",
+          "slug": "02-control-flow-methods",
+          "title": "Control Flow Methods",
+          "order": 2,
+          "docs": [
+            {
+              "id": "ruby/02-control-flow-methods/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "ruby/02-control-flow-methods/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "ruby/02-control-flow-methods/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "ruby/02-control-flow-methods/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "03-collections-enumerable",
+          "slug": "03-collections-enumerable",
+          "title": "Collections Enumerable",
+          "order": 3,
+          "docs": [
+            {
+              "id": "ruby/03-collections-enumerable/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "ruby/03-collections-enumerable/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "ruby/03-collections-enumerable/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "ruby/03-collections-enumerable/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "04-strings-symbols",
+          "slug": "04-strings-symbols",
+          "title": "Strings Symbols",
+          "order": 4,
+          "docs": [
+            {
+              "id": "ruby/04-strings-symbols/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "ruby/04-strings-symbols/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "ruby/04-strings-symbols/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "ruby/04-strings-symbols/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "05-objects-classes",
+          "slug": "05-objects-classes",
+          "title": "Objects Classes",
+          "order": 5,
+          "docs": [
+            {
+              "id": "ruby/05-objects-classes/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "ruby/05-objects-classes/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "ruby/05-objects-classes/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "ruby/05-objects-classes/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "06-modules-mixins",
+          "slug": "06-modules-mixins",
+          "title": "Modules Mixins",
+          "order": 6,
+          "docs": [
+            {
+              "id": "ruby/06-modules-mixins/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "ruby/06-modules-mixins/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "ruby/06-modules-mixins/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "ruby/06-modules-mixins/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "07-blocks-procs-lambdas",
+          "slug": "07-blocks-procs-lambdas",
+          "title": "Blocks Procs Lambdas",
+          "order": 7,
+          "docs": [
+            {
+              "id": "ruby/07-blocks-procs-lambdas/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "ruby/07-blocks-procs-lambdas/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "ruby/07-blocks-procs-lambdas/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "ruby/07-blocks-procs-lambdas/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "08-error-handling",
+          "slug": "08-error-handling",
+          "title": "Error Handling",
+          "order": 8,
+          "docs": [
+            {
+              "id": "ruby/08-error-handling/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "ruby/08-error-handling/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "ruby/08-error-handling/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "ruby/08-error-handling/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "09-metaprogramming",
+          "slug": "09-metaprogramming",
+          "title": "Metaprogramming",
+          "order": 9,
+          "docs": [
+            {
+              "id": "ruby/09-metaprogramming/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "ruby/09-metaprogramming/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "ruby/09-metaprogramming/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "ruby/09-metaprogramming/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "10-testing-basics",
+          "slug": "10-testing-basics",
+          "title": "Testing Basics",
+          "order": 10,
+          "docs": [
+            {
+              "id": "ruby/10-testing-basics/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "ruby/10-testing-basics/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "ruby/10-testing-basics/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "ruby/10-testing-basics/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        }
+      ],
+      "references": [
+        {
+          "id": "CURRICULUM",
+          "title": "CURRICULUM",
+          "path": "ruby/CURRICULUM.md",
+          "kind": "reference"
+        },
+        {
+          "id": "README",
+          "title": "README",
+          "path": "ruby/README.md",
+          "kind": "reference"
+        }
+      ],
+      "stats": {
+        "modules": 11,
+        "ready": 0,
+        "scaffold": 11,
+        "docs": 24,
+        "codeFiles": 0
+      }
+    },
+    {
+      "id": "rust",
+      "title": "Rust Laboratory",
+      "short": "Rust",
+      "language": "rust",
+      "accent": "#f74c00",
+      "modules": [
+        {
+          "id": "00-introduction-toolchain",
+          "slug": "00-introduction-toolchain",
+          "title": "Introduction Toolchain",
+          "order": 0,
+          "docs": [
+            {
+              "id": "rust/00-introduction-toolchain/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "rust/00-introduction-toolchain/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "rust/00-introduction-toolchain/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "rust/00-introduction-toolchain/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "01-variables-types-constants",
+          "slug": "01-variables-types-constants",
+          "title": "Variables Types Constants",
+          "order": 1,
+          "docs": [
+            {
+              "id": "rust/01-variables-types-constants/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "rust/01-variables-types-constants/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "rust/01-variables-types-constants/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "rust/01-variables-types-constants/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "02-control-flow",
+          "slug": "02-control-flow",
+          "title": "Control Flow",
+          "order": 2,
+          "docs": [
+            {
+              "id": "rust/02-control-flow/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "rust/02-control-flow/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "rust/02-control-flow/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "rust/02-control-flow/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "03-functions-methods",
+          "slug": "03-functions-methods",
+          "title": "Functions Methods",
+          "order": 3,
+          "docs": [
+            {
+              "id": "rust/03-functions-methods/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "rust/03-functions-methods/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "rust/03-functions-methods/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "rust/03-functions-methods/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "04-ownership-borrowing",
+          "slug": "04-ownership-borrowing",
+          "title": "Ownership Borrowing",
+          "order": 4,
+          "docs": [
+            {
+              "id": "rust/04-ownership-borrowing/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "rust/04-ownership-borrowing/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "rust/04-ownership-borrowing/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "rust/04-ownership-borrowing/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "05-structs-enums-matching",
+          "slug": "05-structs-enums-matching",
+          "title": "Structs Enums Matching",
+          "order": 5,
+          "docs": [
+            {
+              "id": "rust/05-structs-enums-matching/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "rust/05-structs-enums-matching/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "rust/05-structs-enums-matching/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "rust/05-structs-enums-matching/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "06-error-handling",
+          "slug": "06-error-handling",
+          "title": "Error Handling",
+          "order": 6,
+          "docs": [
+            {
+              "id": "rust/06-error-handling/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "rust/06-error-handling/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "rust/06-error-handling/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "rust/06-error-handling/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "07-traits-generics",
+          "slug": "07-traits-generics",
+          "title": "Traits Generics",
+          "order": 7,
+          "docs": [
+            {
+              "id": "rust/07-traits-generics/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "rust/07-traits-generics/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "rust/07-traits-generics/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "rust/07-traits-generics/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "08-collections",
+          "slug": "08-collections",
+          "title": "Collections",
+          "order": 8,
+          "docs": [
+            {
+              "id": "rust/08-collections/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "rust/08-collections/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "rust/08-collections/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "rust/08-collections/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "09-modules-crates-cargo",
+          "slug": "09-modules-crates-cargo",
+          "title": "Modules Crates Cargo",
+          "order": 9,
+          "docs": [
+            {
+              "id": "rust/09-modules-crates-cargo/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "rust/09-modules-crates-cargo/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "rust/09-modules-crates-cargo/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "rust/09-modules-crates-cargo/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "10-concurrency",
+          "slug": "10-concurrency",
+          "title": "Concurrency",
+          "order": 10,
+          "docs": [
+            {
+              "id": "rust/10-concurrency/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "rust/10-concurrency/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "rust/10-concurrency/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "rust/10-concurrency/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "11-macros-metaprogramming",
+          "slug": "11-macros-metaprogramming",
+          "title": "Macros Metaprogramming",
+          "order": 11,
+          "docs": [
+            {
+              "id": "rust/11-macros-metaprogramming/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "rust/11-macros-metaprogramming/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "rust/11-macros-metaprogramming/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "rust/11-macros-metaprogramming/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        }
+      ],
+      "references": [
+        {
+          "id": "CURRICULUM",
+          "title": "CURRICULUM",
+          "path": "rust/CURRICULUM.md",
+          "kind": "reference"
+        },
+        {
+          "id": "README",
+          "title": "README",
+          "path": "rust/README.md",
+          "kind": "reference"
+        }
+      ],
+      "stats": {
+        "modules": 12,
+        "ready": 0,
+        "scaffold": 12,
+        "docs": 26,
+        "codeFiles": 0
+      }
+    },
+    {
+      "id": "cpp",
+      "title": "C / C++ Laboratory",
+      "short": "C/C++",
+      "language": "cpp",
+      "accent": "#00599c",
+      "modules": [
+        {
+          "id": "00-introduction-toolchain",
+          "slug": "00-introduction-toolchain",
+          "title": "Introduction Toolchain",
+          "order": 0,
+          "docs": [
+            {
+              "id": "cpp/00-introduction-toolchain/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "cpp/00-introduction-toolchain/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "cpp/00-introduction-toolchain/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "cpp/00-introduction-toolchain/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "01-syntax-variables-types",
+          "slug": "01-syntax-variables-types",
+          "title": "Syntax Variables Types",
+          "order": 1,
+          "docs": [
+            {
+              "id": "cpp/01-syntax-variables-types/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "cpp/01-syntax-variables-types/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "cpp/01-syntax-variables-types/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "cpp/01-syntax-variables-types/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "02-control-flow-functions",
+          "slug": "02-control-flow-functions",
+          "title": "Control Flow Functions",
+          "order": 2,
+          "docs": [
+            {
+              "id": "cpp/02-control-flow-functions/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "cpp/02-control-flow-functions/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "cpp/02-control-flow-functions/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "cpp/02-control-flow-functions/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "03-arrays-strings-vectors",
+          "slug": "03-arrays-strings-vectors",
+          "title": "Arrays Strings Vectors",
+          "order": 3,
+          "docs": [
+            {
+              "id": "cpp/03-arrays-strings-vectors/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "cpp/03-arrays-strings-vectors/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "cpp/03-arrays-strings-vectors/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "cpp/03-arrays-strings-vectors/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "04-pointers-references-memory",
+          "slug": "04-pointers-references-memory",
+          "title": "Pointers References Memory",
+          "order": 4,
+          "docs": [
+            {
+              "id": "cpp/04-pointers-references-memory/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "cpp/04-pointers-references-memory/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "cpp/04-pointers-references-memory/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "cpp/04-pointers-references-memory/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "05-oop-classes",
+          "slug": "05-oop-classes",
+          "title": "Oop Classes",
+          "order": 5,
+          "docs": [
+            {
+              "id": "cpp/05-oop-classes/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "cpp/05-oop-classes/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "cpp/05-oop-classes/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "cpp/05-oop-classes/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "06-inheritance-polymorphism",
+          "slug": "06-inheritance-polymorphism",
+          "title": "Inheritance Polymorphism",
+          "order": 6,
+          "docs": [
+            {
+              "id": "cpp/06-inheritance-polymorphism/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "cpp/06-inheritance-polymorphism/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "cpp/06-inheritance-polymorphism/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "cpp/06-inheritance-polymorphism/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "07-templates-generics",
+          "slug": "07-templates-generics",
+          "title": "Templates Generics",
+          "order": 7,
+          "docs": [
+            {
+              "id": "cpp/07-templates-generics/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "cpp/07-templates-generics/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "cpp/07-templates-generics/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "cpp/07-templates-generics/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "08-stl",
+          "slug": "08-stl",
+          "title": "Stl",
+          "order": 8,
+          "docs": [
+            {
+              "id": "cpp/08-stl/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "cpp/08-stl/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "cpp/08-stl/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "cpp/08-stl/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "09-raii-smart-pointers",
+          "slug": "09-raii-smart-pointers",
+          "title": "Raii Smart Pointers",
+          "order": 9,
+          "docs": [
+            {
+              "id": "cpp/09-raii-smart-pointers/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "cpp/09-raii-smart-pointers/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "cpp/09-raii-smart-pointers/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "cpp/09-raii-smart-pointers/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "10-modern-cpp",
+          "slug": "10-modern-cpp",
+          "title": "Modern Cpp",
+          "order": 10,
+          "docs": [
+            {
+              "id": "cpp/10-modern-cpp/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "cpp/10-modern-cpp/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "cpp/10-modern-cpp/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "cpp/10-modern-cpp/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "11-concurrency",
+          "slug": "11-concurrency",
+          "title": "Concurrency",
+          "order": 11,
+          "docs": [
+            {
+              "id": "cpp/11-concurrency/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "cpp/11-concurrency/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "cpp/11-concurrency/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "cpp/11-concurrency/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        }
+      ],
+      "references": [
+        {
+          "id": "CURRICULUM",
+          "title": "CURRICULUM",
+          "path": "cpp/CURRICULUM.md",
+          "kind": "reference"
+        },
+        {
+          "id": "README",
+          "title": "README",
+          "path": "cpp/README.md",
+          "kind": "reference"
+        }
+      ],
+      "stats": {
+        "modules": 12,
+        "ready": 0,
+        "scaffold": 12,
+        "docs": 26,
+        "codeFiles": 0
+      }
+    },
+    {
+      "id": "java",
+      "title": "Java Laboratory",
+      "short": "Java",
+      "language": "java",
+      "accent": "#f89820",
+      "modules": [
+        {
+          "id": "00-ecosystem-jvm",
+          "slug": "00-ecosystem-jvm",
+          "title": "Ecosystem Jvm",
+          "order": 0,
+          "docs": [
+            {
+              "id": "java/00-ecosystem-jvm/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "java/00-ecosystem-jvm/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "java/00-ecosystem-jvm/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "java/00-ecosystem-jvm/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "01-syntax-variables-types",
+          "slug": "01-syntax-variables-types",
+          "title": "Syntax Variables Types",
+          "order": 1,
+          "docs": [
+            {
+              "id": "java/01-syntax-variables-types/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "java/01-syntax-variables-types/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "java/01-syntax-variables-types/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "java/01-syntax-variables-types/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "02-control-flow-methods",
+          "slug": "02-control-flow-methods",
+          "title": "Control Flow Methods",
+          "order": 2,
+          "docs": [
+            {
+              "id": "java/02-control-flow-methods/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "java/02-control-flow-methods/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "java/02-control-flow-methods/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "java/02-control-flow-methods/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "03-arrays-strings-math",
+          "slug": "03-arrays-strings-math",
+          "title": "Arrays Strings Math",
+          "order": 3,
+          "docs": [
+            {
+              "id": "java/03-arrays-strings-math/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "java/03-arrays-strings-math/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "java/03-arrays-strings-math/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "java/03-arrays-strings-math/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "04-oop-classes-objects",
+          "slug": "04-oop-classes-objects",
+          "title": "Oop Classes Objects",
+          "order": 4,
+          "docs": [
+            {
+              "id": "java/04-oop-classes-objects/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "java/04-oop-classes-objects/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "java/04-oop-classes-objects/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "java/04-oop-classes-objects/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "05-encapsulation-inheritance-polymorphism",
+          "slug": "05-encapsulation-inheritance-polymorphism",
+          "title": "Encapsulation Inheritance Polymorphism",
+          "order": 5,
+          "docs": [
+            {
+              "id": "java/05-encapsulation-inheritance-polymorphism/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "java/05-encapsulation-inheritance-polymorphism/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "java/05-encapsulation-inheritance-polymorphism/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "java/05-encapsulation-inheritance-polymorphism/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "06-interfaces-abstract-classes",
+          "slug": "06-interfaces-abstract-classes",
+          "title": "Interfaces Abstract Classes",
+          "order": 6,
+          "docs": [
+            {
+              "id": "java/06-interfaces-abstract-classes/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "java/06-interfaces-abstract-classes/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "java/06-interfaces-abstract-classes/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "java/06-interfaces-abstract-classes/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "07-exception-handling",
+          "slug": "07-exception-handling",
+          "title": "Exception Handling",
+          "order": 7,
+          "docs": [
+            {
+              "id": "java/07-exception-handling/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "java/07-exception-handling/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "java/07-exception-handling/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "java/07-exception-handling/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "08-collections-generics",
+          "slug": "08-collections-generics",
+          "title": "Collections Generics",
+          "order": 8,
+          "docs": [
+            {
+              "id": "java/08-collections-generics/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "java/08-collections-generics/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "java/08-collections-generics/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "java/08-collections-generics/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "09-functional-java-streams",
+          "slug": "09-functional-java-streams",
+          "title": "Functional Java Streams",
+          "order": 9,
+          "docs": [
+            {
+              "id": "java/09-functional-java-streams/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "java/09-functional-java-streams/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "java/09-functional-java-streams/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "java/09-functional-java-streams/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "10-concurrency-threads",
+          "slug": "10-concurrency-threads",
+          "title": "Concurrency Threads",
+          "order": 10,
+          "docs": [
+            {
+              "id": "java/10-concurrency-threads/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "java/10-concurrency-threads/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "java/10-concurrency-threads/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "java/10-concurrency-threads/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "11-io-files-modules",
+          "slug": "11-io-files-modules",
+          "title": "Io Files Modules",
+          "order": 11,
+          "docs": [
+            {
+              "id": "java/11-io-files-modules/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "java/11-io-files-modules/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "java/11-io-files-modules/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "java/11-io-files-modules/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        }
+      ],
+      "references": [
+        {
+          "id": "CURRICULUM",
+          "title": "CURRICULUM",
+          "path": "java/CURRICULUM.md",
+          "kind": "reference"
+        },
+        {
+          "id": "README",
+          "title": "README",
+          "path": "java/README.md",
+          "kind": "reference"
+        }
+      ],
+      "stats": {
+        "modules": 12,
+        "ready": 0,
+        "scaffold": 12,
+        "docs": 26,
+        "codeFiles": 0
+      }
+    },
+    {
+      "id": "go",
+      "title": "Go Laboratory",
+      "short": "Go",
+      "language": "go",
+      "accent": "#00add8",
+      "modules": [
+        {
+          "id": "00-environment-toolchain",
+          "slug": "00-environment-toolchain",
+          "title": "Environment Toolchain",
+          "order": 0,
+          "docs": [
+            {
+              "id": "go/00-environment-toolchain/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "go/00-environment-toolchain/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "go/00-environment-toolchain/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "go/00-environment-toolchain/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "01-syntax-values-types",
+          "slug": "01-syntax-values-types",
+          "title": "Syntax Values Types",
+          "order": 1,
+          "docs": [
+            {
+              "id": "go/01-syntax-values-types/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "go/01-syntax-values-types/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "go/01-syntax-values-types/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "go/01-syntax-values-types/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "02-control-flow-functions",
+          "slug": "02-control-flow-functions",
+          "title": "Control Flow Functions",
+          "order": 2,
+          "docs": [
+            {
+              "id": "go/02-control-flow-functions/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "go/02-control-flow-functions/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "go/02-control-flow-functions/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "go/02-control-flow-functions/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "03-structs-methods-interfaces",
+          "slug": "03-structs-methods-interfaces",
+          "title": "Structs Methods Interfaces",
+          "order": 3,
+          "docs": [
+            {
+              "id": "go/03-structs-methods-interfaces/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "go/03-structs-methods-interfaces/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "go/03-structs-methods-interfaces/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "go/03-structs-methods-interfaces/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "04-slices-maps-arrays",
+          "slug": "04-slices-maps-arrays",
+          "title": "Slices Maps Arrays",
+          "order": 4,
+          "docs": [
+            {
+              "id": "go/04-slices-maps-arrays/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "go/04-slices-maps-arrays/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "go/04-slices-maps-arrays/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "go/04-slices-maps-arrays/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "05-pointers-memory",
+          "slug": "05-pointers-memory",
+          "title": "Pointers Memory",
+          "order": 5,
+          "docs": [
+            {
+              "id": "go/05-pointers-memory/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "go/05-pointers-memory/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "go/05-pointers-memory/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "go/05-pointers-memory/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "06-errors-panic-recover",
+          "slug": "06-errors-panic-recover",
+          "title": "Errors Panic Recover",
+          "order": 6,
+          "docs": [
+            {
+              "id": "go/06-errors-panic-recover/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "go/06-errors-panic-recover/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "go/06-errors-panic-recover/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "go/06-errors-panic-recover/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "07-goroutines-channels",
+          "slug": "07-goroutines-channels",
+          "title": "Goroutines Channels",
+          "order": 7,
+          "docs": [
+            {
+              "id": "go/07-goroutines-channels/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "go/07-goroutines-channels/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "go/07-goroutines-channels/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "go/07-goroutines-channels/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "08-packages-modules",
+          "slug": "08-packages-modules",
+          "title": "Packages Modules",
+          "order": 8,
+          "docs": [
+            {
+              "id": "go/08-packages-modules/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "go/08-packages-modules/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "go/08-packages-modules/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "go/08-packages-modules/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "09-testing-tooling",
+          "slug": "09-testing-tooling",
+          "title": "Testing Tooling",
+          "order": 9,
+          "docs": [
+            {
+              "id": "go/09-testing-tooling/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "go/09-testing-tooling/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "go/09-testing-tooling/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "go/09-testing-tooling/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        }
+      ],
+      "references": [
+        {
+          "id": "CURRICULUM",
+          "title": "CURRICULUM",
+          "path": "go/CURRICULUM.md",
+          "kind": "reference"
+        },
+        {
+          "id": "README",
+          "title": "README",
+          "path": "go/README.md",
+          "kind": "reference"
+        }
+      ],
+      "stats": {
+        "modules": 10,
+        "ready": 0,
+        "scaffold": 10,
+        "docs": 22,
+        "codeFiles": 0
+      }
+    },
+    {
+      "id": "kotlin",
+      "title": "Kotlin Laboratory",
+      "short": "Kotlin",
+      "language": "kotlin",
+      "accent": "#7f52ff",
+      "modules": [
+        {
+          "id": "00-environment-toolchain",
+          "slug": "00-environment-toolchain",
+          "title": "Environment Toolchain",
+          "order": 0,
+          "docs": [
+            {
+              "id": "kotlin/00-environment-toolchain/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "kotlin/00-environment-toolchain/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "kotlin/00-environment-toolchain/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "kotlin/00-environment-toolchain/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "01-syntax-values-types",
+          "slug": "01-syntax-values-types",
+          "title": "Syntax Values Types",
+          "order": 1,
+          "docs": [
+            {
+              "id": "kotlin/01-syntax-values-types/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "kotlin/01-syntax-values-types/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "kotlin/01-syntax-values-types/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "kotlin/01-syntax-values-types/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "02-control-flow-functions",
+          "slug": "02-control-flow-functions",
+          "title": "Control Flow Functions",
+          "order": 2,
+          "docs": [
+            {
+              "id": "kotlin/02-control-flow-functions/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "kotlin/02-control-flow-functions/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "kotlin/02-control-flow-functions/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "kotlin/02-control-flow-functions/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "03-null-safety",
+          "slug": "03-null-safety",
+          "title": "Null Safety",
+          "order": 3,
+          "docs": [
+            {
+              "id": "kotlin/03-null-safety/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "kotlin/03-null-safety/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "kotlin/03-null-safety/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "kotlin/03-null-safety/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "04-classes-objects",
+          "slug": "04-classes-objects",
+          "title": "Classes Objects",
+          "order": 4,
+          "docs": [
+            {
+              "id": "kotlin/04-classes-objects/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "kotlin/04-classes-objects/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "kotlin/04-classes-objects/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "kotlin/04-classes-objects/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "05-functions-lambdas",
+          "slug": "05-functions-lambdas",
+          "title": "Functions Lambdas",
+          "order": 5,
+          "docs": [
+            {
+              "id": "kotlin/05-functions-lambdas/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "kotlin/05-functions-lambdas/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "kotlin/05-functions-lambdas/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "kotlin/05-functions-lambdas/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "06-collections-sequences",
+          "slug": "06-collections-sequences",
+          "title": "Collections Sequences",
+          "order": 6,
+          "docs": [
+            {
+              "id": "kotlin/06-collections-sequences/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "kotlin/06-collections-sequences/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "kotlin/06-collections-sequences/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "kotlin/06-collections-sequences/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "07-coroutines",
+          "slug": "07-coroutines",
+          "title": "Coroutines",
+          "order": 7,
+          "docs": [
+            {
+              "id": "kotlin/07-coroutines/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "kotlin/07-coroutines/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "kotlin/07-coroutines/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "kotlin/07-coroutines/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "08-generics-variance",
+          "slug": "08-generics-variance",
+          "title": "Generics Variance",
+          "order": 8,
+          "docs": [
+            {
+              "id": "kotlin/08-generics-variance/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "kotlin/08-generics-variance/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "kotlin/08-generics-variance/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "kotlin/08-generics-variance/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "09-interop-testing",
+          "slug": "09-interop-testing",
+          "title": "Interop Testing",
+          "order": 9,
+          "docs": [
+            {
+              "id": "kotlin/09-interop-testing/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "kotlin/09-interop-testing/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "kotlin/09-interop-testing/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "kotlin/09-interop-testing/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        }
+      ],
+      "references": [
+        {
+          "id": "CURRICULUM",
+          "title": "CURRICULUM",
+          "path": "kotlin/CURRICULUM.md",
+          "kind": "reference"
+        },
+        {
+          "id": "README",
+          "title": "README",
+          "path": "kotlin/README.md",
+          "kind": "reference"
+        }
+      ],
+      "stats": {
+        "modules": 10,
+        "ready": 0,
+        "scaffold": 10,
+        "docs": 22,
+        "codeFiles": 0
+      }
+    },
+    {
+      "id": "swift",
+      "title": "Swift Laboratory",
+      "short": "Swift",
+      "language": "swift",
+      "accent": "#f05138",
+      "modules": [
+        {
+          "id": "00-environment-toolchain",
+          "slug": "00-environment-toolchain",
+          "title": "Environment Toolchain",
+          "order": 0,
+          "docs": [
+            {
+              "id": "swift/00-environment-toolchain/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "swift/00-environment-toolchain/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "swift/00-environment-toolchain/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "swift/00-environment-toolchain/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "01-syntax-values-types",
+          "slug": "01-syntax-values-types",
+          "title": "Syntax Values Types",
+          "order": 1,
+          "docs": [
+            {
+              "id": "swift/01-syntax-values-types/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "swift/01-syntax-values-types/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "swift/01-syntax-values-types/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "swift/01-syntax-values-types/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "02-control-flow-functions",
+          "slug": "02-control-flow-functions",
+          "title": "Control Flow Functions",
+          "order": 2,
+          "docs": [
+            {
+              "id": "swift/02-control-flow-functions/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "swift/02-control-flow-functions/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "swift/02-control-flow-functions/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "swift/02-control-flow-functions/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "03-optionals",
+          "slug": "03-optionals",
+          "title": "Optionals",
+          "order": 3,
+          "docs": [
+            {
+              "id": "swift/03-optionals/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "swift/03-optionals/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "swift/03-optionals/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "swift/03-optionals/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "04-structs-classes-enums",
+          "slug": "04-structs-classes-enums",
+          "title": "Structs Classes Enums",
+          "order": 4,
+          "docs": [
+            {
+              "id": "swift/04-structs-classes-enums/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "swift/04-structs-classes-enums/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "swift/04-structs-classes-enums/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "swift/04-structs-classes-enums/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "05-protocols-extensions",
+          "slug": "05-protocols-extensions",
+          "title": "Protocols Extensions",
+          "order": 5,
+          "docs": [
+            {
+              "id": "swift/05-protocols-extensions/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "swift/05-protocols-extensions/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "swift/05-protocols-extensions/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "swift/05-protocols-extensions/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "06-collections-generics",
+          "slug": "06-collections-generics",
+          "title": "Collections Generics",
+          "order": 6,
+          "docs": [
+            {
+              "id": "swift/06-collections-generics/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "swift/06-collections-generics/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "swift/06-collections-generics/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "swift/06-collections-generics/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "07-error-handling",
+          "slug": "07-error-handling",
+          "title": "Error Handling",
+          "order": 7,
+          "docs": [
+            {
+              "id": "swift/07-error-handling/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "swift/07-error-handling/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "swift/07-error-handling/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "swift/07-error-handling/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "08-memory-arc",
+          "slug": "08-memory-arc",
+          "title": "Memory Arc",
+          "order": 8,
+          "docs": [
+            {
+              "id": "swift/08-memory-arc/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "swift/08-memory-arc/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "swift/08-memory-arc/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "swift/08-memory-arc/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "09-concurrency-testing",
+          "slug": "09-concurrency-testing",
+          "title": "Concurrency Testing",
+          "order": 9,
+          "docs": [
+            {
+              "id": "swift/09-concurrency-testing/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "swift/09-concurrency-testing/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "swift/09-concurrency-testing/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "swift/09-concurrency-testing/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        }
+      ],
+      "references": [
+        {
+          "id": "CURRICULUM",
+          "title": "CURRICULUM",
+          "path": "swift/CURRICULUM.md",
+          "kind": "reference"
+        },
+        {
+          "id": "README",
+          "title": "README",
+          "path": "swift/README.md",
+          "kind": "reference"
+        }
+      ],
+      "stats": {
+        "modules": 10,
+        "ready": 0,
+        "scaffold": 10,
+        "docs": 22,
+        "codeFiles": 0
+      }
+    },
+    {
+      "id": "php",
+      "title": "PHP Laboratory",
+      "short": "PHP",
+      "language": "php",
+      "accent": "#777bb4",
+      "modules": [
+        {
+          "id": "00-environment-toolchain",
+          "slug": "00-environment-toolchain",
+          "title": "Environment Toolchain",
+          "order": 0,
+          "docs": [
+            {
+              "id": "php/00-environment-toolchain/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "php/00-environment-toolchain/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "php/00-environment-toolchain/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "php/00-environment-toolchain/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "01-syntax-values-types",
+          "slug": "01-syntax-values-types",
+          "title": "Syntax Values Types",
+          "order": 1,
+          "docs": [
+            {
+              "id": "php/01-syntax-values-types/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "php/01-syntax-values-types/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "php/01-syntax-values-types/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "php/01-syntax-values-types/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "02-control-flow-functions",
+          "slug": "02-control-flow-functions",
+          "title": "Control Flow Functions",
+          "order": 2,
+          "docs": [
+            {
+              "id": "php/02-control-flow-functions/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "php/02-control-flow-functions/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "php/02-control-flow-functions/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "php/02-control-flow-functions/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "03-strings-arrays",
+          "slug": "03-strings-arrays",
+          "title": "Strings Arrays",
+          "order": 3,
+          "docs": [
+            {
+              "id": "php/03-strings-arrays/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "php/03-strings-arrays/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "php/03-strings-arrays/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "php/03-strings-arrays/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "04-functions-closures",
+          "slug": "04-functions-closures",
+          "title": "Functions Closures",
+          "order": 4,
+          "docs": [
+            {
+              "id": "php/04-functions-closures/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "php/04-functions-closures/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "php/04-functions-closures/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "php/04-functions-closures/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "05-oop-classes",
+          "slug": "05-oop-classes",
+          "title": "Oop Classes",
+          "order": 5,
+          "docs": [
+            {
+              "id": "php/05-oop-classes/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "php/05-oop-classes/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "php/05-oop-classes/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "php/05-oop-classes/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "06-interfaces-traits",
+          "slug": "06-interfaces-traits",
+          "title": "Interfaces Traits",
+          "order": 6,
+          "docs": [
+            {
+              "id": "php/06-interfaces-traits/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "php/06-interfaces-traits/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "php/06-interfaces-traits/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "php/06-interfaces-traits/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "07-error-handling",
+          "slug": "07-error-handling",
+          "title": "Error Handling",
+          "order": 7,
+          "docs": [
+            {
+              "id": "php/07-error-handling/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "php/07-error-handling/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "php/07-error-handling/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "php/07-error-handling/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "08-composer-namespaces",
+          "slug": "08-composer-namespaces",
+          "title": "Composer Namespaces",
+          "order": 8,
+          "docs": [
+            {
+              "id": "php/08-composer-namespaces/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "php/08-composer-namespaces/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "php/08-composer-namespaces/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "php/08-composer-namespaces/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "09-testing-tooling",
+          "slug": "09-testing-tooling",
+          "title": "Testing Tooling",
+          "order": 9,
+          "docs": [
+            {
+              "id": "php/09-testing-tooling/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "php/09-testing-tooling/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "php/09-testing-tooling/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "php/09-testing-tooling/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        }
+      ],
+      "references": [
+        {
+          "id": "CURRICULUM",
+          "title": "CURRICULUM",
+          "path": "php/CURRICULUM.md",
+          "kind": "reference"
+        },
+        {
+          "id": "README",
+          "title": "README",
+          "path": "php/README.md",
+          "kind": "reference"
+        }
+      ],
+      "stats": {
+        "modules": 10,
+        "ready": 0,
+        "scaffold": 10,
+        "docs": 22,
+        "codeFiles": 0
+      }
+    },
+    {
+      "id": "csharp",
+      "title": "C# Laboratory",
+      "short": "C#",
+      "language": "csharp",
+      "accent": "#512bd4",
+      "modules": [
+        {
+          "id": "00-environment-toolchain",
+          "slug": "00-environment-toolchain",
+          "title": "Environment Toolchain",
+          "order": 0,
+          "docs": [
+            {
+              "id": "csharp/00-environment-toolchain/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "csharp/00-environment-toolchain/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "csharp/00-environment-toolchain/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "csharp/00-environment-toolchain/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "01-syntax-values-types",
+          "slug": "01-syntax-values-types",
+          "title": "Syntax Values Types",
+          "order": 1,
+          "docs": [
+            {
+              "id": "csharp/01-syntax-values-types/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "csharp/01-syntax-values-types/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "csharp/01-syntax-values-types/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "csharp/01-syntax-values-types/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "02-control-flow-methods",
+          "slug": "02-control-flow-methods",
+          "title": "Control Flow Methods",
+          "order": 2,
+          "docs": [
+            {
+              "id": "csharp/02-control-flow-methods/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "csharp/02-control-flow-methods/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "csharp/02-control-flow-methods/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "csharp/02-control-flow-methods/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "03-classes-objects",
+          "slug": "03-classes-objects",
+          "title": "Classes Objects",
+          "order": 3,
+          "docs": [
+            {
+              "id": "csharp/03-classes-objects/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "csharp/03-classes-objects/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "csharp/03-classes-objects/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "csharp/03-classes-objects/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "04-interfaces-inheritance",
+          "slug": "04-interfaces-inheritance",
+          "title": "Interfaces Inheritance",
+          "order": 4,
+          "docs": [
+            {
+              "id": "csharp/04-interfaces-inheritance/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "csharp/04-interfaces-inheritance/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "csharp/04-interfaces-inheritance/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "csharp/04-interfaces-inheritance/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "05-collections-generics",
+          "slug": "05-collections-generics",
+          "title": "Collections Generics",
+          "order": 5,
+          "docs": [
+            {
+              "id": "csharp/05-collections-generics/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "csharp/05-collections-generics/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "csharp/05-collections-generics/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "csharp/05-collections-generics/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "06-linq",
+          "slug": "06-linq",
+          "title": "Linq",
+          "order": 6,
+          "docs": [
+            {
+              "id": "csharp/06-linq/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "csharp/06-linq/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "csharp/06-linq/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "csharp/06-linq/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "07-async-await",
+          "slug": "07-async-await",
+          "title": "Async Await",
+          "order": 7,
+          "docs": [
+            {
+              "id": "csharp/07-async-await/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "csharp/07-async-await/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "csharp/07-async-await/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "csharp/07-async-await/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "08-error-handling",
+          "slug": "08-error-handling",
+          "title": "Error Handling",
+          "order": 8,
+          "docs": [
+            {
+              "id": "csharp/08-error-handling/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "csharp/08-error-handling/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "csharp/08-error-handling/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "csharp/08-error-handling/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        },
+        {
+          "id": "09-testing-tooling",
+          "slug": "09-testing-tooling",
+          "title": "Testing Tooling",
+          "order": 9,
+          "docs": [
+            {
+              "id": "csharp/09-testing-tooling/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "csharp/09-testing-tooling/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "csharp/09-testing-tooling/STATUS.md",
+              "name": "STATUS.md",
+              "title": "STATUS",
+              "path": "csharp/09-testing-tooling/STATUS.md",
+              "category": "docs",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [],
+          "solutions": [],
+          "status": "scaffold",
+          "hasPredictions": false,
+          "hasChallenges": false,
+          "loop": []
+        }
+      ],
+      "references": [
+        {
+          "id": "CURRICULUM",
+          "title": "CURRICULUM",
+          "path": "csharp/CURRICULUM.md",
+          "kind": "reference"
+        },
+        {
+          "id": "README",
+          "title": "README",
+          "path": "csharp/README.md",
+          "kind": "reference"
+        }
+      ],
+      "stats": {
+        "modules": 10,
+        "ready": 0,
+        "scaffold": 10,
+        "docs": 22,
+        "codeFiles": 0
       }
     }
   ]

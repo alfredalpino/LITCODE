@@ -1,4 +1,15 @@
 import type { ConsoleLine, ConsoleLineKind } from "../types";
+import {
+  getRunnerAvailability,
+  isBrowserRunnable,
+  runnableLanguageLabels,
+} from "./browser-runners";
+
+const RUBY_WASM_WASI_UMD =
+  "https://cdn.jsdelivr.net/npm/@ruby/wasm-wasi@2.10.1/dist/browser.umd.js";
+const RUBY_STDLIB_WASM =
+  "https://cdn.jsdelivr.net/npm/@ruby/4.0-wasm-wasi@2.10.1/dist/ruby+stdlib.wasm";
+const PHP_WASM_CDN = "https://cdn.jsdelivr.net/npm/php-wasm@0.1.0";
 
 function line(kind: ConsoleLineKind, text: string): ConsoleLine {
   return {
@@ -215,15 +226,234 @@ export async function runPython(code: string): Promise<RunResult> {
     }
     return { lines, ok: true, value: result };
   } catch (err) {
+    // Allow retry after a failed CDN load
+    pyodidePromise = null;
     lines.push(line("error", stringify(err)));
+    lines.push(line("warn", "Python runtime failed to load or run. Check network and Retry Run."));
+    return { lines, ok: false };
+  }
+}
+
+type RubyVm = {
+  eval: (code: string) => { toString: () => string };
+};
+
+let rubyPromise: Promise<RubyVm> | null = null;
+
+function loadScriptOnce(src: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const existing = document.querySelector(`script[data-litcode-src="${src}"]`);
+    if (existing) {
+      resolve();
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = true;
+    script.dataset.litcodeSrc = src;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+    document.head.appendChild(script);
+  });
+}
+
+async function loadRubyVm(): Promise<RubyVm> {
+  if (!rubyPromise) {
+    rubyPromise = (async () => {
+      await loadScriptOnce(RUBY_WASM_WASI_UMD);
+      const g = globalThis as unknown as {
+        ["ruby-wasm-wasi"]?: {
+          DefaultRubyVM: (
+            mod: WebAssembly.Module,
+            opts?: { consolePrint?: boolean; env?: Record<string, string> }
+          ) => Promise<{ vm: RubyVm }>;
+        };
+      };
+      const api = g["ruby-wasm-wasi"];
+      if (!api?.DefaultRubyVM) {
+        throw new Error("ruby-wasm-wasi UMD did not expose DefaultRubyVM");
+      }
+      const response = await fetch(RUBY_STDLIB_WASM);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch Ruby WASM (${response.status})`);
+      }
+      const module = await WebAssembly.compileStreaming(response);
+      const { vm } = await api.DefaultRubyVM(module, {
+        consolePrint: false,
+        env: { RUBYOPT: "-rjson" },
+      });
+      return vm;
+    })();
+  }
+  return rubyPromise;
+}
+
+function wrapRubyWithStdoutCapture(code: string): string {
+  return `
+require "stringio"
+__lf_buf = StringIO.new
+$stdout = __lf_buf
+$stderr = __lf_buf
+begin
+${code}
+ensure
+  __LF_STDOUT__ = __lf_buf.string
+end
+__LF_STDOUT__
+`;
+}
+
+export async function runRuby(code: string): Promise<RunResult> {
+  const lines: ConsoleLine[] = [];
+  try {
+    lines.push(line("info", "Loading Ruby runtime (ruby.wasm — first run may take a moment)…"));
+    const vm = await loadRubyVm();
+    lines.pop();
+    const captured = vm.eval(wrapRubyWithStdoutCapture(code)).toString();
+    if (captured) {
+      for (const chunk of captured.replace(/\n$/, "").split("\n")) {
+        if (chunk.length) lines.push(line("log", chunk));
+      }
+    }
+    if (lines.length === 0) {
+      lines.push(line("info", "Ran successfully (no output)."));
+    }
+    return { lines, ok: true, value: captured };
+  } catch (err) {
+    rubyPromise = null;
+    lines.push(line("error", stringify(err)));
+    lines.push(line("warn", "Ruby runtime failed to load or run. Check network and Retry Run."));
+    return { lines, ok: false };
+  }
+}
+
+type PhpWebInstance = {
+  binary: Promise<unknown>;
+  run: (code: string) => Promise<number>;
+  exec: (code: string) => Promise<unknown>;
+  addEventListener: (type: string, listener: (e: Event) => void) => void;
+  removeEventListener: (type: string, listener: (e: Event) => void) => void;
+};
+
+let phpPromise: Promise<PhpWebInstance> | null = null;
+
+async function loadPhp(): Promise<PhpWebInstance> {
+  if (!phpPromise) {
+    phpPromise = (async () => {
+      const url = `${PHP_WASM_CDN}/PhpWeb.mjs`;
+      // Avoid bundling the WASM package into the Next client graph.
+      const mod = (await import(
+        /* webpackIgnore: true */
+        /* @vite-ignore */
+        url
+      )) as { PhpWeb: new (args?: Record<string, unknown>) => PhpWebInstance };
+      const php = new mod.PhpWeb({
+        version: "8.4",
+        locateFile: (file: string) => `${PHP_WASM_CDN}/${file}`,
+      });
+      await php.binary;
+      return php;
+    })();
+  }
+  return phpPromise;
+}
+
+function ensurePhpTags(code: string): string {
+  const trimmed = code.trim();
+  if (trimmed.startsWith("<?php") || trimmed.startsWith("<?=")) return code;
+  return `<?php\n${code}`;
+}
+
+export async function runPhp(code: string): Promise<RunResult> {
+  const lines: ConsoleLine[] = [];
+  try {
+    lines.push(line("info", "Loading PHP runtime (php-wasm — first run may take a moment)…"));
+    const php = await loadPhp();
+    lines.pop();
+
+    const stdout: string[] = [];
+    const stderr: string[] = [];
+    const onOutput = (e: Event) => {
+      const detail = (e as CustomEvent<string>).detail;
+      if (detail) stdout.push(String(detail));
+    };
+    const onError = (e: Event) => {
+      const detail = (e as CustomEvent<string>).detail;
+      if (detail) stderr.push(String(detail));
+    };
+    php.addEventListener("output", onOutput);
+    php.addEventListener("error", onError);
+    try {
+      const exit = await php.run(ensurePhpTags(code));
+      const out = stdout.join("").replace(/\n$/, "");
+      const err = stderr.join("").replace(/\n$/, "");
+      if (out) {
+        for (const chunk of out.split("\n")) {
+          if (chunk.length) lines.push(line("log", chunk));
+        }
+      }
+      if (err) {
+        for (const chunk of err.split("\n")) {
+          if (chunk.length) lines.push(line("error", chunk));
+        }
+      }
+      if (lines.length === 0) {
+        lines.push(
+          line(
+            "info",
+            exit === 0
+              ? "Ran successfully (no output)."
+              : `PHP exited with code ${exit} (no output).`
+          )
+        );
+      }
+      return { lines, ok: exit === 0 && !err, value: out };
+    } finally {
+      php.removeEventListener("output", onOutput);
+      php.removeEventListener("error", onError);
+    }
+  } catch (err) {
+    phpPromise = null;
+    lines.push(line("error", stringify(err)));
+    lines.push(line("warn", "PHP runtime failed to load or run. Check network and Retry Run."));
     return { lines, ok: false };
   }
 }
 
 export async function runCode(language: string, code: string): Promise<RunResult> {
-  if (language === "python") return runPython(code);
+  if (language === "python" || language === "python3") return runPython(code);
   if (language === "typescript") return runTypeScript(code);
-  return runJavaScript(code);
+  if (language === "javascript") return runJavaScript(code);
+  if (language === "ruby") return runRuby(code);
+  if (language === "php") return runPhp(code);
+
+  const avail = getRunnerAvailability(language);
+  if (avail.status === "planned") {
+    return {
+      lines: [
+        line(
+          "info",
+          `${language}: runtime planned (${avail.engine}${avail.sizeHint ? `, ${avail.sizeHint}` : ""}). ${avail.note}`
+        ),
+        line(
+          "warn",
+          `Not wired yet — pick ${runnableLanguageLabels()} to Run/Submit now. No remote sandboxes.`
+        ),
+      ],
+      ok: false,
+    };
+  }
+
+  return {
+    lines: [
+      line("warn", `${language}: ${avail.note}`),
+      line(
+        "info",
+        `Runnable today: ${runnableLanguageLabels()}. Engines download on first Run.`
+      ),
+    ],
+    ok: false,
+  };
 }
 
 /** Judge a DSA solution function against JSON-serializable tests. */
@@ -248,10 +478,33 @@ export async function judgeSolution(opts: {
   }> = [];
   const lines: ConsoleLine[] = [];
 
+  if (!isBrowserRunnable(language)) {
+    const avail = getRunnerAvailability(language);
+    return {
+      lines: [
+        line(
+          "warn",
+          avail.status === "planned"
+            ? `Submit grading for ${language} is planned (${avail.engine}). ${avail.note}`
+            : `Submit grading needs a browser runtime. ${avail.note}`
+        ),
+        line("info", `Graded today: ${runnableLanguageLabels()}.`),
+      ],
+      results: tests.map((t) => ({
+        id: t.id,
+        pass: false,
+        expected: t.expected,
+        error: avail.status === "planned" ? "Runtime planned" : "No browser runner",
+      })),
+      passed: 0,
+      total: tests.length,
+    };
+  }
+
   try {
     let solver: ((...args: unknown[]) => unknown) | null = null;
 
-    if (language === "python") {
+    if (language === "python" || language === "python3") {
       const py = await loadPyodide();
       const wrap = `
 ${code}
@@ -264,6 +517,67 @@ __solver__ = ${functionName}
         // pyodide proxies
         const fn = pySolver as { (...a: unknown[]): unknown };
         return fn(...args);
+      };
+    } else if (language === "ruby") {
+      const vm = await loadRubyVm();
+      vm.eval(code);
+      solver = (...args: unknown[]) => {
+        const payload = JSON.stringify(args);
+        const ruby = `
+require "json"
+__lf_args = JSON.parse(${JSON.stringify(payload)})
+__lf_result = method(:${functionName}).call(*__lf_args)
+JSON.generate(__lf_result)
+`;
+        const raw = vm.eval(ruby).toString();
+        try {
+          return JSON.parse(raw);
+        } catch {
+          return raw;
+        }
+      };
+    } else if (language === "php") {
+      const php = await loadPhp();
+      await php.run(ensurePhpTags(code));
+      solver = async (...args: unknown[]) => {
+        const payload = JSON.stringify(args);
+        const phpCode = `<?php
+$__lf_args = json_decode(${JSON.stringify(payload)}, true);
+if (!class_exists('Solution')) { throw new Error('Define class Solution'); }
+$__lf_s = new Solution();
+if (!method_exists($__lf_s, ${JSON.stringify(functionName)})) {
+  throw new Error('Method ${functionName} not found on Solution');
+}
+echo json_encode($__lf_s->${functionName}(...$__lf_args));
+`;
+        const out: string[] = [];
+        const err: string[] = [];
+        const onOutput = (e: Event) => {
+          const detail = (e as CustomEvent<string>).detail;
+          if (detail) out.push(String(detail));
+        };
+        const onError = (e: Event) => {
+          const detail = (e as CustomEvent<string>).detail;
+          if (detail) err.push(String(detail));
+        };
+        php.addEventListener("output", onOutput);
+        php.addEventListener("error", onError);
+        try {
+          const exit = await php.run(phpCode);
+          const text = out.join("");
+          const errText = err.join("");
+          if (exit !== 0 || errText) {
+            throw new Error(errText || `PHP exit ${exit}`);
+          }
+          try {
+            return JSON.parse(text);
+          } catch {
+            return text;
+          }
+        } finally {
+          php.removeEventListener("output", onOutput);
+          php.removeEventListener("error", onError);
+        }
       };
     } else {
       let js = code;

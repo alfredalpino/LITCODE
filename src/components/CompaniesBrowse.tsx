@@ -1,9 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowLeft,
   Building2,
+  ChevronLeft,
+  ChevronRight,
   Search,
   TrendingUp,
 } from "lucide-react";
@@ -11,6 +13,9 @@ import clsx from "clsx";
 import type { CompanyPackMeta } from "../lib/dsa/types";
 
 export type CompanyWindow = "thirty" | "threeMonths" | "all";
+
+/** 4 columns × 5 rows */
+const PAGE_SIZE = 20;
 
 function windowCount(c: CompanyPackMeta, w: CompanyWindow) {
   if (w === "thirty") return c.thirty || 0;
@@ -32,6 +37,18 @@ interface CompaniesBrowseProps {
   totalProblems: number;
 }
 
+function pageWindow(current: number, total: number): (number | "…")[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const pages: (number | "…")[] = [1];
+  const start = Math.max(2, current - 1);
+  const end = Math.min(total - 1, current + 1);
+  if (start > 2) pages.push("…");
+  for (let p = start; p <= end; p++) pages.push(p);
+  if (end < total - 1) pages.push("…");
+  pages.push(total);
+  return pages;
+}
+
 export function CompaniesBrowse({
   companies,
   activeCompany,
@@ -39,15 +56,19 @@ export function CompaniesBrowse({
   onBack,
   totalProblems,
 }: CompaniesBrowseProps) {
-  const [window, setWindow] = useState<CompanyWindow>("threeMonths");
+  const [window, setWindow] = useState<CompanyWindow>("all");
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<"rank" | "alpha">("rank");
+  const [page, setPage] = useState(1);
 
   const ranked = useMemo(() => {
-    const rows = companies.map((c) => ({
-      ...c,
-      rankCount: windowCount(c, window),
-    }));
+    const rows = companies
+      .map((c) => ({
+        ...c,
+        rankCount: windowCount(c, window),
+      }))
+      // Empty folders / zero tags for this window — not useful on the grid
+      .filter((c) => c.rankCount > 0);
     if (sort === "alpha") {
       return rows.sort((a, b) => a.name.localeCompare(b.name));
     }
@@ -59,21 +80,28 @@ export function CompaniesBrowse({
   const q = query.trim().toLowerCase();
   const filtered = useMemo(
     () =>
-      q
-        ? ranked.filter((c) => c.name.toLowerCase().includes(q))
-        : ranked,
+      q ? ranked.filter((c) => c.name.toLowerCase().includes(q)) : ranked,
     [ranked, q]
   );
 
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages);
+
+  useEffect(() => {
+    setPage(1);
+  }, [window, sort, query]);
+
+  useEffect(() => {
+    if (page > totalPages) setPage(totalPages);
+  }, [page, totalPages]);
+
+  const pageItems = useMemo(() => {
+    const start = (safePage - 1) * PAGE_SIZE;
+    return filtered.slice(start, start + PAGE_SIZE);
+  }, [filtered, safePage]);
+
   const max = ranked[0]?.rankCount || 1;
-  const letterIndex = useMemo(() => {
-    const map = new Map<string, number>();
-    filtered.forEach((c, i) => {
-      const letter = c.name.charAt(0).toUpperCase();
-      if (!map.has(letter)) map.set(letter, i);
-    });
-    return map;
-  }, [filtered]);
+  const pager = pageWindow(safePage, totalPages);
 
   return (
     <div className="lc-feed lf-companies-page">
@@ -89,16 +117,19 @@ export function CompaniesBrowse({
             </p>
             <h1>Browse companies</h1>
             <p className="lc-muted">
-              {companies.length} companies · student-reported interview tags across{" "}
-              {totalProblems.toLocaleString()} problems. Pick a pack to filter Problems.
+              {filtered.length.toLocaleString()} companies with tags in this window ·{" "}
+              {totalProblems.toLocaleString()} problems in the index. Sources: liquidslr +
+              snehasishroy company-wise interview lists — small packs with 1–2 titles are real.
             </p>
           </div>
           <div className="lf-companies-page__stat">
             <TrendingUp size={18} />
             <div>
-              <strong>{filtered.length}</strong>
+              <strong>
+                {safePage}/{totalPages}
+              </strong>
               <span>
-                {q ? "matching" : "companies"} · {WINDOW_LABEL[window]}
+                page · {PAGE_SIZE} per page · {WINDOW_LABEL[window]}
               </span>
             </div>
           </div>
@@ -155,27 +186,6 @@ export function CompaniesBrowse({
             <option value="alpha">Sort A–Z</option>
           </select>
         </div>
-
-        {sort === "alpha" && letterIndex.size > 0 && (
-          <nav className="lf-companies-page__letters" aria-label="Jump to letter">
-            {[..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"].map((letter) => {
-              const has = letterIndex.has(letter);
-              return (
-                <button
-                  key={letter}
-                  type="button"
-                  disabled={!has}
-                  onClick={() => {
-                    const el = document.getElementById(`company-letter-${letter}`);
-                    el?.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }}
-                >
-                  {letter}
-                </button>
-              );
-            })}
-          </nav>
-        )}
       </header>
 
       {activeCompany && (
@@ -194,43 +204,94 @@ export function CompaniesBrowse({
           <p>Try another search or switch the frequency window.</p>
         </div>
       ) : (
-        <ul className="lf-companies-grid">
-          {filtered.map((c, idx) => {
-            const letter = c.name.charAt(0).toUpperCase();
-            const isLetterStart =
-              sort === "alpha" && letterIndex.get(letter) === idx;
-            const width = Math.max(6, Math.round((c.rankCount / max) * 100));
-            const active = activeCompany === c.name;
-            return (
-              <li
-                key={c.name}
-                id={isLetterStart ? `company-letter-${letter}` : undefined}
-              >
-                <button
-                  type="button"
-                  className={clsx("lf-company-card", active && "is-active")}
-                  onClick={() => onCompany(active ? null : c.name)}
-                >
-                  <span className="lf-company-card__rank" aria-hidden>
-                    {sort === "rank" ? idx + 1 : letter}
-                  </span>
-                  <span className="lf-company-card__main">
-                    <strong>{c.name}</strong>
-                    <span className="lf-company-card__meta">
-                      {c.rankCount.toLocaleString()} tagged · {WINDOW_LABEL[window]}
+        <>
+          <ul className="lf-companies-grid lf-companies-grid--paged" aria-label="Company packs">
+            {pageItems.map((c, idx) => {
+              const globalRank = (safePage - 1) * PAGE_SIZE + idx + 1;
+              const letter = c.name.charAt(0).toUpperCase();
+              const width = Math.max(6, Math.round((c.rankCount / max) * 100));
+              const active = activeCompany === c.name;
+              return (
+                <li key={c.name}>
+                  <button
+                    type="button"
+                    className={clsx("lf-company-card", active && "is-active")}
+                    onClick={() => onCompany(active ? null : c.name)}
+                  >
+                    <span className="lf-company-card__rank" aria-hidden>
+                      {sort === "rank" ? globalRank : letter}
                     </span>
-                    <span className="lf-company-card__track" aria-hidden>
-                      <i style={{ width: `${width}%` }} />
+                    <span className="lf-company-card__main">
+                      <strong>{c.name}</strong>
+                      <span className="lf-company-card__meta">
+                        {c.rankCount.toLocaleString()} tagged · {WINDOW_LABEL[window]}
+                      </span>
+                      <span className="lf-company-card__track" aria-hidden>
+                        <i style={{ width: `${width}%` }} />
+                      </span>
                     </span>
+                    <span className="lf-company-card__cta">
+                      {active ? "Selected" : "Open pack"}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+
+          <nav className="lf-companies-pager" aria-label="Company pages">
+            <button
+              type="button"
+              className="lf-companies-pager__nav"
+              disabled={safePage <= 1}
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              aria-label="Previous page"
+            >
+              <ChevronLeft size={16} />
+              Prev
+            </button>
+
+            <div className="lf-companies-pager__pages">
+              {pager.map((item, i) =>
+                item === "…" ? (
+                  <span key={`e-${i}`} className="lf-companies-pager__ellipsis" aria-hidden>
+                    …
                   </span>
-                  <span className="lf-company-card__cta">
-                    {active ? "Selected" : "Open pack"}
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
+                ) : (
+                  <button
+                    key={item}
+                    type="button"
+                    className={clsx(
+                      "lf-companies-pager__page",
+                      item === safePage && "is-active"
+                    )}
+                    aria-current={item === safePage ? "page" : undefined}
+                    onClick={() => setPage(item)}
+                  >
+                    {item}
+                  </button>
+                )
+              )}
+            </div>
+
+            <button
+              type="button"
+              className="lf-companies-pager__nav"
+              disabled={safePage >= totalPages}
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              aria-label="Next page"
+            >
+              Next
+              <ChevronRight size={16} />
+            </button>
+
+            <p className="lf-companies-pager__meta">
+              Showing {(safePage - 1) * PAGE_SIZE + 1}–
+              {Math.min(safePage * PAGE_SIZE, filtered.length)} of{" "}
+              {filtered.length.toLocaleString()}
+            </p>
+          </nav>
+        </>
       )}
     </div>
   );

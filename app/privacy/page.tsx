@@ -34,19 +34,19 @@ export default function PrivacyPage() {
 
       <h2>Code execution</h2>
       <p>
-        JavaScript, TypeScript (via client transpile), and Python (via Pyodide in the browser)
-        run on your device for learning. Untrusted learner code is not executed in the Next.js
-        server process. Browser execution still means scripts you run can access the same
-        origin&apos;s storage and network capabilities as any page script — treat unknown
-        snippets carefully.
+        Run/Submit executes in your browser only. JavaScript, TypeScript (Sucrase), Python
+        (Pyodide), Ruby (ruby.wasm), and PHP (php-wasm) download WASM runtimes from CDNs on
+        first use. There is no remote language sandbox. Additional languages are being wired
+        to browser engines over time. Do not paste secrets into the editor.
       </p>
 
       <h2>Third-party services loaded in the browser</h2>
       <p>
         Depending on configuration and features you use, the page may load third-party assets
-        such as Google Fonts and the Pyodide CDN. Those providers receive standard HTTP
-        request metadata (for example IP address and user agent) according to their own
-        policies. Prefer self-hosted fonts / pinned runtimes when you need stricter privacy.
+        such as Google Fonts and jsDelivr CDN packages for in-browser runtimes (Pyodide,
+        ruby.wasm, php-wasm). Those providers receive standard HTTP request metadata (for
+        example IP address and user agent) according to their own policies. Prefer self-hosted
+        fonts / pinned runtimes when you need stricter privacy.
       </p>
 
       <h2>Analytics (optional, operator-controlled)</h2>

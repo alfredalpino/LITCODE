@@ -3,11 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Bell,
+  ChevronLeft,
+  Clock,
   FlaskConical,
   Flame,
   LayoutDashboard,
   ListChecks,
   Mic,
+  Pause,
+  Play,
+  RotateCcw,
   Search,
   Settings,
   Timer,
@@ -17,6 +22,7 @@ import {
 } from "lucide-react";
 import clsx from "clsx";
 import { track } from "@/lib/analytics";
+import { LitcodeMark } from "@/components/brand/LitcodeMark";
 
 export type NavSection =
   | "problems"
@@ -56,6 +62,8 @@ interface AppNavProps {
   onAppTheme: (t: "dark" | "light") => void;
   fontSize: number;
   onFontSize: (n: number) => void;
+  /** Show stopwatch only while solving a problem. */
+  showStopwatch?: boolean;
 }
 
 const NAV_ITEMS: Array<{
@@ -79,11 +87,20 @@ const NAV_ITEMS: Array<{
   },
 ];
 
-function formatTimer(totalSec: number): string {
+function formatCollapsed(totalSec: number): string {
   const m = Math.floor(totalSec / 60);
   const s = totalSec % 60;
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
+
+function formatExpanded(totalSec: number): string {
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+const DEFAULT_COUNTDOWN = 25 * 60;
 
 export function AppNav({
   section,
@@ -100,23 +117,48 @@ export function AppNav({
   onAppTheme,
   fontSize,
   onFontSize,
+  showStopwatch = false,
 }: AppNavProps) {
   const [notifOpen, setNotifOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
   const [timerRunning, setTimerRunning] = useState(false);
   const [timerSec, setTimerSec] = useState(0);
+  const [timerExpanded, setTimerExpanded] = useState(false);
+  const [timerMode, setTimerMode] = useState<"stopwatch" | "timer">("stopwatch");
+  const [resetOpen, setResetOpen] = useState(false);
+  const [countdownTotal, setCountdownTotal] = useState(DEFAULT_COUNTDOWN);
   const unread = notifications.filter((n) => !n.read).length;
   const notifRef = useRef<HTMLDivElement>(null);
   const settingsRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (!timerRunning) return;
-    const id = window.setInterval(() => setTimerSec((s) => s + 1), 1000);
+    if (!showStopwatch) {
+      setTimerRunning(false);
+      setTimerExpanded(false);
+      setResetOpen(false);
+    }
+  }, [showStopwatch]);
+
+  useEffect(() => {
+    if (!timerRunning || !showStopwatch) return;
+    const id = window.setInterval(() => {
+      setTimerSec((s) => {
+        if (timerMode === "timer") {
+          if (s <= 1) {
+            setTimerRunning(false);
+            return 0;
+          }
+          return s - 1;
+        }
+        return s + 1;
+      });
+    }, 1000);
     return () => window.clearInterval(id);
-  }, [timerRunning]);
+  }, [timerRunning, timerMode, showStopwatch]);
 
   useEffect(() => {
     function onDoc(e: MouseEvent) {
@@ -124,10 +166,28 @@ export function AppNav({
       if (notifRef.current && !notifRef.current.contains(t)) setNotifOpen(false);
       if (settingsRef.current && !settingsRef.current.contains(t)) setSettingsOpen(false);
       if (searchRef.current && !searchRef.current.contains(t)) setSearchFocused(false);
+      if (timerRef.current && !timerRef.current.contains(t)) setResetOpen(false);
     }
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
   }, []);
+
+  function resetClock() {
+    setTimerRunning(false);
+    if (timerMode === "timer") {
+      setTimerSec(countdownTotal);
+    } else {
+      setTimerSec(0);
+    }
+    setResetOpen(false);
+  }
+
+  function selectMode(mode: "stopwatch" | "timer") {
+    setTimerMode(mode);
+    setTimerRunning(false);
+    if (mode === "timer") setTimerSec(countdownTotal);
+    else setTimerSec(0);
+  }
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -159,7 +219,7 @@ export function AppNav({
             track("nav_section", { section: "labs" });
           }}
         >
-          <span className="lc-nav__mark" aria-hidden />
+          <LitcodeMark size="sm" className="lc-nav__mark-svg" />
           <span className="lc-nav__brand-text">LITCODE</span>
         </button>
 
@@ -336,25 +396,118 @@ export function AppNav({
           <span>{streak}</span>
         </div>
 
-        <button
-          type="button"
-          className={clsx("lc-icon-btn lc-nav__timer", timerRunning && "is-active")}
-          title={timerRunning ? "Pause stopwatch" : "Start stopwatch"}
-          aria-label={
-            timerRunning
-              ? `Stopwatch running ${formatTimer(timerSec)}. Click to pause.`
-              : `Stopwatch ${formatTimer(timerSec)}. Click to start.`
-          }
-          onClick={() => setTimerRunning((v) => !v)}
-          onContextMenu={(e) => {
-            e.preventDefault();
-            setTimerRunning(false);
-            setTimerSec(0);
-          }}
-        >
-          <Timer size={16} />
-          <span className="lc-nav__timer-label">{formatTimer(timerSec)}</span>
-        </button>
+        {showStopwatch && (
+          <div className="lc-nav__timer-wrap" ref={timerRef}>
+            {!timerExpanded ? (
+              <button
+                type="button"
+                className={clsx("lc-icon-btn lc-nav__timer", timerRunning && "is-active")}
+                title="Open stopwatch"
+                aria-label={`Stopwatch ${formatCollapsed(timerSec)}. Click to expand.`}
+                aria-expanded={false}
+                onClick={() => {
+                  setTimerExpanded(true);
+                  setResetOpen(false);
+                }}
+              >
+                <Timer size={16} />
+                <span className="lc-nav__timer-label">{formatCollapsed(timerSec)}</span>
+              </button>
+            ) : (
+              <div
+                className={clsx("lc-nav__timer-pill", timerRunning && "is-active")}
+                role="group"
+                aria-label={timerMode === "timer" ? "Countdown timer" : "Stopwatch"}
+              >
+                <button
+                  type="button"
+                  className="lc-nav__timer-ctrl"
+                  title="Collapse"
+                  aria-label="Collapse stopwatch"
+                  onClick={() => {
+                    setTimerExpanded(false);
+                    setResetOpen(false);
+                  }}
+                >
+                  <ChevronLeft size={14} />
+                </button>
+                <button
+                  type="button"
+                  className="lc-nav__timer-ctrl"
+                  title={timerRunning ? "Pause" : "Start"}
+                  aria-label={timerRunning ? "Pause" : "Start"}
+                  onClick={() => setTimerRunning((v) => !v)}
+                >
+                  {timerRunning ? <Pause size={14} /> : <Play size={14} />}
+                </button>
+                <span className="lc-nav__timer-expanded" aria-live="polite">
+                  {formatExpanded(timerSec)}
+                </span>
+                <button
+                  type="button"
+                  className={clsx("lc-nav__timer-ctrl", resetOpen && "is-open")}
+                  title="Reset"
+                  aria-label="Reset clock"
+                  aria-expanded={resetOpen}
+                  onClick={() => setResetOpen((v) => !v)}
+                >
+                  <RotateCcw size={14} />
+                </button>
+              </div>
+            )}
+
+            {resetOpen && timerExpanded && (
+              <div className="lc-nav__timer-menu" role="dialog" aria-label="Reset clock">
+                <div className="lc-nav__timer-modes">
+                  <button
+                    type="button"
+                    className={clsx(timerMode === "stopwatch" && "is-active")}
+                    onClick={() => selectMode("stopwatch")}
+                  >
+                    <Timer size={22} />
+                    <span>Stopwatch</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={clsx(timerMode === "timer" && "is-active")}
+                    onClick={() => selectMode("timer")}
+                  >
+                    <Clock size={22} />
+                    <span>Timer</span>
+                  </button>
+                </div>
+                {timerMode === "timer" && (
+                  <label className="lc-nav__timer-preset">
+                    <span>Minutes</span>
+                    <select
+                      value={countdownTotal / 60}
+                      onChange={(e) => {
+                        const mins = Number(e.target.value);
+                        setCountdownTotal(mins * 60);
+                        setTimerSec(mins * 60);
+                        setTimerRunning(false);
+                      }}
+                    >
+                      {[5, 10, 15, 25, 45, 60].map((m) => (
+                        <option key={m} value={m}>
+                          {m}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                )}
+                <button
+                  type="button"
+                  className="lc-nav__timer-reset"
+                  onClick={resetClock}
+                >
+                  <RotateCcw size={14} />
+                  {timerMode === "timer" ? "Reset Timer" : "Reset Stopwatch"}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
         <button
           type="button"
