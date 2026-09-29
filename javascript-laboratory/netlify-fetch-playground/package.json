@@ -1,0 +1,18 @@
+{
+  "name": "netlify-fetch-playground",
+  "version": "1.0.0",
+  "description": "Browser + Netlify Functions playground for JS lab modules 24–25",
+  "scripts": {
+    "dev": "netlify dev",
+    "deploy": "netlify deploy",
+    "deploy:prod": "netlify deploy --prod"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@netlify/functions": "^6.0.0",
+    "typescript": "^7.0.2"
+  }
+}

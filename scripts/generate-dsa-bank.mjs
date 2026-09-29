@@ -278,6 +278,7 @@ for (const seed of SEEDS) {
     topics: seed.topics,
     companies,
     kind: "seed",
+    pattern: seed.pattern || undefined,
     hasJudge: true,
     slug: slug || undefined,
     frequency: slug ? Math.max(0, ...companies.map((c) => frequencyFor(slug, c))) : undefined,

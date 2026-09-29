@@ -1,16 +1,25 @@
 #!/usr/bin/env node
 /**
- * Walks the three laboratory folders and emits:
+ * Walks the three laboratory folders (siblings of this Next.js root) and emits:
  * - public/content/catalog.json
  * - mirrored markdown + code files under public/content/{labId}/...
+ *
+ * Monolith layout (LITCODE IS the Next.js project):
+ *   LITCODE/
+ *     package.json · app/ · src/ · public/ · scripts/
+ *     javascript-laboratory/
+ *     python-dsa-laboratory/
+ *     typescript-development-laboratory/
  */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { deriveModuleMeta } from "./lib/module-status.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
-const WORKSPACE = path.resolve(ROOT, "..");
+/** Labs live next to package.json inside LITCODE. */
+const WORKSPACE = ROOT;
 const OUT = path.join(ROOT, "public", "content");
 
 const LABS = [
@@ -221,9 +230,36 @@ function buildLab(lab) {
       return a.name.localeCompare(b.name);
     });
     m.codeFiles.sort((a, b) => a.relative.localeCompare(b.relative));
+
+    const primaryDoc = m.docs.find((d) => d.isPrimary);
+    let readmeText = "";
+    let overrideText = null;
+    if (primaryDoc) {
+      const primarySrc = path.join(lab.source, m.id, path.basename(primaryDoc.path));
+      // Primary path is labId/module/file — recover relative under module
+      const relFromLab = primaryDoc.path.slice(lab.id.length + 1);
+      const primaryAbs = path.join(lab.source, relFromLab);
+      if (fs.existsSync(primaryAbs)) {
+        readmeText = fs.readFileSync(primaryAbs, "utf8");
+      } else if (fs.existsSync(primarySrc)) {
+        readmeText = fs.readFileSync(primarySrc, "utf8");
+      }
+    }
+    const statusFile = path.join(lab.source, m.id, "STATUS.md");
+    if (fs.existsSync(statusFile)) {
+      overrideText = fs.readFileSync(statusFile, "utf8");
+    }
+    const meta = deriveModuleMeta(m, { readmeText, overrideText });
+    m.status = meta.status;
+    m.hasPredictions = meta.hasPredictions;
+    m.hasChallenges = meta.hasChallenges;
+    m.loop = meta.loop;
   }
 
   references.sort((a, b) => a.title.localeCompare(b.title));
+
+  const readyCount = moduleList.filter((m) => m.status === "ready").length;
+  const scaffoldCount = moduleList.filter((m) => m.status === "scaffold").length;
 
   return {
     id: lab.id,
@@ -235,6 +271,8 @@ function buildLab(lab) {
     references,
     stats: {
       modules: moduleList.length,
+      ready: readyCount,
+      scaffold: scaffoldCount,
       docs: moduleList.reduce((n, m) => n + m.docs.length, 0) + references.length,
       codeFiles: moduleList.reduce((n, m) => n + m.codeFiles.length, 0),
     },
@@ -267,7 +305,9 @@ const catalog = {
 fs.writeFileSync(path.join(OUT, "catalog.json"), JSON.stringify(catalog, null, 2));
 
 const totalMods = labs.reduce((n, l) => n + l.modules.length, 0);
+const totalReady = labs.reduce((n, l) => n + (l.stats.ready ?? 0), 0);
+const totalScaffold = labs.reduce((n, l) => n + (l.stats.scaffold ?? 0), 0);
 const totalCode = labs.reduce((n, l) => n + l.stats.codeFiles, 0);
 console.log(
-  `Synced ${labs.length} labs · ${totalMods} modules · ${totalCode} code files → public/content/`
+  `Synced ${labs.length} labs · ${totalMods} modules (${totalReady} ready / ${totalScaffold} scaffold) · ${totalCode} code files → public/content/`
 );

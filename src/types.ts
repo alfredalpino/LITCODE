@@ -2,6 +2,10 @@ export type LabLanguage = "javascript" | "typescript" | "python";
 export type AppMode = "labs" | "dsa";
 export type MobilePane = "read" | "code";
 
+/** Catalog honesty — LAB_ARCHITECTURE ContentModuleMeta */
+export type ModuleStatus = "scaffold" | "ready" | "deprecated";
+export type LoopStage = "predict" | "experiment" | "break" | "explain";
+
 export type DocCategory =
   | "docs"
   | "reference"
@@ -39,6 +43,11 @@ export interface LabModule {
   docs: ContentDoc[];
   codeFiles: CodeFile[];
   solutions: Array<ContentDoc | CodeFile>;
+  /** Set by sync heuristics (DEC-018). Defaults treated as scaffold if missing. */
+  status?: ModuleStatus;
+  hasPredictions?: boolean;
+  hasChallenges?: boolean;
+  loop?: LoopStage[];
 }
 
 export interface LabReference {
@@ -58,6 +67,8 @@ export interface Lab {
   references: LabReference[];
   stats: {
     modules: number;
+    ready?: number;
+    scaffold?: number;
     docs: number;
     codeFiles: number;
   };

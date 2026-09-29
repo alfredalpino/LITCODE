@@ -74,9 +74,10 @@ export function toggleFavorite(id: string): string[] {
   return next;
 }
 
-/** Deterministic fake acceptance % for UI parity */
-export function acceptanceRate(id: string): number {
-  let h = 0;
-  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
-  return Math.round(((h % 5500) / 100 + 25) * 10) / 10; // 25.0 – 79.9
+/**
+ * Removed: deterministic fake acceptance % (PRODUCT_AUDIT / DEC-026).
+ * Prefer ChallengeKindBadge (Auto-judge vs External).
+ */
+export function acceptanceRate(_id: string): null {
+  return null;
 }

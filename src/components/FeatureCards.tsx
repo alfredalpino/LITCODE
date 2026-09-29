@@ -52,15 +52,15 @@ export function FeatureCards({ cards }: FeatureCardsProps) {
             )}
             onClick={card.onClick}
           >
-            <span className="lc-banner__top">
-              <span className="lc-banner__icon" aria-hidden>
-                <Icon size={18} />
-              </span>
-              <ArrowUpRight size={14} className="lc-banner__go" aria-hidden />
+            <span className="lc-banner__icon" aria-hidden>
+              <Icon size={18} strokeWidth={1.75} />
             </span>
-            <strong>{card.title}</strong>
-            <span>{card.subtitle}</span>
-            {card.cta && <em className="lc-banner__cta">{card.cta}</em>}
+            <span className="lc-banner__body">
+              <strong className="lc-banner__title">{card.title}</strong>
+              <span className="lc-banner__sub">{card.subtitle}</span>
+              {card.cta ? <em className="lc-banner__cta">{card.cta}</em> : null}
+            </span>
+            <ArrowUpRight size={16} className="lc-banner__go" aria-hidden />
           </button>
         );
       })}

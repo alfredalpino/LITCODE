@@ -66,7 +66,12 @@ export interface DsaProblem {
     python: string;
   };
   tests: DsaTestCase[];
+  /** Interview pattern tag (curated judged bank). */
   pattern?: string;
+  /** Progressive hint ladder — spoilers; Level 1…n. */
+  hints?: string[];
+  /** Pattern-teaching discussion (not a pasteable full solution dump). */
+  patternDiscussion?: string;
   kind: string;
   hasJudge: boolean;
 }

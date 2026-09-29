@@ -1,56 +1,91 @@
-:root {
-  --bg-app: #0e1218;
-  --bg-sidebar: #12171f;
-  --bg-reader: #161b22;
-  --bg-reader-elevated: #1c2128;
-  --bg-editor: #0d1117;
-  --bg-console: #0a0e14;
-  --bg-toolbar: #161b22;
-  --border-soft: rgba(255, 255, 255, 0.06);
-  --border-reader: rgba(255, 255, 255, 0.08);
-  --text-ink: #e6edf3;
-  --text-ink-muted: #9aa4b2;
-  --text-ink-faint: #6e7681;
-  --text-ui: #e6edf3;
-  --text-ui-muted: #8b949e;
-  --accent: #ffa116;
-  --accent-strong: #ffc01e;
-  --accent-soft: rgba(255, 161, 22, 0.14);
-  --danger: #f85149;
-  --warn: #d29922;
-  --success: #3fb950;
+/* LITCODE tokens — Omarchy-inspired (Tokyo Night Night defaults from Omarchy colors.toml)
+   Soft blue accent, editor-grade neutrals. No neon teal. See LITCODE/colors.md */
+:root,
+html[data-theme="dark"] {
+  --lf-void: #0e0e14;
+  --lf-slate: #1a1b26;
+  --lf-panel: #1f2335;
+  --lf-elevated: #24283b;
+  --lf-line: #292e42;
+  --lf-steel: #565f89;
+  --lf-chalk: #a9b1d6;
+  --lf-bright: #c0caf5;
+  --lf-signal: #7aa2f7;
+  --lf-signal-dim: #5d7dc7;
+  --lf-warn: #e0af68;
+  --lf-danger: #f7768e;
+  --lf-pass: #9ece6a;
+
+  /* Legacy aliases → LITCODE (keep class names stable) */
+  --bg-app: var(--lf-slate);
+  --bg-sidebar: var(--lf-panel);
+  --bg-reader: var(--lf-panel);
+  --bg-reader-elevated: var(--lf-elevated);
+  --bg-editor: var(--lf-void);
+  --bg-console: var(--lf-void);
+  --bg-toolbar: var(--lf-panel);
+  --border-soft: color-mix(in srgb, var(--lf-line) 90%, transparent);
+  --border-reader: var(--lf-line);
+  --text-ink: var(--lf-bright);
+  --text-ink-muted: var(--lf-steel);
+  --text-ink-faint: color-mix(in srgb, var(--lf-steel) 80%, var(--lf-void));
+  --text-ui: var(--lf-bright);
+  --text-ui-muted: var(--lf-steel);
+  --accent: var(--lf-signal);
+  --accent-strong: var(--lf-signal-dim);
+  --accent-soft: color-mix(in srgb, var(--lf-signal) 14%, transparent);
+  --danger: var(--lf-danger);
+  --warn: var(--lf-warn);
+  --success: var(--lf-pass);
   --sidebar-w: 280px;
   --topbar-h: 52px;
   --radius: 10px;
-  --font-ui: "Instrument Sans", "Segoe UI", sans-serif;
-  --font-display: "Instrument Sans", "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+  --font-ui: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --shadow-panel: 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  --shadow-panel: none;
+  --focus-ring: 0 0 0 2px var(--lf-slate), 0 0 0 4px var(--lf-signal);
   color-scheme: dark;
 }
 
 html[data-theme="light"] {
-  --bg-app: #f4f5f7;
-  --bg-sidebar: #ffffff;
-  --bg-reader: #ffffff;
+  --lf-void: #eef0f4;
+  --lf-slate: #f5f6f8;
+  --lf-panel: #ffffff;
+  --lf-elevated: #ffffff;
+  --lf-line: #d5dae3;
+  --lf-steel: #61708a;
+  --lf-chalk: #2e3440;
+  --lf-bright: #1a1b26;
+  --lf-signal: #3d59a1;
+  --lf-signal-dim: #2f457d;
+  --lf-warn: #8f6c2f;
+  --lf-danger: #c25a6c;
+  --lf-pass: #4a7c59;
+
+  --bg-app: var(--lf-slate);
+  --bg-sidebar: var(--lf-panel);
+  --bg-reader: var(--lf-panel);
   --bg-reader-elevated: #f8f9fb;
-  --bg-editor: #ffffff;
-  --bg-console: #f0f2f5;
-  --bg-toolbar: #ffffff;
-  --border-soft: rgba(15, 23, 42, 0.08);
-  --border-reader: rgba(15, 23, 42, 0.1);
-  --text-ink: #1f2328;
-  --text-ink-muted: #59636e;
-  --text-ink-faint: #8b949e;
-  --text-ui: #1f2328;
-  --text-ui-muted: #656d76;
-  --accent: #d97706;
-  --accent-strong: #b45309;
-  --accent-soft: rgba(217, 119, 6, 0.12);
-  --danger: #cf222e;
-  --warn: #9a6700;
-  --success: #1a7f37;
+  --bg-editor: var(--lf-panel);
+  --bg-console: #eef0f4;
+  --bg-toolbar: var(--lf-panel);
+  --border-soft: color-mix(in srgb, var(--lf-line) 90%, transparent);
+  --border-reader: var(--lf-line);
+  --text-ink: var(--lf-bright);
+  --text-ink-muted: var(--lf-steel);
+  --text-ink-faint: color-mix(in srgb, var(--lf-steel) 80%, #fff);
+  --text-ui: var(--lf-bright);
+  --text-ui-muted: var(--lf-steel);
+  --accent: var(--lf-signal);
+  --accent-strong: var(--lf-signal-dim);
+  --accent-soft: color-mix(in srgb, var(--lf-signal) 12%, transparent);
+  --danger: var(--lf-danger);
+  --warn: var(--lf-warn);
+  --success: var(--lf-pass);
+  --shadow-panel: none;
+  --focus-ring: 0 0 0 2px #fff, 0 0 0 4px var(--lf-signal);
   color-scheme: light;
 }
 
@@ -104,15 +139,27 @@ pre {
   font-family: var(--font-mono);
 }
 
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
 .app-shell {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(255, 161, 22, 0.06), transparent 55%),
-    radial-gradient(900px 500px at 90% 0%, rgba(0, 184, 163, 0.04), transparent 50%),
-    var(--bg-app);
+  background: var(--bg-app);
   color: var(--text-ui);
+  animation: lf-shell-in 320ms var(--ease) both;
+}
+
+@keyframes lf-shell-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ——— Top bar ——— */
@@ -1055,6 +1102,42 @@ html[data-theme="light"] .markdown-body pre {
   padding-left: 18px;
 }
 
+.dsa-pattern-tag {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--text-muted, #8b949e);
+}
+
+.dsa-hints,
+.dsa-pattern-box {
+  margin-top: 18px;
+}
+
+.dsa-hints h3,
+.dsa-pattern-box h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.dsa-hints__lead,
+.dsa-hints__done,
+.dsa-cases__hidden-note {
+  margin: 0 0 10px;
+  font-size: 12.5px;
+  color: var(--text-muted, #8b949e);
+}
+
+.dsa-hints__list {
+  margin: 0 0 12px;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.dsa-hints__btn {
+  margin-top: 4px;
+}
+
 .dsa-editor,
 .dsa-console {
   height: 100%;
@@ -1266,8 +1349,8 @@ html[data-theme="light"] .markdown-body pre {
   font-size: 12.5px;
   font-weight: 600;
   color: #042f2e;
-  background: linear-gradient(180deg, #2dd4bf, #14b8a6);
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset;
+  background: linear-gradient(180deg, var(--lf-signal), var(--lf-signal-dim));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;
   transition: transform 120ms var(--ease), filter 120ms var(--ease);
 }
 
@@ -1361,9 +1444,73 @@ html[data-theme="light"] .markdown-body pre {
   height: 100%;
   display: grid;
   place-content: center;
-  gap: 12px;
+  justify-items: center;
+  gap: 14px;
   text-align: center;
-  padding: 24px;
+  padding: 32px 24px;
+  background: var(--lf-slate);
+  color: var(--lf-chalk);
+}
+
+.boot-loading__brand,
+.boot-error__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.02em;
+}
+
+.boot-mark {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--lf-signal);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--lf-chalk) 12%, transparent);
+}
+
+.boot-loading h1,
+.boot-error h1 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.boot-loading p,
+.boot-error p {
+  margin: 0;
+  max-width: 36rem;
+  color: var(--lf-steel);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.boot-error__hint {
+  font-size: 13px !important;
+}
+
+.boot-error .lf-btn,
+.boot-error button {
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.55rem 1rem;
+  border-radius: 6px;
+  border: none;
+  background: var(--lf-signal);
+  color: #0e0e14;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.boot-error button:hover {
+  background: var(--lf-signal-dim);
 }
 
 .boot-spinner {
@@ -1371,8 +1518,8 @@ html[data-theme="light"] .markdown-body pre {
   height: 28px;
   margin: 0 auto;
   border-radius: 50%;
-  border: 2px solid rgba(20, 184, 166, 0.25);
-  border-top-color: var(--accent);
+  border: 2px solid color-mix(in srgb, var(--lf-signal) 25%, transparent);
+  border-top-color: var(--lf-signal);
   animation: spin 0.7s linear infinite;
 }
 
@@ -1383,9 +1530,12 @@ html[data-theme="light"] .markdown-body pre {
 }
 
 .boot-error code {
-  background: rgba(255, 255, 255, 0.08);
+  background: color-mix(in srgb, var(--lf-panel) 90%, transparent);
+  border: 1px solid var(--lf-line);
   padding: 2px 6px;
   border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
 }
 
 /* ——— Responsive ——— */
@@ -1490,6 +1640,12 @@ html[data-theme="light"] .markdown-body pre {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .app-shell {
+    animation: none;
   }
 }

@@ -1,0 +1,1 @@
+type CssVar = `--${string}`;

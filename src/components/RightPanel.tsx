@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Flame, Search, TrendingUp } from "lucide-react";
+import { Flame, TrendingUp } from "lucide-react";
 import clsx from "clsx";
 import type { StreakState } from "../lib/stats";
 import type { CompanyPackMeta } from "../lib/dsa/types";
@@ -18,6 +18,7 @@ interface RightPanelProps {
   activeCompany: string | null;
   onCompany: (name: string | null) => void;
   onOpenProgress: () => void;
+  onBrowseCompanies?: () => void;
   sourceNote?: string;
   visible?: boolean;
 }
@@ -56,17 +57,12 @@ export function RightPanel({
   activeCompany,
   onCompany,
   onOpenProgress,
+  onBrowseCompanies,
   sourceNote,
   visible = true,
 }: RightPanelProps) {
   const cells = useMemo(() => monthGrid(streak.history ?? []), [streak.history]);
   const [window, setWindow] = useState<CompanyWindow>("threeMonths");
-  const [browse, setBrowse] = useState("");
-  const [showAll, setShowAll] = useState(false);
-
-  if (!visible) return null;
-
-  const monthLabel = new Date().toLocaleString("en", { month: "long", year: "numeric" });
 
   const ranked = useMemo(() => {
     return [...companies]
@@ -76,10 +72,10 @@ export function RightPanel({
   }, [companies, window]);
 
   const trending = ranked.slice(0, 10);
-  const q = browse.trim().toLowerCase();
-  const browsed = showAll
-    ? ranked.filter((c) => !q || c.name.toLowerCase().includes(q)).slice(0, 80)
-    : trending;
+
+  if (!visible) return null;
+
+  const monthLabel = new Date().toLocaleString("en", { month: "long", year: "numeric" });
 
   return (
     <aside className="lc-right" aria-label="Progress">
@@ -137,7 +133,7 @@ export function RightPanel({
             }}
           />
         </div>
-        <p className="lc-card__hint">Click for interview dashboard</p>
+        <p className="lc-card__hint">Click for evidence-based Progress</p>
       </section>
 
       <section className="lc-card">
@@ -175,7 +171,7 @@ export function RightPanel({
         </div>
 
         <div className="lc-companies lc-companies--ranked">
-          {browsed.map((c, idx) => {
+          {trending.map((c, idx) => {
             const max = ranked[0]?.rankCount || 1;
             const width = Math.max(8, Math.round((c.rankCount / max) * 100));
             return (
@@ -196,19 +192,13 @@ export function RightPanel({
         </div>
 
         <div className="lc-company-tools">
-          <button type="button" className="lc-link" onClick={() => setShowAll((v) => !v)}>
-            {showAll ? "Show top 10" : `Browse all ${companies.length}`}
+          <button
+            type="button"
+            className="lc-link"
+            onClick={() => onBrowseCompanies?.()}
+          >
+            Browse all {companies.length}
           </button>
-          {showAll && (
-            <label className="lc-company-search">
-              <Search size={12} />
-              <input
-                value={browse}
-                onChange={(e) => setBrowse(e.target.value)}
-                placeholder="Filter companies…"
-              />
-            </label>
-          )}
         </div>
         {sourceNote && <p className="lc-card__hint">{sourceNote}</p>}
       </section>

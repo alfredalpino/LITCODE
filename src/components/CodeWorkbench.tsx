@@ -11,11 +11,14 @@ import { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
 import { loadText } from "../lib/content";
 import { runCode } from "../lib/runner";
+import { appendEvent } from "../lib/events";
 import { SplitPane } from "./SplitPane";
+import { PredictGate } from "./PredictGate";
 import type { CodeFile, ConsoleLine, LabLanguage, LabModule } from "../types";
 
 interface CodeWorkbenchProps {
   module: LabModule | null;
+  labId?: string;
   defaultLanguage: LabLanguage;
   onMarkComplete?: () => void;
   completed?: boolean;
@@ -37,6 +40,7 @@ print("ready")
 
 export function CodeWorkbench({
   module,
+  labId,
   defaultLanguage,
   onMarkComplete,
   completed,
@@ -57,9 +61,17 @@ export function CodeWorkbench({
   const [running, setRunning] = useState(false);
   const [fileMenuOpen, setFileMenuOpen] = useState(false);
   const [consoleCollapsed, setConsoleCollapsed] = useState(false);
+  const [predictUnlocked, setPredictUnlocked] = useState(
+    () => !(module?.hasPredictions)
+  );
+
+  const hardPredict = module?.loop?.includes("predict") && module.status === "ready"
+    ? false // soft default (DEC-014); hard reserved for future module meta flag
+    : false;
 
   useEffect(() => {
     setLanguage(defaultLanguage);
+    setPredictUnlocked(!(module?.hasPredictions));
     if (codeFiles.length > 0) {
       setActiveFile(codeFiles[0]);
     } else {
@@ -67,7 +79,7 @@ export function CodeWorkbench({
       setCode(STARTER[defaultLanguage]);
       setLines([]);
     }
-  }, [module?.id, defaultLanguage, codeFiles]);
+  }, [module?.id, defaultLanguage, codeFiles, module?.hasPredictions]);
 
   useEffect(() => {
     if (!activeFile) return;
@@ -89,9 +101,18 @@ export function CodeWorkbench({
   }, [activeFile, defaultLanguage]);
 
   async function handleRun() {
+    if (module?.hasPredictions && !predictUnlocked) return;
     setRunning(true);
     setConsoleCollapsed(false);
     try {
+      if (labId && module) {
+        appendEvent({
+          type: "run",
+          labId,
+          moduleId: module.id,
+          meta: { language, file: activeFile?.relative ?? "playground" },
+        });
+      }
       const result = await runCode(language, code);
       setLines(result.lines);
     } finally {
@@ -171,7 +192,7 @@ export function CodeWorkbench({
             type="button"
             className="run-btn run-btn--compact"
             onClick={handleRun}
-            disabled={running}
+            disabled={running || (Boolean(module?.hasPredictions) && !predictUnlocked)}
           >
             <Play size={14} fill="currentColor" />
             {running ? "Running…" : "Run"}
@@ -199,6 +220,15 @@ export function CodeWorkbench({
 
   return (
     <section className="workbench" aria-label="Code workbench">
+      {labId && module?.hasPredictions && (
+        <PredictGate
+          labId={labId}
+          moduleId={module.id}
+          hard={hardPredict}
+          hasPredictions={!!module.hasPredictions}
+          onUnlocked={() => setPredictUnlocked(true)}
+        />
+      )}
       <div className="workbench__toolbar">
         <div className="workbench__file">
           <button
@@ -270,7 +300,12 @@ export function CodeWorkbench({
             type="button"
             className="run-btn"
             onClick={handleRun}
-            disabled={running}
+            disabled={running || (Boolean(module?.hasPredictions) && !predictUnlocked)}
+            title={
+              module?.hasPredictions && !predictUnlocked
+                ? "Write or skip your prediction first"
+                : "Run code in the browser"
+            }
           >
             <Play size={15} fill="currentColor" />
             {running ? "Running…" : "Run"}

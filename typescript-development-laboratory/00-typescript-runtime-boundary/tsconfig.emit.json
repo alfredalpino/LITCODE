@@ -1,0 +1,8 @@
+{
+  "extends": "../tsconfig.emit.json",
+  "compilerOptions": {
+    "rootDir": "..",
+    "outDir": "../dist"
+  },
+  "include": ["./experiments/**/*.ts"]
+}

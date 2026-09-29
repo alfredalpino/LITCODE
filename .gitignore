@@ -25,3 +25,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Curriculum lab installs (synced into public/content)
+javascript-laboratory/node_modules/
+typescript-development-laboratory/node_modules/
+python-dsa-laboratory/.venv/
+**/__pycache__/
+tsconfig.tsbuildinfo

@@ -45,7 +45,7 @@ export function TopBar({
           <span className="topbar__logo-mark" />
         </div>
         <div className="topbar__titles">
-          <span className="topbar__name">SDE Laboratory</span>
+          <span className="topbar__name">LITCODE</span>
           <span className="topbar__sub">
             {mode === "dsa" ? "DSA Arena" : active?.short ?? "Lab"}
             {moduleTitle ? ` · ${moduleTitle}` : ""}

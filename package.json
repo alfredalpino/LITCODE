@@ -1,5 +1,5 @@
 {
-  "name": "sde-laboratory-studio",
+  "name": "litcode",
   "private": true,
   "version": "2.0.0",
   "scripts": {
@@ -7,11 +7,13 @@
     "companies:gen": "node scripts/build-company-packs.mjs",
     "dsa:gen": "node scripts/generate-dsa-bank.mjs",
     "predev": "npm run sync && npm run companies:gen && npm run dsa:gen",
-    "dev": "next dev",
+    "dev": "next dev -p 3000 -H 0.0.0.0",
     "prebuild": "npm run sync && npm run companies:gen && npm run dsa:gen",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3000 -H 0.0.0.0",
     "lint": "oxlint",
+    "test": "node --test scripts/test-module-status.mjs scripts/test-learning-infra.mjs scripts/test-phase6-judged-bank.mjs scripts/test-phase8-unified.mjs",
+    "dsa:phase6": "node scripts/phase6-build-judged-bank.mjs && npm run dsa:gen",
     "test:runners": "node scripts/smoke-runners.mjs"
   },
   "dependencies": {
@@ -22,9 +24,9 @@
     "highlight.js": "^11.12.0",
     "lucide-react": "^1.48.0",
     "monaco-editor": "^0.57.0",
-    "next": "^15.5.14",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "next": "16.3.7",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "react-markdown": "^10.1.0",
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
@@ -34,6 +36,7 @@
     "@types/node": "^24.19.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
+    "eslint-config-next": "16.3.7",
     "oxlint": "^1.81.0",
     "typescript": "~6.0.2"
   }

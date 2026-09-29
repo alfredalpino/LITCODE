@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fetch Lab — Netlify Playground</title>
+    <style>
+      :root {
+        --bg: #0f1419;
+        --panel: #1a2332;
+        --ink: #e7ecf3;
+        --muted: #8b9bb4;
+        --accent: #3d9cf0;
+        --ok: #3ecf8e;
+        --bad: #f07178;
+        --mono: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+        --sans: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: var(--sans);
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse 80% 50% at 10% -10%, #1e3a5f 0%, transparent 55%),
+          radial-gradient(ellipse 60% 40% at 100% 0%, #1a2f28 0%, transparent 45%),
+          var(--bg);
+      }
+      main {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 2.5rem 1.25rem 4rem;
+      }
+      h1 {
+        font-size: clamp(1.75rem, 4vw, 2.35rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        margin: 0 0 0.35rem;
+      }
+      .lede {
+        color: var(--muted);
+        margin: 0 0 1.75rem;
+        line-height: 1.45;
+      }
+      label {
+        display: block;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        margin-bottom: 0.35rem;
+      }
+      .row {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+      }
+      select,
+      input,
+      textarea,
+      button {
+        font: inherit;
+      }
+      select,
+      input,
+      textarea {
+        width: 100%;
+        background: var(--panel);
+        color: var(--ink);
+        border: 1px solid #2a3a52;
+        border-radius: 6px;
+        padding: 0.65rem 0.75rem;
+      }
+      textarea {
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        min-height: 5rem;
+        resize: vertical;
+      }
+      .field {
+        flex: 1 1 140px;
+      }
+      .field.grow {
+        flex: 3 1 280px;
+      }
+      button {
+        background: var(--accent);
+        color: #061018;
+        border: none;
+        border-radius: 6px;
+        padding: 0.7rem 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button:hover {
+        filter: brightness(1.08);
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: wait;
+      }
+      .meta {
+        font-family: var(--mono);
+        font-size: 0.85rem;
+        margin: 1.25rem 0 0.5rem;
+      }
+      .meta .ok {
+        color: var(--ok);
+      }
+      .meta .bad {
+        color: var(--bad);
+      }
+      pre {
+        background: var(--panel);
+        border: 1px solid #2a3a52;
+        border-radius: 8px;
+        padding: 1rem;
+        overflow: auto;
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        line-height: 1.45;
+        margin: 0;
+      }
+      .hints {
+        margin-top: 2rem;
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+      .hints code {
+        font-family: var(--mono);
+        font-size: 0.85em;
+        color: var(--ink);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Fetch Lab Playground</h1>
+      <p class="lede">
+        Hit real Netlify Functions from the browser. Predict the response, then
+        run the request — same cycle as the rest of the JavaScript laboratory.
+      </p>
+
+      <div class="row">
+        <div class="field">
+          <label for="endpoint">Endpoint</label>
+          <select id="endpoint">
+            <option value="/api/echo">GET/POST /api/echo</option>
+            <option value="/api/status">GET/POST /api/status</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="method">Method</label>
+          <select id="method">
+            <option>GET</option>
+            <option>POST</option>
+            <option>PUT</option>
+            <option>PATCH</option>
+            <option>DELETE</option>
+          </select>
+        </div>
+        <div class="field grow">
+          <label for="query">Query string</label>
+          <input id="query" placeholder="code=404&message=not+found" />
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom: 1rem">
+        <label for="body">JSON body (POST/PUT/PATCH)</label>
+        <textarea id="body">{ "message": "hello from the lab", "code": 418 }</textarea>
+      </div>
+
+      <button type="button" id="send">Send request</button>
+
+      <p class="meta" id="meta" hidden></p>
+      <pre id="out">Response will appear here.</pre>
+
+      <div class="hints">
+        <p>
+          <strong>Try:</strong> <code>/api/status</code> + query
+          <code>code=404</code> — is <code>response.ok</code> false?
+          Echo with POST and watch headers/geo come back.
+        </p>
+        <p>
+          Run locally with <code>npx netlify dev</code> from this folder (Netlify
+          plugin / CLI). Deploy later when you want a public URL for modules
+          24–25.
+        </p>
+      </div>
+    </main>
+    <script>
+      const endpoint = document.getElementById("endpoint");
+      const method = document.getElementById("method");
+      const query = document.getElementById("query");
+      const body = document.getElementById("body");
+      const send = document.getElementById("send");
+      const out = document.getElementById("out");
+      const meta = document.getElementById("meta");
+
+      send.addEventListener("click", async () => {
+        const q = query.value.trim();
+        const url = endpoint.value + (q ? `?${q}` : "");
+        const opts = { method: method.value, headers: {} };
+
+        if (["POST", "PUT", "PATCH"].includes(method.value)) {
+          opts.headers["Content-Type"] = "application/json";
+          opts.body = body.value;
+        }
+
+        send.disabled = true;
+        const started = performance.now();
+        try {
+          const res = await fetch(url, opts);
+          const text = await res.text();
+          let pretty = text;
+          try {
+            pretty = JSON.stringify(JSON.parse(text), null, 2);
+          } catch {
+            /* keep raw */
+          }
+          const ms = Math.round(performance.now() - started);
+          meta.hidden = false;
+          meta.innerHTML = `status <span class="${res.ok ? "ok" : "bad"}">${res.status}</span> · ok=${res.ok} · ${ms}ms · ${url}`;
+          out.textContent = pretty;
+        } catch (err) {
+          meta.hidden = false;
+          meta.innerHTML = `<span class="bad">network error</span>`;
+          out.textContent = String(err);
+        } finally {
+          send.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>

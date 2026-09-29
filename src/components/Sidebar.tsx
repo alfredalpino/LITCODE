@@ -3,6 +3,8 @@ import { useMemo, useState } from "react";
 import clsx from "clsx";
 import type { Lab, LabModule } from "../types";
 import { moduleKey, type ProgressMap } from "../lib/progress";
+import { moduleStatus } from "../lib/module-status";
+import { ContentStatusBadge } from "./ContentStatusBadge";
 
 interface SidebarProps {
   lab: Lab;
@@ -27,20 +29,24 @@ export function Sidebar({
 }: SidebarProps) {
   const [query, setQuery] = useState("");
   const [refsOpen, setRefsOpen] = useState(true);
+  const [readyOnly, setReadyOnly] = useState(true);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return lab.modules;
-    return lab.modules.filter(
-      (m) =>
+    return lab.modules.filter((m) => {
+      if (readyOnly && moduleStatus(m) !== "ready") return false;
+      if (!q) return true;
+      return (
         m.title.toLowerCase().includes(q) ||
         m.id.toLowerCase().includes(q) ||
         m.docs.some((d) => d.title.toLowerCase().includes(q))
-    );
-  }, [lab.modules, query]);
+      );
+    });
+  }, [lab.modules, query, readyOnly]);
 
+  const readyCount = lab.modules.filter((m) => moduleStatus(m) === "ready").length;
   const doneCount = lab.modules.filter(
-    (m) => progress[moduleKey(lab.id, m.id)]
+    (m) => moduleStatus(m) === "ready" && progress[moduleKey(lab.id, m.id)]
   ).length;
 
   return (
@@ -55,7 +61,7 @@ export function Sidebar({
           <div>
             <p className="sidebar__eyebrow">{lab.title}</p>
             <p className="sidebar__progress">
-              {doneCount}/{lab.modules.length} modules · {lab.stats.codeFiles} labs
+              {doneCount}/{readyCount} ready · {lab.stats.codeFiles} labs
             </p>
           </div>
         </div>
@@ -70,10 +76,20 @@ export function Sidebar({
           />
         </label>
 
+        <label className="lf-filter-check sidebar__ready-filter">
+          <input
+            type="checkbox"
+            checked={readyOnly}
+            onChange={(e) => setReadyOnly(e.target.checked)}
+          />
+          Ready only
+        </label>
+
         <div className="sidebar__scroll">
           <ul className="module-list">
             {filtered.map((mod) => {
               const done = !!progress[moduleKey(lab.id, mod.id)];
+              const st = moduleStatus(mod);
               return (
                 <li key={mod.id}>
                   <button
@@ -98,11 +114,7 @@ export function Sidebar({
                       {String(mod.order).padStart(2, "0")}
                     </span>
                     <span className="module-item__title">{mod.title}</span>
-                    <span className="module-item__meta">
-                      {mod.codeFiles.length > 0
-                        ? `${mod.codeFiles.length} files`
-                        : "read"}
-                    </span>
+                    <ContentStatusBadge status={st} compact />
                   </button>
                 </li>
               );

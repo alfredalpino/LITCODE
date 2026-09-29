@@ -26,20 +26,30 @@ let companyPacksPromise: Promise<CompanyPacksFile> | null = null;
 
 export function loadDsaIndex(): Promise<DsaIndexFile> {
   if (!indexPromise) {
-    indexPromise = fetch("/dsa/index.json").then((r) => {
-      if (!r.ok) throw new Error("Failed to load DSA index");
-      return r.json();
-    });
+    indexPromise = fetch("/dsa/index.json")
+      .then((r) => {
+        if (!r.ok) throw new Error("Failed to load DSA index");
+        return r.json();
+      })
+      .catch((err) => {
+        indexPromise = null;
+        throw err;
+      });
   }
   return indexPromise;
 }
 
 export function loadCompanyPacks(): Promise<CompanyPacksFile> {
   if (!companyPacksPromise) {
-    companyPacksPromise = fetch("/dsa/company-packs.json").then((r) => {
-      if (!r.ok) throw new Error("Failed to load company packs");
-      return r.json();
-    });
+    companyPacksPromise = fetch("/dsa/company-packs.json")
+      .then((r) => {
+        if (!r.ok) throw new Error("Failed to load company packs");
+        return r.json();
+      })
+      .catch((err) => {
+        companyPacksPromise = null;
+        throw err;
+      });
   }
   return companyPacksPromise;
 }

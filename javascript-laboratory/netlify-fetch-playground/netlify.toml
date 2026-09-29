@@ -1,0 +1,15 @@
+# Netlify config for the fetch / networking laboratory playground.
+# Publish a static page; API routes are Netlify Functions under /api/*.
+
+[build]
+  publish = "public"
+  # No build step — static HTML + TypeScript functions compiled by Netlify.
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Lab = "javascript-laboratory/netlify-fetch-playground"

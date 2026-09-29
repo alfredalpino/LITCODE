@@ -1,0 +1,1421 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-30",
+  "nodes": [
+    {
+      "id": "javascript",
+      "kind": "language",
+      "title": "JavaScript",
+      "language": "javascript",
+      "summary": "Language mastery track",
+      "prereqs": []
+    },
+    {
+      "id": "js.orientation",
+      "kind": "concept",
+      "title": "JS Lab Orientation",
+      "language": "javascript",
+      "prereqs": [
+        "javascript"
+      ],
+      "moduleRef": {
+        "labId": "javascript",
+        "moduleId": "00-orientation"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "js.runtime",
+      "kind": "concept",
+      "title": "JS Runtime",
+      "language": "javascript",
+      "summary": "Source → parse → execute; language vs engine vs host",
+      "prereqs": [
+        "js.orientation"
+      ],
+      "moduleRef": {
+        "labId": "javascript",
+        "moduleId": "01-runtime"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "js.values-types",
+      "kind": "concept",
+      "title": "Values & Types",
+      "language": "javascript",
+      "summary": "Primitives, typeof, equality, identity",
+      "prereqs": [
+        "js.runtime"
+      ],
+      "moduleRef": {
+        "labId": "javascript",
+        "moduleId": "02-values-types"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "ts.basic-types"
+      ]
+    },
+    {
+      "id": "js.variables",
+      "kind": "concept",
+      "title": "Variables & Bindings",
+      "language": "javascript",
+      "summary": "let/const/var, TDZ, hoisting, shadowing",
+      "prereqs": [
+        "js.values-types"
+      ],
+      "moduleRef": {
+        "labId": "javascript",
+        "moduleId": "03-variables"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "js.operators",
+      "kind": "concept",
+      "title": "Operators & Coercion",
+      "language": "javascript",
+      "summary": "ToNumber/ToString/ToBoolean; || vs ??",
+      "prereqs": [
+        "js.variables"
+      ],
+      "moduleRef": {
+        "labId": "javascript",
+        "moduleId": "04-operators"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "ts.literals"
+      ]
+    },
+    {
+      "id": "js.control-flow",
+      "kind": "concept",
+      "title": "Control Flow",
+      "language": "javascript",
+      "summary": "Branches, loops, switch, break/continue",
+      "prereqs": [
+        "js.operators"
+      ],
+      "moduleRef": {
+        "labId": "javascript",
+        "moduleId": "05-control-flow"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "ts.narrowing"
+      ]
+    },
+    {
+      "id": "js.functions",
+      "kind": "concept",
+      "title": "Functions",
+      "language": "javascript",
+      "summary": "Declarations, arrows, HOF, recursion",
+      "prereqs": [
+        "js.control-flow"
+      ],
+      "moduleRef": {
+        "labId": "javascript",
+        "moduleId": "06-functions"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "ts.functions"
+      ]
+    },
+    {
+      "id": "js.scope",
+      "kind": "concept",
+      "title": "Scope",
+      "language": "javascript",
+      "summary": "Lexical environments and the scope chain",
+      "prereqs": [
+        "js.functions"
+      ],
+      "moduleRef": {
+        "labId": "javascript",
+        "moduleId": "07-scope"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "js.closures",
+      "kind": "concept",
+      "title": "Closures",
+      "language": "javascript",
+      "summary": "Function + lexical environment; loop traps",
+      "prereqs": [
+        "js.scope"
+      ],
+      "moduleRef": {
+        "labId": "javascript",
+        "moduleId": "08-closures"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "ts.functions"
+      ]
+    },
+    {
+      "id": "js.objects",
+      "kind": "concept",
+      "title": "Objects",
+      "language": "javascript",
+      "summary": "Properties, descriptors, shallow copy",
+      "prereqs": [
+        "js.closures"
+      ],
+      "moduleRef": {
+        "labId": "javascript",
+        "moduleId": "09-objects"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "ts.objects",
+        "ts.structural",
+        "dsa.pattern.hashmap"
+      ]
+    },
+    {
+      "id": "js.prototypes",
+      "kind": "concept",
+      "title": "Prototypes",
+      "language": "javascript",
+      "summary": "[[Prototype]] delegation and constructors",
+      "prereqs": [
+        "js.objects"
+      ],
+      "moduleRef": {
+        "labId": "javascript",
+        "moduleId": "10-prototypes"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "js.classes",
+      "kind": "concept",
+      "title": "Classes",
+      "language": "javascript",
+      "summary": "Class syntax over prototypes; extends/super",
+      "prereqs": [
+        "js.prototypes"
+      ],
+      "moduleRef": {
+        "labId": "javascript",
+        "moduleId": "11-classes"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "ts.classes"
+      ]
+    },
+    {
+      "id": "js.arrays",
+      "kind": "concept",
+      "title": "Arrays",
+      "language": "javascript",
+      "summary": "Dense/sparse arrays; map/filter/reduce",
+      "prereqs": [
+        "js.classes"
+      ],
+      "moduleRef": {
+        "labId": "javascript",
+        "moduleId": "12-arrays"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "ts.objects",
+        "dsa.pattern.arrays",
+        "dsa.pattern.two-pointers"
+      ]
+    },
+    {
+      "id": "python",
+      "kind": "language",
+      "title": "Python",
+      "language": "python",
+      "prereqs": []
+    },
+    {
+      "id": "py.runtime",
+      "kind": "concept",
+      "title": "Python Runtime",
+      "language": "python",
+      "prereqs": [
+        "python"
+      ],
+      "moduleRef": {
+        "labId": "python-dsa",
+        "moduleId": "00-python-runtime"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "py.values-types",
+      "kind": "concept",
+      "title": "Python Values & Types",
+      "language": "python",
+      "prereqs": [
+        "py.runtime"
+      ],
+      "moduleRef": {
+        "labId": "python-dsa",
+        "moduleId": "01-values-types"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "py.bindings",
+      "kind": "concept",
+      "title": "Variables & Bindings",
+      "language": "python",
+      "prereqs": [
+        "py.values-types"
+      ],
+      "moduleRef": {
+        "labId": "python-dsa",
+        "moduleId": "02-variables-bindings"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "py.control-flow",
+      "kind": "concept",
+      "title": "Control Flow",
+      "language": "python",
+      "prereqs": [
+        "py.bindings"
+      ],
+      "moduleRef": {
+        "labId": "python-dsa",
+        "moduleId": "03-control-flow"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "py.functions",
+      "kind": "concept",
+      "title": "Python Functions",
+      "language": "python",
+      "summary": "First-class functions, defaults, *args/**kwargs, HOF",
+      "prereqs": [
+        "py.control-flow"
+      ],
+      "moduleRef": {
+        "labId": "python-dsa",
+        "moduleId": "04-functions"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "py.scope-closures",
+      "kind": "concept",
+      "title": "Scope & Closures",
+      "language": "python",
+      "summary": "LEGB, nonlocal, closure cells, late binding",
+      "prereqs": [
+        "py.functions"
+      ],
+      "moduleRef": {
+        "labId": "python-dsa",
+        "moduleId": "05-scope-closures"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "py.builtin-structures",
+      "kind": "concept",
+      "title": "Built-in Structures in Use",
+      "language": "python",
+      "summary": "list/dict/set/deque/heapq selection and costs",
+      "prereqs": [
+        "py.scope-closures"
+      ],
+      "moduleRef": {
+        "labId": "python-dsa",
+        "moduleId": "06-builtin-structures"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "dsa.pattern.hashmap",
+        "dsa.pattern.arrays"
+      ]
+    },
+    {
+      "id": "py.strings",
+      "kind": "concept",
+      "title": "Strings",
+      "language": "python",
+      "summary": "Immutability, building, signatures, text algorithms",
+      "prereqs": [
+        "py.builtin-structures"
+      ],
+      "moduleRef": {
+        "labId": "python-dsa",
+        "moduleId": "07-strings"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "py.complexity",
+      "kind": "concept",
+      "title": "Complexity",
+      "language": "python",
+      "summary": "Derive Big-O from code; Python primitive costs",
+      "prereqs": [
+        "py.strings"
+      ],
+      "moduleRef": {
+        "labId": "python-dsa",
+        "moduleId": "08-complexity"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "dsa.pattern.dp",
+        "dsa.pattern.binary-search"
+      ]
+    },
+    {
+      "id": "typescript",
+      "kind": "language",
+      "title": "TypeScript",
+      "language": "typescript",
+      "prereqs": []
+    },
+    {
+      "id": "ts.runtime-boundary",
+      "kind": "concept",
+      "title": "TS Runtime Boundary",
+      "language": "typescript",
+      "prereqs": [
+        "typescript"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "00-typescript-runtime-boundary"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.toolchain",
+      "kind": "concept",
+      "title": "TS Toolchain",
+      "language": "typescript",
+      "prereqs": [
+        "ts.runtime-boundary"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "01-toolchain"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.basic-types",
+      "kind": "concept",
+      "title": "Basic Types",
+      "language": "typescript",
+      "prereqs": [
+        "ts.toolchain"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "02-basic-types"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "js.values-types"
+      ]
+    },
+    {
+      "id": "ts.inference",
+      "kind": "concept",
+      "title": "Type Inference",
+      "language": "typescript",
+      "prereqs": [
+        "ts.basic-types"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "03-type-inference"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.functions",
+      "kind": "concept",
+      "title": "Function Types",
+      "language": "typescript",
+      "prereqs": [
+        "ts.inference"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "04-functions"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "js.functions",
+        "js.closures"
+      ]
+    },
+    {
+      "id": "ts.objects",
+      "kind": "concept",
+      "title": "Objects, Arrays & Tuples",
+      "language": "typescript",
+      "summary": "Object types, excess checks, arrays, tuples",
+      "prereqs": [
+        "ts.functions"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "05-objects"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "js.objects",
+        "js.arrays",
+        "dsa.pattern.hashmap"
+      ]
+    },
+    {
+      "id": "ts.unions",
+      "kind": "concept",
+      "title": "Union Types",
+      "language": "typescript",
+      "prereqs": [
+        "ts.objects"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "06-unions"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.intersections",
+      "kind": "concept",
+      "title": "Intersection Types",
+      "language": "typescript",
+      "prereqs": [
+        "ts.unions"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "07-intersections"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.literals",
+      "kind": "concept",
+      "title": "Literal Types & as const",
+      "language": "typescript",
+      "prereqs": [
+        "ts.intersections"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "08-literal-types"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "js.operators"
+      ]
+    },
+    {
+      "id": "ts.narrowing",
+      "kind": "concept",
+      "title": "Type Narrowing",
+      "language": "typescript",
+      "prereqs": [
+        "ts.literals"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "09-type-narrowing"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "js.control-flow"
+      ]
+    },
+    {
+      "id": "ts.guards",
+      "kind": "concept",
+      "title": "Type Guards",
+      "language": "typescript",
+      "prereqs": [
+        "ts.narrowing"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "10-type-guards"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.interfaces",
+      "kind": "concept",
+      "title": "Interfaces",
+      "language": "typescript",
+      "prereqs": [
+        "ts.guards"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "11-interfaces"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.aliases",
+      "kind": "concept",
+      "title": "Type Aliases",
+      "language": "typescript",
+      "prereqs": [
+        "ts.interfaces"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "12-type-aliases"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.structural",
+      "kind": "concept",
+      "title": "Structural Typing",
+      "language": "typescript",
+      "prereqs": [
+        "ts.aliases"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "13-structural-typing"
+      },
+      "tags": [
+        "ready"
+      ],
+      "related": [
+        "js.objects"
+      ]
+    },
+    {
+      "id": "ts.generics",
+      "kind": "concept",
+      "title": "Generics",
+      "language": "typescript",
+      "prereqs": [
+        "ts.structural"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "14-generics"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.generic-constraints",
+      "kind": "concept",
+      "title": "Generic Constraints",
+      "language": "typescript",
+      "prereqs": [
+        "ts.generics"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "15-generic-constraints"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.generic-patterns",
+      "kind": "concept",
+      "title": "Generic Patterns",
+      "language": "typescript",
+      "summary": "Result, EventMap, repository sketches",
+      "prereqs": [
+        "ts.generic-constraints"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "16-generic-patterns"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.keyof",
+      "kind": "concept",
+      "title": "keyof",
+      "language": "typescript",
+      "prereqs": [
+        "ts.generic-patterns"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "17-keyof"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.typeof",
+      "kind": "concept",
+      "title": "typeof Types",
+      "language": "typescript",
+      "prereqs": [
+        "ts.keyof"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "18-typeof"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.indexed-access",
+      "kind": "concept",
+      "title": "Indexed Access Types",
+      "language": "typescript",
+      "prereqs": [
+        "ts.typeof"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "19-indexed-access"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.mapped",
+      "kind": "concept",
+      "title": "Mapped Types",
+      "language": "typescript",
+      "prereqs": [
+        "ts.indexed-access"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "20-mapped-types"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.conditional",
+      "kind": "concept",
+      "title": "Conditional Types",
+      "language": "typescript",
+      "prereqs": [
+        "ts.mapped"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "21-conditional-types"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.infer",
+      "kind": "concept",
+      "title": "infer",
+      "language": "typescript",
+      "prereqs": [
+        "ts.conditional"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "22-infer"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.template-literals",
+      "kind": "concept",
+      "title": "Template Literal Types",
+      "language": "typescript",
+      "prereqs": [
+        "ts.infer"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "23-template-literal-types"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.utility-types",
+      "kind": "concept",
+      "title": "Utility Types",
+      "language": "typescript",
+      "prereqs": [
+        "ts.template-literals"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "26-utility-types"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.enums",
+      "kind": "concept",
+      "title": "Enums & const alternatives",
+      "language": "typescript",
+      "prereqs": [
+        "ts.literals"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "29-enums"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.declaration-files",
+      "kind": "concept",
+      "title": "Declaration Files",
+      "language": "typescript",
+      "prereqs": [
+        "ts.aliases"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "32-declaration-files"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.error-handling",
+      "kind": "concept",
+      "title": "Error Handling Types",
+      "language": "typescript",
+      "prereqs": [
+        "ts.guards"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "45-error-handling"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.api-design",
+      "kind": "concept",
+      "title": "Type-Safe API Design",
+      "language": "typescript",
+      "summary": "Wire vs domain, validate unknown, envelopes",
+      "prereqs": [
+        "ts.error-handling",
+        "ts.generic-patterns"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "48-api-design"
+      },
+      "tags": [
+        "ready"
+      ]
+    },
+    {
+      "id": "ts.classes",
+      "kind": "concept",
+      "title": "Classes (scaffold)",
+      "language": "typescript",
+      "prereqs": [
+        "ts.structural"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "27-classes"
+      },
+      "tags": [
+        "scaffold"
+      ],
+      "related": [
+        "js.classes"
+      ]
+    },
+    {
+      "id": "ts.tsconfig",
+      "kind": "concept",
+      "title": "tsconfig Laboratory (scaffold)",
+      "language": "typescript",
+      "prereqs": [
+        "ts.toolchain"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "40-tsconfig"
+      },
+      "tags": [
+        "scaffold"
+      ]
+    },
+    {
+      "id": "ts.testing",
+      "kind": "concept",
+      "title": "Testing with Types (scaffold)",
+      "language": "typescript",
+      "prereqs": [
+        "ts.api-design"
+      ],
+      "moduleRef": {
+        "labId": "typescript",
+        "moduleId": "61-testing"
+      },
+      "tags": [
+        "scaffold"
+      ]
+    },
+    {
+      "id": "dsa.pattern.hashmap",
+      "kind": "pattern",
+      "title": "Hash Map Pattern",
+      "language": "cross",
+      "summary": "Complement lookup, frequency, membership",
+      "prereqs": [
+        "py.values-types"
+      ],
+      "tags": [
+        "interview"
+      ],
+      "related": [
+        "js.objects",
+        "py.values-types",
+        "py.builtin-structures",
+        "ts.objects"
+      ]
+    },
+    {
+      "id": "dsa.pattern.stack",
+      "kind": "pattern",
+      "title": "Stack Pattern",
+      "language": "cross",
+      "prereqs": [
+        "py.control-flow"
+      ],
+      "tags": [
+        "interview"
+      ],
+      "related": [
+        "js.arrays",
+        "py.control-flow",
+        "py.builtin-structures"
+      ]
+    },
+    {
+      "id": "dsa.pattern.arrays",
+      "kind": "pattern",
+      "title": "Array Patterns",
+      "language": "cross",
+      "prereqs": [
+        "py.control-flow"
+      ],
+      "tags": [
+        "interview"
+      ],
+      "related": [
+        "js.arrays",
+        "py.control-flow",
+        "py.builtin-structures",
+        "ts.objects"
+      ]
+    },
+    {
+      "id": "dsa.pattern.two-pointers",
+      "kind": "pattern",
+      "title": "Two Pointers",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.arrays"
+      ],
+      "tags": [
+        "interview"
+      ],
+      "related": [
+        "js.arrays",
+        "py.control-flow"
+      ]
+    },
+    {
+      "id": "dsa.pattern.sliding-window",
+      "kind": "pattern",
+      "title": "Sliding Window",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.two-pointers"
+      ],
+      "tags": [
+        "interview"
+      ],
+      "related": [
+        "js.arrays",
+        "py.strings",
+        "py.builtin-structures"
+      ]
+    },
+    {
+      "id": "dsa.pattern.binary-search",
+      "kind": "pattern",
+      "title": "Binary Search",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.arrays"
+      ],
+      "tags": [
+        "interview"
+      ],
+      "related": [
+        "js.control-flow",
+        "py.control-flow",
+        "py.complexity"
+      ]
+    },
+    {
+      "id": "dsa.pattern.bfs-dfs",
+      "kind": "pattern",
+      "title": "BFS / DFS / Graphs",
+      "language": "cross",
+      "prereqs": [
+        "py.functions"
+      ],
+      "tags": [
+        "interview"
+      ],
+      "related": [
+        "js.functions",
+        "py.functions",
+        "js.objects"
+      ]
+    },
+    {
+      "id": "dsa.pattern.tree",
+      "kind": "pattern",
+      "title": "Tree Recursion",
+      "language": "cross",
+      "prereqs": [
+        "py.functions"
+      ],
+      "tags": [
+        "interview"
+      ],
+      "related": [
+        "js.functions",
+        "py.functions",
+        "js.classes"
+      ]
+    },
+    {
+      "id": "dsa.pattern.dp",
+      "kind": "pattern",
+      "title": "Dynamic Programming",
+      "language": "cross",
+      "prereqs": [
+        "py.control-flow"
+      ],
+      "tags": [
+        "interview"
+      ],
+      "related": [
+        "js.control-flow",
+        "py.control-flow",
+        "py.complexity"
+      ]
+    },
+    {
+      "id": "dsa.pattern.backtracking",
+      "kind": "pattern",
+      "title": "Backtracking",
+      "language": "cross",
+      "prereqs": [
+        "py.functions"
+      ],
+      "tags": [
+        "interview"
+      ],
+      "related": [
+        "js.functions",
+        "py.functions",
+        "js.arrays"
+      ]
+    },
+    {
+      "id": "dsa.pattern.greedy",
+      "kind": "pattern",
+      "title": "Greedy",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.arrays"
+      ],
+      "tags": [
+        "interview"
+      ],
+      "related": [
+        "js.arrays",
+        "py.control-flow",
+        "py.complexity"
+      ]
+    },
+    {
+      "id": "challenge.two-sum",
+      "kind": "challenge",
+      "title": "Two Sum",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.hashmap"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0001"
+      },
+      "related": [
+        "js.objects",
+        "py.values-types",
+        "py.builtin-structures",
+        "ts.objects"
+      ]
+    },
+    {
+      "id": "challenge.valid-parentheses",
+      "kind": "challenge",
+      "title": "Valid Parentheses",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.stack"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0002"
+      },
+      "related": [
+        "js.arrays",
+        "py.control-flow",
+        "py.builtin-structures"
+      ]
+    },
+    {
+      "id": "challenge.max-subarray",
+      "kind": "challenge",
+      "title": "Maximum Subarray",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.dp",
+        "dsa.pattern.arrays"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0003"
+      },
+      "related": [
+        "js.control-flow",
+        "py.control-flow",
+        "py.complexity",
+        "js.arrays",
+        "py.builtin-structures"
+      ]
+    },
+    {
+      "id": "challenge.binary-search",
+      "kind": "challenge",
+      "title": "Binary Search",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.binary-search"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0005"
+      },
+      "related": [
+        "js.control-flow",
+        "py.control-flow",
+        "py.complexity"
+      ]
+    },
+    {
+      "id": "challenge.longest-substring",
+      "kind": "challenge",
+      "title": "Longest Substring Without Repeating",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.sliding-window"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0009"
+      },
+      "related": [
+        "js.arrays",
+        "py.strings",
+        "py.builtin-structures"
+      ]
+    },
+    {
+      "id": "challenge.group-anagrams",
+      "kind": "challenge",
+      "title": "Group Anagrams",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.hashmap"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0013"
+      },
+      "related": [
+        "js.objects",
+        "py.values-types",
+        "py.builtin-structures",
+        "ts.objects"
+      ]
+    },
+    {
+      "id": "challenge.three-sum",
+      "kind": "challenge",
+      "title": "3Sum",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.two-pointers"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0018"
+      },
+      "related": [
+        "js.arrays",
+        "py.control-flow"
+      ]
+    },
+    {
+      "id": "challenge.daily-temperatures",
+      "kind": "challenge",
+      "title": "Daily Temperatures",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.stack"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0023"
+      },
+      "related": [
+        "js.arrays",
+        "py.control-flow",
+        "py.builtin-structures"
+      ]
+    },
+    {
+      "id": "challenge.num-islands",
+      "kind": "challenge",
+      "title": "Number of Islands",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.bfs-dfs"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0007"
+      },
+      "related": [
+        "js.functions",
+        "py.functions",
+        "js.objects"
+      ]
+    },
+    {
+      "id": "challenge.course-schedule",
+      "kind": "challenge",
+      "title": "Course Schedule",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.bfs-dfs"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0040"
+      },
+      "related": [
+        "js.functions",
+        "py.functions",
+        "js.objects"
+      ]
+    },
+    {
+      "id": "challenge.coin-change",
+      "kind": "challenge",
+      "title": "Coin Change",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.dp"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0036"
+      },
+      "related": [
+        "js.control-flow",
+        "py.control-flow",
+        "py.complexity"
+      ]
+    },
+    {
+      "id": "challenge.combination-sum",
+      "kind": "challenge",
+      "title": "Combination Sum",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.backtracking"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0045"
+      },
+      "related": [
+        "js.functions",
+        "py.functions",
+        "js.arrays"
+      ]
+    },
+    {
+      "id": "challenge.jump-game",
+      "kind": "challenge",
+      "title": "Jump Game",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.greedy"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0038"
+      },
+      "related": [
+        "js.arrays",
+        "py.control-flow",
+        "py.complexity"
+      ]
+    },
+    {
+      "id": "challenge.tree-diameter",
+      "kind": "challenge",
+      "title": "Diameter of Binary Tree",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.tree"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0030"
+      },
+      "related": [
+        "js.functions",
+        "py.functions",
+        "js.classes"
+      ]
+    },
+    {
+      "id": "challenge.koko",
+      "kind": "challenge",
+      "title": "Koko Eating Bananas",
+      "language": "cross",
+      "prereqs": [
+        "dsa.pattern.binary-search"
+      ],
+      "challengeRef": {
+        "challengeId": "seed-0033"
+      },
+      "related": [
+        "js.control-flow",
+        "py.control-flow",
+        "py.complexity"
+      ]
+    }
+  ]
+}

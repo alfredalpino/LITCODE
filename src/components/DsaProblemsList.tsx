@@ -4,11 +4,12 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { CheckCircle2, Circle, Shuffle, Star } from "lucide-react";
 import clsx from "clsx";
 import type { DsaIndexItem } from "../lib/dsa/types";
-import { acceptanceRate } from "../lib/stats";
 import type { LcCategoryId } from "../lib/leetcode-categories";
 import { problemInCategory } from "../lib/leetcode-categories";
 import { FeatureCards } from "./FeatureCards";
 import { TopicBrowser } from "./TopicBrowser";
+import { ChallengeKindBadge } from "./ContentStatusBadge";
+import { EmptyState } from "./EmptyState";
 
 interface DsaProblemsListProps {
   items: DsaIndexItem[];
@@ -21,6 +22,8 @@ interface DsaProblemsListProps {
   companyFilter: string | null;
   favoritesOnly?: boolean;
   difficultyPreset?: "All" | "Easy" | "Medium" | "Hard";
+  /** Default true — Challenges lead with judged set (LAB_ARCHITECTURE migration step B). */
+  defaultJudgeOnly?: boolean;
   title?: string;
   subtitle?: string;
   onOpen: (id: string) => void;
@@ -48,6 +51,7 @@ export function DsaProblemsList({
   companyFilter,
   favoritesOnly = false,
   difficultyPreset = "All",
+  defaultJudgeOnly = true,
   title = "DSA Arena",
   subtitle,
   onOpen,
@@ -59,7 +63,7 @@ export function DsaProblemsList({
   const [topic, setTopic] = useState("All");
   const [category, setCategory] = useState<LcCategoryId>("all");
   const [status, setStatus] = useState<"All" | "Todo" | "Solved">("All");
-  const [judgeOnly, setJudgeOnly] = useState(false);
+  const [judgeOnly, setJudgeOnly] = useState(defaultJudgeOnly);
   const [page, setPage] = useState(0);
   const pageSize = 50;
   const listAnchor = useRef<HTMLDivElement>(null);
@@ -150,41 +154,53 @@ export function DsaProblemsList({
     scrollToList();
   }
 
+  const solvedJudged = useMemo(
+    () => items.filter((i) => i.hasJudge && solved[i.id]).length,
+    [items, solved]
+  );
+
   return (
     <div className="lc-feed">
+      <header className="lf-challenges-head">
+        <h1>{title}</h1>
+        <p className="lc-muted">
+          {judgeOnly
+            ? `${judgedCount} auto-judged challenges you can Run & Submit in LITCODE.`
+            : "Full index includes external / link-out practice — badges show which is which."}
+        </p>
+      </header>
       <FeatureCards
         cards={[
           {
+            id: "judge",
+            title: "Judged challenges",
+            subtitle: judgeOnly
+              ? `${judgedCount} auto-judged in LITCODE · Run & Submit`
+              : "Show curated auto-judged set",
+            tone: "amber",
+            icon: "judge",
+            active: judgeOnly,
+            cta: judgeOnly ? "Showing judged" : "Show judged only",
+            onClick: () => {
+              setJudgeOnly(true);
+              onCompanyFilter(null);
+              setPage(0);
+              scrollToList();
+            },
+          },
+          {
             id: "problems",
-            title: title,
+            title: "External practice",
             subtitle:
               subtitle ??
-              `${total.toLocaleString()} industry-level drills${
+              `${total.toLocaleString()} indexed titles (mostly link-out)${
                 companyFilter ? ` · ${companyFilter}` : ""
               }`,
             tone: "blue",
             icon: "problems",
             active: !judgeOnly && !companyFilter && category === "all" && topic === "All",
-            cta: "Browse all",
+            cta: judgeOnly ? "Browse full index" : "Browsing all",
             onClick: resetListFilters,
-          },
-          {
-            id: "judge",
-            title: "Auto-Judge",
-            subtitle: judgeOnly
-              ? `Showing ${judgedCount.toLocaleString()} judged patterns · click to clear`
-              : "Filter judged drills · Run & Submit ready",
-            tone: "amber",
-            icon: "judge",
-            active: judgeOnly,
-            cta: judgeOnly ? "Clear filter" : "Show judged only",
-            onClick: () => {
-              const next = !judgeOnly;
-              setJudgeOnly(next);
-              if (next) onCompanyFilter(null);
-              setPage(0);
-              scrollToList();
-            },
           },
           {
             id: "company",
@@ -209,6 +225,26 @@ export function DsaProblemsList({
           },
         ]}
       />
+
+      {!judgeOnly && (
+        <p className="lf-honesty-banner" role="status">
+          Most of this index opens on LeetCode (link-out). LITCODE judges{" "}
+          <strong>{judgedCount}</strong> problems in-app — use{" "}
+          <button
+            type="button"
+            className="lf-honesty-banner__link"
+            onClick={() => {
+              setJudgeOnly(true);
+              onCompanyFilter(null);
+              setPage(0);
+              scrollToList();
+            }}
+          >
+            Show judged only
+          </button>{" "}
+          to stay on the product wedge.
+        </p>
+      )}
 
       <div ref={listAnchor} />
 
@@ -278,83 +314,107 @@ export function DsaProblemsList({
             ))}
         </select>
         <div className="lc-toolbar__solved">
-          {solvedCount}/{total.toLocaleString()} Solved
+          {judgeOnly
+            ? `${solvedJudged}/${judgedCount} judged solved`
+            : `${solvedCount}/${total.toLocaleString()} marked`}
           <button type="button" className="lc-icon-btn" onClick={shuffleOpen} aria-label="Shuffle">
             <Shuffle size={14} />
           </button>
         </div>
       </div>
 
-      <div className="lc-table-wrap">
-        <table className="lc-table">
-          <thead>
-            <tr>
-              <th className="col-status" />
-              <th className="col-title">Title</th>
-              <th className="col-acc">{companyFilter ? "Frequency" : "Acceptance"}</th>
-              <th className="col-diff">Difficulty</th>
-              <th className="col-fav" />
-            </tr>
-          </thead>
-          <tbody>
-            {pageItems.map((it) => {
-              const done = !!solved[it.id];
-              return (
-                <tr key={it.id} onClick={() => onOpen(it.id)}>
-                  <td className="col-status">
-                    {done ? (
-                      <CheckCircle2 size={16} className="is-solved" />
-                    ) : (
-                      <Circle size={16} className="is-todo" />
-                    )}
-                  </td>
-                  <td className="col-title">
-                    <span className="lc-table__num">{it.num}.</span> {it.title}
-                    {it.hasJudge && <span className="lc-table__meta">Judge</span>}
-                    {it.kind === "leetcode" && <span className="lc-table__meta">LC</span>}
-                  </td>
-                  <td className="col-acc">
-                    {companyFilter
-                      ? `${(it.frequency ?? 0).toFixed(1)}%`
-                      : `${acceptanceRate(it.id)}%`}
-                  </td>
-                  <td className={clsx("col-diff", `is-${it.difficulty.toLowerCase()}`)}>
-                    {it.difficulty}
-                  </td>
-                  <td className="col-fav">
-                    <button
-                      type="button"
-                      className={clsx("fav-btn", favorites.includes(it.id) && "is-on")}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleFavorite(it.id);
-                      }}
-                    >
-                      <Star size={14} />
-                    </button>
-                  </td>
+      {filtered.length === 0 ? (
+        <EmptyState
+          title={favoritesOnly ? "No favorites yet" : "No problems match"}
+          body={
+            favoritesOnly
+              ? "Star problems in the table to build a focused list."
+              : searchQuery.trim()
+                ? `Nothing for “${searchQuery.trim()}” — widen filters or clear search.`
+                : "Try clearing judged-only, company pack, or status filters."
+          }
+          action={
+            !favoritesOnly ? (
+              <button type="button" className="run-btn" onClick={resetListFilters}>
+                Reset filters
+              </button>
+            ) : undefined
+          }
+        />
+      ) : (
+        <>
+          <div className="lc-table-wrap">
+            <table className="lc-table">
+              <thead>
+                <tr>
+                  <th className="col-status" />
+                  <th className="col-title">Title</th>
+                  <th className="col-acc">{companyFilter ? "Frequency" : "Kind"}</th>
+                  <th className="col-diff">Difficulty</th>
+                  <th className="col-fav" />
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+              </thead>
+              <tbody>
+                {pageItems.map((it) => {
+                  const done = !!solved[it.id];
+                  return (
+                    <tr key={it.id} onClick={() => onOpen(it.id)}>
+                      <td className="col-status">
+                        {done ? (
+                          <CheckCircle2 size={16} className="is-solved" />
+                        ) : (
+                          <Circle size={16} className="is-todo" />
+                        )}
+                      </td>
+                      <td className="col-title">
+                        <span className="lc-table__num">{it.num}.</span> {it.title}
+                      </td>
+                      <td className="col-acc">
+                        {companyFilter ? (
+                          `${(it.frequency ?? 0).toFixed(1)}%`
+                        ) : (
+                          <ChallengeKindBadge hasJudge={it.hasJudge} kind={it.kind} />
+                        )}
+                      </td>
+                      <td className={clsx("col-diff", `is-${it.difficulty.toLowerCase()}`)}>
+                        {it.difficulty}
+                      </td>
+                      <td className="col-fav">
+                        <button
+                          type="button"
+                          className={clsx("fav-btn", favorites.includes(it.id) && "is-on")}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onToggleFavorite(it.id);
+                          }}
+                        >
+                          <Star size={14} />
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
 
-      <div className="lc-pager">
-        <button type="button" disabled={page === 0} onClick={() => setPage((p) => p - 1)}>
-          Prev
-        </button>
-        <span>
-          {page + 1} / {pageCount}
-        </span>
-        <button
-          type="button"
-          disabled={page >= pageCount - 1}
-          onClick={() => setPage((p) => p + 1)}
-        >
-          Next
-        </button>
-      </div>
+          <div className="lc-pager">
+            <button type="button" disabled={page === 0} onClick={() => setPage((p) => p - 1)}>
+              Prev
+            </button>
+            <span>
+              {page + 1} / {pageCount}
+            </span>
+            <button
+              type="button"
+              disabled={page >= pageCount - 1}
+              onClick={() => setPage((p) => p + 1)}
+            >
+              Next
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 }

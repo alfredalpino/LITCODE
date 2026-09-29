@@ -12,6 +12,7 @@ import {
   Star,
 } from "lucide-react";
 import type { UserProfile } from "@/components/StudioProvider";
+import { ProgressNextSteps } from "@/components/ProgressNextSteps";
 
 interface ProfileViewProps {
   profile: UserProfile;
@@ -22,6 +23,11 @@ interface ProfileViewProps {
   totalLabs: number;
   streak: number;
   favorites: number;
+  progress?: Record<string, boolean>;
+  dsaSolvedMap?: Record<string, boolean>;
+  onOpenModule?: (labId: string, moduleId: string) => void;
+  onOpenChallenge?: (challengeId: string) => void;
+  onOpenProgress?: () => void;
 }
 
 export function ProfileView({
@@ -33,12 +39,18 @@ export function ProfileView({
   totalLabs,
   streak,
   favorites,
+  progress = {},
+  dsaSolvedMap = {},
+  onOpenModule,
+  onOpenChallenge,
+  onOpenProgress,
 }: ProfileViewProps) {
   const [copied, setCopied] = useState(false);
   const [editing, setEditing] = useState(false);
 
   const shareUrl = useMemo(() => {
-    if (typeof window === "undefined") return `https://sde-laboratory-studio.netlify.app/u/${profile.username}`;
+    // SSR fallback uses current Netlify slug until site rename (see LITCODE/README.md).
+    if (typeof window === "undefined") return `https://litcode.netlify.app/u/${profile.username}`;
     return `${window.location.origin}/profile?u=${encodeURIComponent(profile.username)}`;
   }, [profile.username]);
 
@@ -176,6 +188,26 @@ export function ProfileView({
         )}
       </section>
 
+      <ProgressNextSteps
+        progress={progress}
+        dsaSolved={dsaSolvedMap}
+        onOpenModule={onOpenModule}
+        onOpenChallenge={onOpenChallenge}
+      />
+
+      {onOpenProgress && (
+        <section className="lc-card lc-card--wide">
+          <h3>Skill evidence</h3>
+          <p className="lc-muted">
+            Known / learning / weak / mastered buckets live on Progress — local events + skill graph
+            across JS, TypeScript, Python, and judged challenges.
+          </p>
+          <button type="button" className="run-btn" onClick={onOpenProgress}>
+            Open Progress
+          </button>
+        </section>
+      )}
+
       <section className="lc-card lc-card--wide">
         <h3>Share link</h3>
         <div className="lc-profile__linkrow">
@@ -190,7 +222,8 @@ export function ProfileView({
           your public card shows username and stats.
         </p>
         <p className="lc-card__hint">
-          Bank: {totalDsa.toLocaleString()} interview problems · {totalLabs} lab modules
+          Bank: {totalDsa.toLocaleString()} indexed titles · {totalLabs} lab modules (see Ready
+          badges — scaffolds are not complete labs)
         </p>
       </section>
     </div>

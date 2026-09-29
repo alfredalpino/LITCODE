@@ -1,0 +1,1 @@
+Tuple infer with rest.

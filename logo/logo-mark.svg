@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="LITCODE mark">
+  <title>LITCODE mark</title>
+  <!-- Practice loop with deliberate break (gap at ~1–2 o’clock) -->
+  <path
+    d="M44.8 14.6c8.6 3.4 14.7 11.7 14.7 21.6 0 12.7-10.3 23-23 23S13.5 49 13.5 36.2 23.8 13.2 36.5 13.2"
+    stroke="#7AA2F7"
+    stroke-width="6.5"
+    stroke-linecap="square"
+  />
+  <!-- Leading terminal = run head -->
+  <rect
+    x="41.5"
+    y="11.2"
+    width="7.5"
+    height="7.5"
+    rx="1"
+    fill="#7AA2F7"
+    transform="rotate(28 45.25 14.95)"
+  />
+</svg>

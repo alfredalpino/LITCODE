@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import type { NavSection, NotifItem } from "@/components/AppNav";
-import type { RailTab } from "@/components/LeftRail";
+import type { ProblemsRail } from "@/types/workspace";
 import { loadCatalog } from "@/lib/content";
 import { loadCompanyPacks, loadDsaIndex } from "@/lib/dsa/loader";
 import type { CompanyPacksFile, DsaIndexItem } from "@/lib/dsa/types";
@@ -20,10 +20,11 @@ import {
   saveProgress,
   type ProgressMap,
 } from "@/lib/progress";
+import { appendEvent } from "@/lib/events";
+import { track } from "@/lib/analytics";
 import {
   loadDsaSolved,
   loadFavorites,
-  loadStreak,
   markDsaSolved,
   toggleFavorite,
   touchStreak,
@@ -77,8 +78,8 @@ function loadNotifs(): NotifItem[] {
   return [
     {
       id: "welcome",
-      title: "Welcome to SDE Lab",
-      body: "Problems for interview DSA · Labs to learn JS/Python/TS by doing.",
+      title: "Welcome to LITCODE",
+      body: "Labs → Problems → Interview share one skill graph. Prove what you think you know.",
       ts: Date.now(),
       read: false,
     },
@@ -99,7 +100,7 @@ function loadProfile(): UserProfile {
     location: "",
     github: "",
     website: "",
-    bio: "Practicing interview DSA and language labs in SDE Laboratory Studio.",
+    bio: "Practicing interview DSA and language labs in LITCODE.",
     avatarHue: 28,
   };
 }
@@ -111,8 +112,8 @@ type StudioContextValue = {
   setMode: (m: AppMode) => void;
   section: NavSection;
   setSection: (s: NavSection) => void;
-  rail: RailTab;
-  setRail: (r: RailTab) => void;
+  rail: ProblemsRail;
+  setRail: (r: ProblemsRail) => void;
   view: WorkspaceView;
   setView: (v: WorkspaceView) => void;
   labId: string;
@@ -157,7 +158,7 @@ type StudioContextValue = {
   hardProblems: DsaIndexItem[];
   completed: boolean;
   goSection: (s: NavSection) => void;
-  goRail: (tab: RailTab) => void;
+  goRail: (tab: ProblemsRail) => void;
   openModule: (mod: LabModule) => void;
   openDsa: (id: string) => void;
   toggleComplete: () => void;
@@ -170,6 +171,18 @@ type StudioContextValue = {
 
 const StudioContext = createContext<StudioContextValue | null>(null);
 
+function initialSection(): NavSection {
+  if (typeof window === "undefined") return "labs";
+  const p = window.location.pathname;
+  if (p.startsWith("/labs")) return "labs";
+  if (p.startsWith("/progress")) return "progress";
+  if (p.startsWith("/contest")) return "contest";
+  if (p.startsWith("/interview")) return "interview";
+  if (p.startsWith("/profile")) return "profile";
+  if (p.startsWith("/companies") || p.startsWith("/problems")) return "problems";
+  return "labs";
+}
+
 export function useStudio() {
   const ctx = useContext(StudioContext);
   if (!ctx) throw new Error("useStudio must be used within StudioProvider");
@@ -179,9 +192,9 @@ export function useStudio() {
 export function StudioProvider({ children }: { children: ReactNode }) {
   const [catalog, setCatalog] = useState<Catalog | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [mode, setMode] = useState<AppMode>("dsa");
-  const [section, setSection] = useState<NavSection>("problems");
-  const [rail, setRail] = useState<RailTab>("explore");
+  const [mode, setMode] = useState<AppMode>("labs");
+  const [section, setSection] = useState<NavSection>(initialSection);
+  const [rail, setRail] = useState<ProblemsRail>("explore");
   const [view, setView] = useState<WorkspaceView>("list");
   const [labId, setLabId] = useState("javascript");
   const [moduleId, setModuleId] = useState<string | null>(null);
@@ -220,21 +233,22 @@ export function StudioProvider({ children }: { children: ReactNode }) {
         const first = c.labs[0];
         if (first) setLabId(first.id);
       })
-      .catch((err: Error) => setError(err.message));
+      .catch((err: Error) => setError(err.message || "Failed to load catalog"));
+  }, []);
 
-    loadDsaIndex()
-      .then((file) => {
+  // Always load DSA + company packs after hydrate (Problems/Companies need them).
+  useEffect(() => {
+    if (!hydrated) return;
+    Promise.all([loadDsaIndex(), loadCompanyPacks()])
+      .then(([file, packs]) => {
         setDsaItems(file.index);
         setDsaTopics(file.catalog.topics);
         setDsaCompanies(file.catalog.companies);
         setDsaTotal(file.catalog.total);
+        setCompanyPacks(packs);
       })
       .catch(() => undefined);
-
-    loadCompanyPacks()
-      .then(setCompanyPacks)
-      .catch(() => undefined);
-  }, []);
+  }, [hydrated]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -242,7 +256,7 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     document.documentElement.setAttribute("data-theme", settings.theme);
     document.documentElement.style.setProperty("--editor-font-size", `${settings.fontSize}px`);
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", settings.theme === "light" ? "#f4f5f7" : "#0e1218");
+    if (meta) meta.setAttribute("content", settings.theme === "light" ? "#f5f6f8" : "#1a1b26");
   }, [settings, hydrated]);
 
   useEffect(() => {
@@ -340,36 +354,23 @@ export function StudioProvider({ children }: { children: ReactNode }) {
       setContestDiff("All");
     } else if (s === "labs") {
       setMode("labs");
-      setRail("library");
     } else if (s === "contest") {
       setMode("dsa");
       setRail("explore");
       setContestDiff("Hard");
     } else if (s === "interview") {
       setMode("dsa");
-      setRail("study");
-    } else if (s === "profile") {
-      setRail("lists");
     }
   }, []);
 
-  const goRail = useCallback((tab: RailTab) => {
+  const goRail = useCallback((tab: ProblemsRail) => {
     setRail(tab);
     setView("list");
-    if (tab === "library") {
-      setSection("labs");
-      setMode("labs");
-    } else if (tab === "explore") {
-      setSection("problems");
-      setMode("dsa");
+    setSection("problems");
+    setMode("dsa");
+    if (tab === "explore") {
       setCompanyFilter(null);
       setContestDiff("All");
-    } else if (tab === "study") {
-      setSection("interview");
-      setMode("dsa");
-    } else if (tab === "lists") {
-      setSection("problems");
-      setMode("dsa");
     }
   }, []);
 
@@ -380,7 +381,13 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     setView("solve");
     setMobilePane("read");
     setStreak(touchStreak());
-  }, []);
+    appendEvent({
+      type: "module_opened",
+      labId,
+      moduleId: mod.id,
+    });
+    track("module_opened", { labId, moduleId: mod.id });
+  }, [labId]);
 
   const openDsa = useCallback((id: string) => {
     setDsaId(id);
@@ -388,6 +395,7 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     setView("solve");
     setMobilePane("read");
     setStreak(touchStreak());
+    track("challenge_opened", { challengeId: id });
   }, []);
 
   const toggleComplete = useCallback(() => {
@@ -399,8 +407,14 @@ export function StudioProvider({ children }: { children: ReactNode }) {
       return next;
     });
     setStreak(touchStreak());
+    appendEvent({
+      type: "module_completed",
+      labId: lab.id,
+      moduleId: module.id,
+      meta: { completed: !progress[key] },
+    });
     pushNotif("Module updated", `${module.title} progress saved.`);
-  }, [lab, module, pushNotif]);
+  }, [lab, module, pushNotif, progress]);
 
   const markSolved = useCallback((id: string) => {
     setDsaSolved(markDsaSolved(id));
