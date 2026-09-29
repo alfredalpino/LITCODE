@@ -3,7 +3,10 @@ import { CheckCircle2, Circle, Shuffle, Star } from "lucide-react";
 import clsx from "clsx";
 import type { DsaIndexItem } from "../lib/dsa/types";
 import { acceptanceRate } from "../lib/stats";
+import type { LcCategoryId } from "../lib/leetcode-categories";
+import { problemInCategory } from "../lib/leetcode-categories";
 import { FeatureCards } from "./FeatureCards";
+import { TopicBrowser } from "./TopicBrowser";
 
 interface DsaProblemsListProps {
   items: DsaIndexItem[];
@@ -24,6 +27,15 @@ interface DsaProblemsListProps {
   trendingCompany?: string | null;
 }
 
+const LC_CATEGORY_LABEL: Record<LcCategoryId, string> = {
+  all: "All Topics",
+  algorithms: "Algorithms",
+  database: "Database",
+  shell: "Shell",
+  concurrency: "Concurrency",
+  pandas: "pandas",
+};
+
 export function DsaProblemsList({
   items,
   companies,
@@ -43,6 +55,7 @@ export function DsaProblemsList({
 }: DsaProblemsListProps) {
   const [diff, setDiff] = useState<"All" | "Easy" | "Medium" | "Hard">(difficultyPreset);
   const [topic, setTopic] = useState("All");
+  const [category, setCategory] = useState<LcCategoryId>("all");
   const [status, setStatus] = useState<"All" | "Todo" | "Solved">("All");
   const [judgeOnly, setJudgeOnly] = useState(false);
   const [page, setPage] = useState(0);
@@ -56,16 +69,17 @@ export function DsaProblemsList({
 
   useEffect(() => {
     setPage(0);
-  }, [companyFilter, favoritesOnly, searchQuery, judgeOnly]);
+  }, [companyFilter, favoritesOnly, searchQuery, judgeOnly, category, topic]);
 
   const topicCounts = useMemo(() => {
     const map: Record<string, number> = {};
     for (const it of items) {
-      for (const t of it.topics) map[t] = (map[t] ?? 0) + 1;
+      for (const t of it.topics) {
+        if (!t || t === "None") continue;
+        map[t] = (map[t] ?? 0) + 1;
+      }
     }
-    return Object.entries(map)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 14);
+    return Object.entries(map).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   }, [items]);
 
   const filtered = useMemo(() => {
@@ -75,6 +89,7 @@ export function DsaProblemsList({
       if (favoritesOnly && !favorites.includes(it.id)) return false;
       if (judgeOnly && !it.hasJudge) return false;
       if (diff !== "All" && it.difficulty !== diff) return false;
+      if (!problemInCategory(it.topics, category)) return false;
       if (topic !== "All" && !it.topics.includes(topic)) return false;
       if (company !== "All" && !it.companies.includes(company)) return false;
       const done = !!solved[it.id];
@@ -98,6 +113,7 @@ export function DsaProblemsList({
     searchQuery,
     diff,
     topic,
+    category,
     companyFilter,
     status,
     solved,
@@ -121,6 +137,17 @@ export function DsaProblemsList({
     listAnchor.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  function resetListFilters() {
+    setJudgeOnly(false);
+    setTopic("All");
+    setCategory("all");
+    setDiff("All");
+    setStatus("All");
+    onCompanyFilter(null);
+    setPage(0);
+    scrollToList();
+  }
+
   return (
     <div className="lc-feed">
       <FeatureCards
@@ -135,16 +162,8 @@ export function DsaProblemsList({
               }`,
             tone: "blue",
             icon: "problems",
-            active: !judgeOnly && !companyFilter,
-            onClick: () => {
-              setJudgeOnly(false);
-              setTopic("All");
-              setDiff("All");
-              setStatus("All");
-              onCompanyFilter(null);
-              setPage(0);
-              scrollToList();
-            },
+            active: !judgeOnly && !companyFilter && category === "all" && topic === "All",
+            onClick: resetListFilters,
           },
           {
             id: "judge",
@@ -187,43 +206,29 @@ export function DsaProblemsList({
       />
 
       <div ref={listAnchor} />
-      <div className="lc-topics">
-        {topicCounts.map(([name, count]) => (
-          <button
-            key={name}
-            type="button"
-            className={clsx("lc-topic", topic === name && "is-active")}
-            onClick={() => {
-              setTopic(topic === name ? "All" : name);
-              setPage(0);
-            }}
-          >
-            {name} <em>{count}</em>
-          </button>
-        ))}
-      </div>
 
-      <div className="lc-subcats">
-        {["All Topics", "Algorithms", "Database", "Shell", "Concurrency", "JavaScript"].map(
-          (label, i) => (
-            <button
-              key={label}
-              type="button"
-              className={clsx("lc-subcat", i === 0 && topic === "All" && "is-active")}
-              onClick={() => {
-                setTopic("All");
-                setPage(0);
-              }}
-            >
-              {label}
-            </button>
-          )
-        )}
-      </div>
+      <TopicBrowser
+        topicCounts={topicCounts}
+        activeTopic={topic}
+        activeCategory={category}
+        onTopic={(t) => {
+          setTopic(t);
+          setPage(0);
+        }}
+        onCategory={(c) => {
+          setCategory(c);
+          setTopic("All");
+          setPage(0);
+        }}
+      />
 
       <div className="lc-toolbar">
         <div className="lc-toolbar__hint">
           {filtered.length.toLocaleString()} questions · page {page + 1}/{pageCount}
+          {category !== "all" && (
+            <span className="lc-toolbar__chip">{LC_CATEGORY_LABEL[category]}</span>
+          )}
+          {topic !== "All" && <span className="lc-toolbar__chip">{topic}</span>}
         </div>
         <select
           value={diff}
@@ -262,10 +267,10 @@ export function DsaProblemsList({
           )
             .slice(0, 120)
             .map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
         </select>
         <div className="lc-toolbar__solved">
           {solvedCount}/{total.toLocaleString()} Solved

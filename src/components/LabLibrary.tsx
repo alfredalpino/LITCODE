@@ -163,16 +163,21 @@ export function LabLibrary({
       </div>
 
       <div className="lc-subcats">
-        {["All Topics", "Language", "Runtime", "Interview", "Projects"].map((label, i) => (
-          <button
-            key={label}
-            type="button"
-            className={clsx("lc-subcat", i === 0 && topic === "All" && "is-active")}
-            onClick={() => setTopic("All")}
-          >
-            {label}
-          </button>
-        ))}
+        {["All Modules", "Fundamentals", "Runtime", "Interview", "Projects"].map(
+          (label) => (
+            <button
+              key={label}
+              type="button"
+              className={clsx(
+                "lc-subcat",
+                label === "All Modules" && topic === "All" && "is-active"
+              )}
+              onClick={() => setTopic("All")}
+            >
+              {label}
+            </button>
+          )
+        )}
       </div>
 
       <div className="lc-toolbar">
