@@ -1,4 +1,14 @@
-import { Building2, FlaskConical, ListChecks, PlayCircle, Shuffle, BookOpen } from "lucide-react";
+"use client";
+
+import {
+  Building2,
+  FlaskConical,
+  ListChecks,
+  PlayCircle,
+  Shuffle,
+  BookOpen,
+  ArrowUpRight,
+} from "lucide-react";
 import clsx from "clsx";
 
 export type FeatureCard = {
@@ -8,6 +18,7 @@ export type FeatureCard = {
   tone: "blue" | "amber" | "teal" | "violet";
   icon: "problems" | "judge" | "company" | "lab" | "run" | "refs";
   active?: boolean;
+  cta?: string;
   onClick: () => void;
 };
 
@@ -41,11 +52,15 @@ export function FeatureCards({ cards }: FeatureCardsProps) {
             )}
             onClick={card.onClick}
           >
-            <span className="lc-banner__icon" aria-hidden>
-              <Icon size={18} />
+            <span className="lc-banner__top">
+              <span className="lc-banner__icon" aria-hidden>
+                <Icon size={18} />
+              </span>
+              <ArrowUpRight size={14} className="lc-banner__go" aria-hidden />
             </span>
             <strong>{card.title}</strong>
             <span>{card.subtitle}</span>
+            {card.cta && <em className="lc-banner__cta">{card.cta}</em>}
           </button>
         );
       })}

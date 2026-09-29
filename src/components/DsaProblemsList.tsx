@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CheckCircle2, Circle, Shuffle, Star } from "lucide-react";
 import clsx from "clsx";
@@ -163,6 +165,7 @@ export function DsaProblemsList({
             tone: "blue",
             icon: "problems",
             active: !judgeOnly && !companyFilter && category === "all" && topic === "All",
+            cta: "Browse all",
             onClick: resetListFilters,
           },
           {
@@ -174,6 +177,7 @@ export function DsaProblemsList({
             tone: "amber",
             icon: "judge",
             active: judgeOnly,
+            cta: judgeOnly ? "Clear filter" : "Show judged only",
             onClick: () => {
               const next = !judgeOnly;
               setJudgeOnly(next);
@@ -191,6 +195,7 @@ export function DsaProblemsList({
             tone: "teal",
             icon: "company",
             active: !!companyFilter,
+            cta: companyFilter ? "Clear pack" : "Open pack",
             onClick: () => {
               if (companyFilter) {
                 onCompanyFilter(null);

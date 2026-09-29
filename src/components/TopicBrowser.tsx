@@ -43,7 +43,7 @@ export function TopicBrowser({
   onCategory,
   collapsedCount = 18,
 }: TopicBrowserProps) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   const visibleTopics = useMemo(
     () => topicsForCategory(topicCounts, activeCategory),

@@ -1,9 +1,18 @@
+"use client";
+
 import { useMemo, useState } from "react";
-import { CheckCircle2, Circle, Shuffle, Star } from "lucide-react";
+import {
+  BookOpen,
+  CheckCircle2,
+  Circle,
+  Code2,
+  Play,
+  Shuffle,
+  Star,
+} from "lucide-react";
 import clsx from "clsx";
-import type { Lab, LabModule } from "../types";
-import { acceptanceRate } from "../lib/stats";
-import { moduleKey } from "../lib/progress";
+import type { Lab, LabModule } from "@/types";
+import { moduleKey } from "@/lib/progress";
 import { FeatureCards } from "./FeatureCards";
 
 interface LabLibraryProps {
@@ -26,6 +35,12 @@ function difficultyFor(order: number, total: number): "Easy" | "Medium" | "Hard"
   return "Hard";
 }
 
+const LANG_BLURB: Record<string, string> = {
+  javascript: "Runtime, language core, and browser mental models — learn by predicting then running.",
+  python: "Pythonic DSA drills and language labs — predict, run, explain.",
+  typescript: "Types erase at runtime. Build intuition for what the compiler knows vs what survives.",
+};
+
 export function LabLibrary({
   labs,
   lab,
@@ -39,17 +54,13 @@ export function LabLibrary({
   onShuffle,
 }: LabLibraryProps) {
   const [diff, setDiff] = useState<"All" | "Easy" | "Medium" | "Hard">("All");
-  const [topic, setTopic] = useState("All");
   const [status, setStatus] = useState<"All" | "Todo" | "Solved">("All");
 
-  const topicCounts = useMemo(() => {
-    const map: Record<string, number> = {};
-    for (const m of lab.modules) {
-      const t = m.title.split(" ")[0] ?? "Other";
-      map[t] = (map[t] ?? 0) + 1;
-    }
-    return map;
-  }, [lab.modules]);
+  const solved = lab.modules.filter((m) => progress[moduleKey(lab.id, m.id)]).length;
+  const pct = lab.modules.length ? Math.round((solved / lab.modules.length) * 100) : 0;
+
+  const nextModule =
+    lab.modules.find((m) => !progress[moduleKey(lab.id, m.id)]) || lab.modules[0];
 
   const rows = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -57,7 +68,7 @@ export function LabLibrary({
       .map((m) => {
         const done = !!progress[moduleKey(lab.id, m.id)];
         const d = difficultyFor(m.order, lab.modules.length);
-        return { m, done, d, acc: acceptanceRate(m.id) };
+        return { m, done, d };
       })
       .filter(({ m, done, d }) => {
         const favId = `${lab.id}:${m.id}`;
@@ -65,10 +76,6 @@ export function LabLibrary({
         if (diff !== "All" && d !== diff) return false;
         if (status === "Todo" && done) return false;
         if (status === "Solved" && !done) return false;
-        if (topic !== "All") {
-          const first = m.title.split(" ")[0];
-          if (first !== topic) return false;
-        }
         if (!q) return true;
         return (
           m.title.toLowerCase().includes(q) ||
@@ -76,29 +83,72 @@ export function LabLibrary({
           String(m.order).includes(q)
         );
       });
-  }, [lab, progress, searchQuery, diff, topic, status, favoritesOnly, favorites]);
-
-  const solved = lab.modules.filter((m) => progress[moduleKey(lab.id, m.id)]).length;
+  }, [lab, progress, searchQuery, diff, status, favoritesOnly, favorites]);
 
   return (
-    <div className="lc-feed">
-      <div className="lc-lab-switch">
-        {labs.map((l) => (
-          <button
-            key={l.id}
-            type="button"
-            className={clsx("lc-lab-switch__btn", lab.id === l.id && "is-active")}
-            onClick={() => onLabChange(l.id)}
-          >
-            {l.short}
-            <em>{l.modules.length}</em>
-          </button>
-        ))}
-      </div>
+    <div className="lc-feed lc-labs">
+      <header className="lc-labs__hero">
+        <div className="lc-labs__hero-copy">
+          <p className="lc-labs__eyebrow">Learn by doing</p>
+          <h1>{lab.title}</h1>
+          <p>{LANG_BLURB[lab.id] ?? "Laboratory curriculum — learn by predicting, then running."}</p>
+          <div className="lc-labs__hero-actions">
+            <button
+              type="button"
+              className="run-btn"
+              disabled={!nextModule}
+              onClick={() => nextModule && onOpenModule(nextModule)}
+            >
+              <Play size={14} />
+              {solved === 0 ? "Start first module" : "Continue learning"}
+            </button>
+            <button type="button" className="lc-link" onClick={onShuffle}>
+              <Shuffle size={14} /> Shuffle module
+            </button>
+          </div>
+        </div>
+        <div className="lc-labs__ring" aria-label={`${pct}% complete`}>
+          <svg viewBox="0 0 84 84">
+            <circle cx="42" cy="42" r="34" className="lc-labs__ring-bg" />
+            <circle
+              cx="42"
+              cy="42"
+              r="34"
+              className="lc-labs__ring-fg"
+              style={{
+                strokeDasharray: `${2 * Math.PI * 34}`,
+                strokeDashoffset: `${2 * Math.PI * 34 * (1 - pct / 100)}`,
+              }}
+            />
+          </svg>
+          <div className="lc-labs__ring-label">
+            <strong>{pct}%</strong>
+            <span>
+              {solved}/{lab.modules.length}
+            </span>
+          </div>
+        </div>
+      </header>
 
-      {favoritesOnly && (
-        <p className="lc-banner-note">Showing favorites for {lab.title}. Switch labs above to see more.</p>
-      )}
+      <div className="lc-lab-switch">
+        {labs.map((l) => {
+          const done = l.modules.filter((m) => progress[moduleKey(l.id, m.id)]).length;
+          return (
+            <button
+              key={l.id}
+              type="button"
+              className={clsx("lc-lab-switch__btn", lab.id === l.id && "is-active")}
+              onClick={() => onLabChange(l.id)}
+            >
+              <Code2 size={14} />
+              {l.short}
+              <em>
+                {done}/{l.modules.length}
+              </em>
+            </button>
+          );
+        })}
+      </div>
 
       <FeatureCards
         cards={[
@@ -109,79 +159,34 @@ export function LabLibrary({
             tone: "blue",
             icon: "lab",
             active: true,
-            onClick: () => {
-              setTopic("All");
-              setDiff("All");
-              setStatus("All");
-              const first = lab.modules[0];
-              if (first) onOpenModule(first);
-            },
+            cta: "Open first module",
+            onClick: () => lab.modules[0] && onOpenModule(lab.modules[0]),
           },
           {
             id: "run",
             title: `${lab.stats.codeFiles} runnable labs`,
-            subtitle: "Open next incomplete module with a sandbox",
+            subtitle: "Continue at your next incomplete module",
             tone: "amber",
             icon: "run",
-            onClick: () => {
-              const next =
-                lab.modules.find((m) => !progress[moduleKey(lab.id, m.id)]) ||
-                lab.modules[0];
-              if (next) onOpenModule(next);
-            },
+            cta: "Resume",
+            onClick: () => nextModule && onOpenModule(nextModule),
           },
           {
-            id: "shuffle",
+            id: "refs",
             title: `${lab.references.length} references`,
-            subtitle: "Shuffle a practice module",
+            subtitle: "Shuffle a practice module from this lab",
             tone: "teal",
             icon: "refs",
-            onClick: () => {
-              if (onShuffle) onShuffle();
-              else {
-                const pool = lab.modules;
-                if (pool.length) onOpenModule(pool[Math.floor(Math.random() * pool.length)]);
-              }
-            },
+            cta: "Random",
+            onClick: () => onShuffle?.(),
           },
         ]}
       />
 
-      <div className="lc-topics">
-        {Object.entries(topicCounts)
-          .slice(0, 12)
-          .map(([name, count]) => (
-            <button
-              key={name}
-              type="button"
-              className={clsx("lc-topic", topic === name && "is-active")}
-              onClick={() => setTopic(topic === name ? "All" : name)}
-            >
-              {name} <em>{count}</em>
-            </button>
-          ))}
-      </div>
-
-      <div className="lc-subcats">
-        {["All Modules", "Fundamentals", "Runtime", "Interview", "Projects"].map(
-          (label) => (
-            <button
-              key={label}
-              type="button"
-              className={clsx(
-                "lc-subcat",
-                label === "All Modules" && topic === "All" && "is-active"
-              )}
-              onClick={() => setTopic("All")}
-            >
-              {label}
-            </button>
-          )
-        )}
-      </div>
-
       <div className="lc-toolbar">
-        <div className="lc-toolbar__hint">Use the top search to filter · {rows.length} shown</div>
+        <div className="lc-toolbar__hint">
+          <BookOpen size={14} /> {rows.length} modules in {lab.short}
+        </div>
         <select value={diff} onChange={(e) => setDiff(e.target.value as typeof diff)}>
           <option value="All">Difficulty</option>
           <option value="Easy">Easy</option>
@@ -193,65 +198,46 @@ export function LabLibrary({
           <option value="Todo">Todo</option>
           <option value="Solved">Solved</option>
         </select>
-        <div className="lc-toolbar__solved">
-          {solved}/{lab.modules.length} Solved
-          <button type="button" className="lc-icon-btn" onClick={onShuffle} aria-label="Shuffle">
-            <Shuffle size={14} />
-          </button>
-        </div>
       </div>
 
-      <div className="lc-table-wrap">
-        <table className="lc-table">
-          <thead>
-            <tr>
-              <th className="col-status" />
-              <th className="col-title">Title</th>
-              <th className="col-acc">Acceptance</th>
-              <th className="col-diff">Difficulty</th>
-              <th className="col-fav" />
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map(({ m, done, d, acc }) => {
-              const favId = `${lab.id}:${m.id}`;
-              return (
-                <tr key={m.id} onClick={() => onOpenModule(m)}>
-                  <td className="col-status">
-                    {done ? (
-                      <CheckCircle2 size={16} className="is-solved" />
-                    ) : (
-                      <Circle size={16} className="is-todo" />
-                    )}
-                  </td>
-                  <td className="col-title">
-                    <span className="lc-table__num">{String(m.order).padStart(2, "0")}.</span>{" "}
-                    {m.title}
-                    {m.codeFiles.length > 0 && (
-                      <span className="lc-table__meta">{m.codeFiles.length} files</span>
-                    )}
-                  </td>
-                  <td className="col-acc">{acc}%</td>
-                  <td className={clsx("col-diff", `is-${d.toLowerCase()}`)}>{d}</td>
-                  <td className="col-fav">
-                    <button
-                      type="button"
-                      className={clsx("fav-btn", favorites.includes(favId) && "is-on")}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onToggleFavorite(favId);
-                      }}
-                      aria-label="Favorite"
-                    >
-                      <Star size={14} />
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        {rows.length === 0 && <p className="lc-empty">No modules match your filters.</p>}
+      <div className="lc-lab-grid">
+        {rows.map(({ m, done, d }) => {
+          const favId = `${lab.id}:${m.id}`;
+          return (
+            <article
+              key={m.id}
+              className={clsx("lc-lab-card", done && "is-done")}
+              onClick={() => onOpenModule(m)}
+            >
+              <div className="lc-lab-card__top">
+                <span className={clsx("lc-lab-card__status", done ? "is-done" : "is-todo")}>
+                  {done ? <CheckCircle2 size={15} /> : <Circle size={15} />}
+                </span>
+                <span className={clsx("col-diff", `is-${d.toLowerCase()}`)}>{d}</span>
+                <button
+                  type="button"
+                  className={clsx("fav-btn", favorites.includes(favId) && "is-on")}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onToggleFavorite(favId);
+                  }}
+                >
+                  <Star size={14} />
+                </button>
+              </div>
+              <h3>
+                <span>{String(m.order).padStart(2, "0")}</span> {m.title}
+              </h3>
+              <p>
+                {m.docs.length} docs · {m.codeFiles?.length ?? 0} code files
+              </p>
+              <footer>
+                <span>Open lab</span>
+                <Play size={13} />
+              </footer>
+            </article>
+          );
+        })}
       </div>
     </div>
   );

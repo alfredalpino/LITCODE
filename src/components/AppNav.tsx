@@ -1,8 +1,10 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
-import { Bell, Flame, Search, Settings } from "lucide-react";
+import { Bell, Flame, Search, Settings, UserRound } from "lucide-react";
 import clsx from "clsx";
 
-export type NavSection = "problems" | "labs" | "contest" | "interview";
+export type NavSection = "problems" | "labs" | "contest" | "interview" | "profile";
 
 export type NotifItem = {
   id: string;
@@ -147,6 +149,15 @@ export function AppNav({
           <Flame size={15} />
           <span>{streak}</span>
         </div>
+
+        <button
+          type="button"
+          className={clsx("lc-icon-btn", section === "profile" && "is-active")}
+          aria-label="Profile"
+          onClick={() => onSection("profile")}
+        >
+          <UserRound size={16} />
+        </button>
 
         <div className="lc-nav__pop" ref={settingsRef}>
           <button

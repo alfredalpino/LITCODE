@@ -293,7 +293,8 @@ for (const seed of SEEDS) {
   if (slug) seenSlugs.add(slug);
 }
 
-// Real company-tagged LeetCode problems from liquidslr packs
+// Real company-tagged LeetCode problems — keep only high-signal interview set:
+// appears at ≥3 companies OR peak frequency ≥40 (student-reported company tags).
 const packSlugs = Object.keys(COMPANY_PACKS.problems).sort();
 for (const slug of packSlugs) {
   if (seenSlugs.has(slug)) continue;
@@ -301,6 +302,9 @@ for (const slug of packSlugs) {
   const tk = titleKey(p.title);
   if (seenTitles.has(tk)) continue;
   const companies = p.companies.map((c) => c.name);
+  const maxFreq = Math.max(0, ...p.companies.map((c) => c.frequency || 0));
+  const companyCount = companies.length;
+  if (companyCount < 3 && maxFreq < 40) continue;
   index.push({
     id: `lc-${slug}`,
     num: index.length + 1,
@@ -318,37 +322,7 @@ for (const slug of packSlugs) {
   seenSlugs.add(slug);
 }
 
-let variant = 0;
-while (index.length < TARGET) {
-  const pattern = PATTERNS[variant % PATTERNS.length];
-  const h = hash(variant + 101);
-  const edition = Math.floor(variant / PATTERNS.length) + 1;
-  const title = `${pattern.titles[h % pattern.titles.length]} #${edition}`;
-  const id = `gen-${String(index.length + 1).padStart(5, "0")}`;
-  const difficulty = pickDiff(pattern.difficultyBias, (h % 1000) / 1000);
-  const n = 1000 + (h % 9000);
-  const twistIndex = h % TWISTS.length;
-  const topics = [...new Set([...pattern.topics, TOPICS[(h + variant) % TOPICS.length]])];
-  const hasJudge = JUDGED.has(pattern.key);
-
-  index.push({
-    id,
-    num: index.length + 1,
-    title,
-    difficulty,
-    topics,
-    companies: [],
-    kind: "generated",
-    pattern: pattern.key,
-    hasJudge,
-    n,
-    twistIndex,
-    seed: h,
-    titleBaseIndex: h % pattern.titles.length,
-  });
-  variant++;
-}
-
+// No synthetic filler bank — interview set only.
 const catalogCompanies = COMPANY_PACKS.companies.map((c) => c.name);
 
 fs.writeFileSync(
@@ -364,7 +338,7 @@ fs.writeFileSync(
       companyCount: COMPANY_PACKS.companyCount,
       companyProblemCount: COMPANY_PACKS.problemCount,
       sourceNote:
-        "Company tags from liquidslr/leetcode-company-wise-problems. Extra drills are original pattern variants.",
+        "Interview-crucial DSA set from liquidslr/leetcode-company-wise-problems (student-reported company tags). Includes curated judged seeds. Filter: ≥3 companies or peak frequency ≥40.",
     },
     index,
   })
@@ -387,5 +361,5 @@ for (const key of JUDGED) {
 fs.writeFileSync(path.join(OUT, "test-packs.json"), JSON.stringify(testPacks));
 
 console.log(
-  `DSA bank: ${index.length} indexed · ${SEEDS.length} seeds · ${packSlugs.length} company LC problems → public/dsa/`
+  `DSA interview bank: ${index.length} problems · ${SEEDS.length} judged seeds · company-tagged LC only → public/dsa/`
 );

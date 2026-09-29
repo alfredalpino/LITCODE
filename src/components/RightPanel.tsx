@@ -1,5 +1,7 @@
+"use client";
+
 import { useMemo, useState } from "react";
-import { Flame, Search } from "lucide-react";
+import { Flame, Search, TrendingUp } from "lucide-react";
 import clsx from "clsx";
 import type { StreakState } from "../lib/stats";
 import type { CompanyPackMeta } from "../lib/dsa/types";
@@ -140,13 +142,18 @@ export function RightPanel({
 
       <section className="lc-card">
         <div className="lc-card__head">
-          <h3>Trending Companies</h3>
+          <h3>
+            <TrendingUp size={14} /> Trending Companies
+          </h3>
           {activeCompany && (
             <button type="button" className="lc-link" onClick={() => onCompany(null)}>
               Clear
             </button>
           )}
         </div>
+        <p className="lc-card__hint" style={{ marginTop: -4 }}>
+          Student-reported interview frequency windows
+        </p>
 
         <div className="lc-window-tabs">
           {(
@@ -167,27 +174,29 @@ export function RightPanel({
           ))}
         </div>
 
-        <div className="lc-companies">
-          {browsed.map((c) => (
-            <button
-              key={c.name}
-              type="button"
-              className={clsx("lc-company", activeCompany === c.name && "is-active")}
-              onClick={() => onCompany(activeCompany === c.name ? null : c.name)}
-              title={`${c.name} · ${c.rankCount} problems`}
-            >
-              {c.name}
-              <span>{c.rankCount}</span>
-            </button>
-          ))}
+        <div className="lc-companies lc-companies--ranked">
+          {browsed.map((c, idx) => {
+            const max = ranked[0]?.rankCount || 1;
+            const width = Math.max(8, Math.round((c.rankCount / max) * 100));
+            return (
+              <button
+                key={c.name}
+                type="button"
+                className={clsx("lc-company", "lc-company--row", activeCompany === c.name && "is-active")}
+                onClick={() => onCompany(activeCompany === c.name ? null : c.name)}
+                title={`${c.name} · ${c.rankCount} problems in this window`}
+              >
+                <em className="lc-company__rank">{idx + 1}</em>
+                <span className="lc-company__name">{c.name}</span>
+                <i className="lc-company__bar" style={{ width: `${width}%` }} />
+                <span className="lc-company__count">{c.rankCount}</span>
+              </button>
+            );
+          })}
         </div>
 
         <div className="lc-company-tools">
-          <button
-            type="button"
-            className="lc-link"
-            onClick={() => setShowAll((v) => !v)}
-          >
+          <button type="button" className="lc-link" onClick={() => setShowAll((v) => !v)}>
             {showAll ? "Show top 10" : `Browse all ${companies.length}`}
           </button>
           {showAll && (
