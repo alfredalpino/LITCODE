@@ -1,5 +1,6 @@
 import type { Lab } from "../types";
 import type { DsaIndexItem } from "../lib/dsa/types";
+import { FeatureCards } from "./FeatureCards";
 
 interface ContestViewProps {
   hardProblems: DsaIndexItem[];
@@ -10,20 +11,40 @@ interface ContestViewProps {
 export function ContestView({ hardProblems, onOpen, onStartWeekly }: ContestViewProps) {
   return (
     <div className="lc-feed">
-      <div className="lc-banners">
-        <div className="lc-banner lc-banner--b">
-          <strong>Weekly Contest</strong>
-          <span>4 timed Hard drills · local scoring</span>
-        </div>
-        <div className="lc-banner lc-banner--a">
-          <strong>Biweekly</strong>
-          <span>Pattern mix from your DSA bank</span>
-        </div>
-        <div className="lc-banner lc-banner--c">
-          <strong>Virtual</strong>
-          <span>Practice any past set offline</span>
-        </div>
-      </div>
+      <FeatureCards
+        cards={[
+          {
+            id: "weekly",
+            title: "Weekly Contest",
+            subtitle: "Start a timed Hard set",
+            tone: "amber",
+            icon: "judge",
+            onClick: onStartWeekly,
+          },
+          {
+            id: "biweekly",
+            title: "Biweekly",
+            subtitle: "Open a random Hard drill",
+            tone: "blue",
+            icon: "problems",
+            onClick: () => {
+              const pick = hardProblems[Math.floor(Math.random() * Math.min(hardProblems.length, 40))];
+              if (pick) onOpen(pick.id);
+            },
+          },
+          {
+            id: "virtual",
+            title: "Virtual",
+            subtitle: "Browse Hard problems below",
+            tone: "teal",
+            icon: "company",
+            onClick: () => {
+              const el = document.querySelector(".lc-table-wrap");
+              el?.scrollIntoView({ behavior: "smooth" });
+            },
+          },
+        ]}
+      />
 
       <div className="lc-card lc-card--wide">
         <h2>This week's set</h2>

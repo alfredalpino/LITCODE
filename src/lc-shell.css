@@ -14,6 +14,30 @@
   --lc-orange: #ffa116;
   --topbar-h: 50px;
   background: var(--lc-bg) !important;
+  color: var(--lc-text);
+}
+
+html[data-theme="light"] .lc-shell {
+  --lc-bg: #f4f5f7;
+  --lc-panel: #ffffff;
+  --lc-panel-2: #f0f2f5;
+  --lc-border: #d8dee4;
+  --lc-text: #1f2328;
+  --lc-muted: #656d76;
+  --lc-orange: #d97706;
+}
+
+html[data-theme="light"] .lc-nav {
+  background: #ffffff;
+}
+
+html[data-theme="light"] .lc-rail,
+html[data-theme="light"] .lc-right {
+  background: #ffffff;
+}
+
+html[data-theme="light"] .lc-table th {
+  background: #f0f2f5;
 }
 
 .lc-nav {
@@ -551,36 +575,98 @@
 }
 
 .lc-banner {
+  position: relative;
   border-radius: 12px;
-  padding: 16px;
-  min-height: 84px;
+  padding: 14px 14px 14px 44px;
+  min-height: 88px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   gap: 4px;
   color: #fff;
-  border: 1px solid var(--lc-border);
+  border: 1px solid transparent;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 140ms var(--ease), border-color 140ms var(--ease),
+    box-shadow 140ms var(--ease);
+}
+
+.lc-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.lc-banner__icon {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.lc-banner strong,
+.lc-banner span {
+  position: relative;
+  z-index: 1;
 }
 
 .lc-banner strong {
   font-size: 14px;
+  font-weight: 650;
+  font-family: var(--font-ui);
 }
 
 .lc-banner span {
   font-size: 12px;
-  opacity: 0.85;
+  opacity: 0.88;
+  line-height: 1.35;
 }
 
+.lc-banner:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.lc-banner.is-active {
+  border-color: rgba(255, 161, 22, 0.7);
+  box-shadow: 0 0 0 1px rgba(255, 161, 22, 0.25);
+}
+
+.lc-banner--blue {
+  background: linear-gradient(145deg, #2f455f 0%, #1a2636 100%);
+}
+
+.lc-banner--amber {
+  background: linear-gradient(145deg, #5a3d22 0%, #2c1c10 100%);
+}
+
+.lc-banner--teal {
+  background: linear-gradient(145deg, #1f4a42 0%, #122821 100%);
+}
+
+.lc-banner--violet {
+  background: linear-gradient(145deg, #3d3560 0%, #221c36 100%);
+}
+
+/* legacy aliases */
 .lc-banner--a {
-  background: linear-gradient(135deg, #2d3a4f, #1a2332);
+  background: linear-gradient(145deg, #2f455f 0%, #1a2636 100%);
 }
-
 .lc-banner--b {
-  background: linear-gradient(135deg, #3a2d1f, #2a1f14);
+  background: linear-gradient(145deg, #5a3d22 0%, #2c1c10 100%);
 }
-
 .lc-banner--c {
-  background: linear-gradient(135deg, #1f3a34, #142822);
+  background: linear-gradient(145deg, #1f4a42 0%, #122821 100%);
 }
 
 .lc-topics {

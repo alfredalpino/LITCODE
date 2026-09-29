@@ -19,6 +19,7 @@ interface CodeWorkbenchProps {
   defaultLanguage: LabLanguage;
   onMarkComplete?: () => void;
   completed?: boolean;
+  editorTheme?: "vs-dark" | "light";
 }
 
 const STARTER: Record<LabLanguage, string> = {
@@ -39,6 +40,7 @@ export function CodeWorkbench({
   defaultLanguage,
   onMarkComplete,
   completed,
+  editorTheme = "vs-dark",
 }: CodeWorkbenchProps) {
   const codeFiles = useMemo(
     () =>
@@ -120,7 +122,7 @@ export function CodeWorkbench({
         language={monacoLang}
         value={code}
         onChange={(v) => setCode(v ?? "")}
-        theme="vs-dark"
+        theme={editorTheme}
         options={{
           fontSize: 13.5,
           fontFamily: '"JetBrains Mono", "SF Mono", Menlo, monospace',

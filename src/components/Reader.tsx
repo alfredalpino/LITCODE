@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import clsx from "clsx";
 import { loadText } from "../lib/content";
 import type { ContentDoc, LabModule } from "../types";
-import "highlight.js/styles/github.css";
+import "highlight.js/styles/github-dark.css";
 
 interface ReaderProps {
   module: LabModule | null;

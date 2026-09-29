@@ -26,6 +26,7 @@ interface DsaArenaProps {
   onAccepted?: (id: string) => void;
   mobilePane: MobilePane;
   onMobilePane: (p: MobilePane) => void;
+  editorTheme?: "vs-dark" | "light";
 }
 
 type ConsoleTab = "testcase" | "result";
@@ -38,6 +39,7 @@ export function DsaArena({
   onAccepted,
   mobilePane,
   onMobilePane,
+  editorTheme = "vs-dark",
 }: DsaArenaProps) {
   const [problem, setProblem] = useState<DsaProblem | null>(null);
   const [language, setLanguage] = useState<LabLanguage>("javascript");
@@ -259,7 +261,7 @@ export function DsaArena({
           language={monacoLang}
           value={code}
           onChange={(v) => setCode(v ?? "")}
-          theme="vs-dark"
+          theme={editorTheme}
           options={{
             fontSize: 13.5,
             fontFamily: '"JetBrains Mono", Menlo, monospace',

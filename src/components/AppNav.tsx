@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Bell, Flame, Search, Settings, X } from "lucide-react";
+import { Bell, Flame, Search, Settings } from "lucide-react";
 import clsx from "clsx";
 
 export type NavSection = "problems" | "labs" | "contest" | "interview";
@@ -21,8 +21,8 @@ interface AppNavProps {
   notifications: NotifItem[];
   onMarkNotificationsRead: () => void;
   onClearNotifications: () => void;
-  editorTheme: "vs-dark" | "light";
-  onEditorTheme: (t: "vs-dark" | "light") => void;
+  appTheme: "dark" | "light";
+  onAppTheme: (t: "dark" | "light") => void;
   fontSize: number;
   onFontSize: (n: number) => void;
 }
@@ -36,14 +36,13 @@ export function AppNav({
   notifications,
   onMarkNotificationsRead,
   onClearNotifications,
-  editorTheme,
-  onEditorTheme,
+  appTheme,
+  onAppTheme,
   fontSize,
   onFontSize,
 }: AppNavProps) {
   const [notifOpen, setNotifOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [proOpen, setProOpen] = useState(false);
   const [mobileSearch, setMobileSearch] = useState(false);
   const unread = notifications.filter((n) => !n.read).length;
   const notifRef = useRef<HTMLDivElement>(null);
@@ -168,19 +167,17 @@ export function AppNav({
                 <strong>Settings</strong>
               </div>
               <label className="lc-setting">
-                <span>Editor theme</span>
+                <span>App theme</span>
                 <select
-                  value={editorTheme}
-                  onChange={(e) =>
-                    onEditorTheme(e.target.value as "vs-dark" | "light")
-                  }
+                  value={appTheme}
+                  onChange={(e) => onAppTheme(e.target.value as "dark" | "light")}
                 >
-                  <option value="vs-dark">Dark</option>
+                  <option value="dark">Dark</option>
                   <option value="light">Light</option>
                 </select>
               </label>
               <label className="lc-setting">
-                <span>Font size</span>
+                <span>Editor font size</span>
                 <input
                   type="range"
                   min={12}
@@ -190,55 +187,11 @@ export function AppNav({
                 />
                 <em>{fontSize}px</em>
               </label>
-              <p className="lc-setting__hint">
-                Preferences save in this browser.
-              </p>
+              <p className="lc-setting__hint">Preferences save in this browser.</p>
             </div>
           )}
         </div>
-
-        <button
-          type="button"
-          className="lc-nav__premium"
-          onClick={() => setProOpen(true)}
-        >
-          Pro
-        </button>
       </div>
-
-      {proOpen && (
-        <div className="lc-modal" role="dialog" aria-modal="true">
-          <button
-            type="button"
-            className="lc-modal__backdrop"
-            aria-label="Close"
-            onClick={() => setProOpen(false)}
-          />
-          <div className="lc-modal__card">
-            <button
-              type="button"
-              className="lc-modal__close"
-              onClick={() => setProOpen(false)}
-            >
-              <X size={16} />
-            </button>
-            <h2>SDE Lab Pro</h2>
-            <p>
-              Unlock solution walkthroughs, contest rankings, and company-tagged
-              interview packs. This local build keeps everything free — Pro is a
-              preview of the product surface.
-            </p>
-            <ul>
-              <li>Official editorial-style writeups</li>
-              <li>Weekly contest brackets</li>
-              <li>Company drill playlists</li>
-            </ul>
-            <button type="button" className="run-btn" onClick={() => setProOpen(false)}>
-              Continue free
-            </button>
-          </div>
-        </div>
-      )}
     </header>
   );
 }

@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { CheckCircle2, Circle, Shuffle, Star } from "lucide-react";
 import clsx from "clsx";
 import type { DsaIndexItem } from "../lib/dsa/types";
 import { acceptanceRate } from "../lib/stats";
+import { FeatureCards } from "./FeatureCards";
 
 interface DsaProblemsListProps {
   items: DsaIndexItem[];
@@ -20,6 +21,7 @@ interface DsaProblemsListProps {
   onOpen: (id: string) => void;
   onToggleFavorite: (id: string) => void;
   onCompanyFilter: (name: string | null) => void;
+  trendingCompany?: string | null;
 }
 
 export function DsaProblemsList({
@@ -37,12 +39,15 @@ export function DsaProblemsList({
   onOpen,
   onToggleFavorite,
   onCompanyFilter,
+  trendingCompany = null,
 }: DsaProblemsListProps) {
   const [diff, setDiff] = useState<"All" | "Easy" | "Medium" | "Hard">(difficultyPreset);
   const [topic, setTopic] = useState("All");
   const [status, setStatus] = useState<"All" | "Todo" | "Solved">("All");
+  const [judgeOnly, setJudgeOnly] = useState(false);
   const [page, setPage] = useState(0);
   const pageSize = 50;
+  const listAnchor = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setDiff(difficultyPreset);
@@ -51,7 +56,7 @@ export function DsaProblemsList({
 
   useEffect(() => {
     setPage(0);
-  }, [companyFilter, favoritesOnly, searchQuery]);
+  }, [companyFilter, favoritesOnly, searchQuery, judgeOnly]);
 
   const topicCounts = useMemo(() => {
     const map: Record<string, number> = {};
@@ -68,6 +73,7 @@ export function DsaProblemsList({
     const company = companyFilter ?? "All";
     const list = items.filter((it) => {
       if (favoritesOnly && !favorites.includes(it.id)) return false;
+      if (judgeOnly && !it.hasJudge) return false;
       if (diff !== "All" && it.difficulty !== diff) return false;
       if (topic !== "All" && !it.topics.includes(topic)) return false;
       if (company !== "All" && !it.companies.includes(company)) return false;
@@ -97,11 +103,13 @@ export function DsaProblemsList({
     solved,
     favoritesOnly,
     favorites,
+    judgeOnly,
   ]);
 
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const pageItems = filtered.slice(page * pageSize, page * pageSize + pageSize);
   const solvedCount = Object.keys(solved).length;
+  const judgedCount = useMemo(() => items.filter((i) => i.hasJudge).length, [items]);
 
   function shuffleOpen() {
     if (!filtered.length) return;
@@ -109,28 +117,76 @@ export function DsaProblemsList({
     onOpen(pick.id);
   }
 
+  function scrollToList() {
+    listAnchor.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return (
     <div className="lc-feed">
-      <div className="lc-banners">
-        <div className="lc-banner lc-banner--a">
-          <strong>{title}</strong>
-          <span>
-            {subtitle ??
+      <FeatureCards
+        cards={[
+          {
+            id: "problems",
+            title: title,
+            subtitle:
+              subtitle ??
               `${total.toLocaleString()} industry-level drills${
                 companyFilter ? ` · ${companyFilter}` : ""
-              }`}
-          </span>
-        </div>
-        <div className="lc-banner lc-banner--b">
-          <strong>Auto-Judge</strong>
-          <span>Run & Submit on curated + judged patterns</span>
-        </div>
-        <div className="lc-banner lc-banner--c">
-          <strong>Company tags</strong>
-          <span>Filter from the right panel or toolbar</span>
-        </div>
-      </div>
+              }`,
+            tone: "blue",
+            icon: "problems",
+            active: !judgeOnly && !companyFilter,
+            onClick: () => {
+              setJudgeOnly(false);
+              setTopic("All");
+              setDiff("All");
+              setStatus("All");
+              onCompanyFilter(null);
+              setPage(0);
+              scrollToList();
+            },
+          },
+          {
+            id: "judge",
+            title: "Auto-Judge",
+            subtitle: judgeOnly
+              ? `Showing ${judgedCount.toLocaleString()} judged patterns · click to clear`
+              : "Filter judged drills · Run & Submit ready",
+            tone: "amber",
+            icon: "judge",
+            active: judgeOnly,
+            onClick: () => {
+              const next = !judgeOnly;
+              setJudgeOnly(next);
+              if (next) onCompanyFilter(null);
+              setPage(0);
+              scrollToList();
+            },
+          },
+          {
+            id: "company",
+            title: companyFilter ? companyFilter : "Company tags",
+            subtitle: companyFilter
+              ? "Click to clear company filter"
+              : `Apply ${(trendingCompany ?? companies[0] ?? "Amazon")} pack`,
+            tone: "teal",
+            icon: "company",
+            active: !!companyFilter,
+            onClick: () => {
+              if (companyFilter) {
+                onCompanyFilter(null);
+              } else {
+                onCompanyFilter(trendingCompany ?? companies[0] ?? "Amazon");
+              }
+              setJudgeOnly(false);
+              setPage(0);
+              scrollToList();
+            },
+          },
+        ]}
+      />
 
+      <div ref={listAnchor} />
       <div className="lc-topics">
         {topicCounts.map(([name, count]) => (
           <button

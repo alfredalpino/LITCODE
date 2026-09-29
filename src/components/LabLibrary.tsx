@@ -4,6 +4,7 @@ import clsx from "clsx";
 import type { Lab, LabModule } from "../types";
 import { acceptanceRate } from "../lib/stats";
 import { moduleKey } from "../lib/progress";
+import { FeatureCards } from "./FeatureCards";
 
 interface LabLibraryProps {
   labs: Lab[];
@@ -99,20 +100,52 @@ export function LabLibrary({
         <p className="lc-banner-note">Showing favorites for {lab.title}. Switch labs above to see more.</p>
       )}
 
-      <div className="lc-banners">
-        <div className="lc-banner lc-banner--a">
-          <strong>{lab.title}</strong>
-          <span>Learn → Predict → Code → Explain</span>
-        </div>
-        <div className="lc-banner lc-banner--b">
-          <strong>{lab.stats.codeFiles} runnable labs</strong>
-          <span>Browser sandbox ready</span>
-        </div>
-        <div className="lc-banner lc-banner--c">
-          <strong>{lab.references.length} references</strong>
-          <span>Facts, glossary, playbooks</span>
-        </div>
-      </div>
+      <FeatureCards
+        cards={[
+          {
+            id: "lab",
+            title: lab.title,
+            subtitle: `${lab.modules.length} modules · Learn → Predict → Code → Explain`,
+            tone: "blue",
+            icon: "lab",
+            active: true,
+            onClick: () => {
+              setTopic("All");
+              setDiff("All");
+              setStatus("All");
+              const first = lab.modules[0];
+              if (first) onOpenModule(first);
+            },
+          },
+          {
+            id: "run",
+            title: `${lab.stats.codeFiles} runnable labs`,
+            subtitle: "Open next incomplete module with a sandbox",
+            tone: "amber",
+            icon: "run",
+            onClick: () => {
+              const next =
+                lab.modules.find((m) => !progress[moduleKey(lab.id, m.id)]) ||
+                lab.modules[0];
+              if (next) onOpenModule(next);
+            },
+          },
+          {
+            id: "shuffle",
+            title: `${lab.references.length} references`,
+            subtitle: "Shuffle a practice module",
+            tone: "teal",
+            icon: "refs",
+            onClick: () => {
+              if (onShuffle) onShuffle();
+              else {
+                const pool = lab.modules;
+                if (pool.length) onOpenModule(pool[Math.floor(Math.random() * pool.length)]);
+              }
+            },
+          },
+        ]}
+      />
 
       <div className="lc-topics">
         {Object.entries(topicCounts)

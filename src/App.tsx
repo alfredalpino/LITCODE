@@ -40,11 +40,19 @@ const NOTIF_KEY = "sde-lab-notifs-v1";
 function loadSettings() {
   try {
     const raw = localStorage.getItem(SETTINGS_KEY);
-    if (raw) return JSON.parse(raw) as { theme: "vs-dark" | "light"; fontSize: number };
+    if (raw) {
+      const parsed = JSON.parse(raw) as {
+        theme?: "vs-dark" | "light" | "dark";
+        fontSize: number;
+      };
+      const theme: "dark" | "light" =
+        parsed.theme === "light" ? "light" : "dark";
+      return { theme, fontSize: parsed.fontSize ?? 13 };
+    }
   } catch {
     /* ignore */
   }
-  return { theme: "vs-dark" as const, fontSize: 13 };
+  return { theme: "dark" as const, fontSize: 13 };
 }
 
 function loadNotifs(): NotifItem[] {
@@ -117,7 +125,10 @@ export default function App() {
 
   useEffect(() => {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    document.documentElement.setAttribute("data-theme", settings.theme);
     document.documentElement.style.setProperty("--editor-font-size", `${settings.fontSize}px`);
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", settings.theme === "light" ? "#f4f5f7" : "#0e1218");
   }, [settings]);
 
   useEffect(() => {
@@ -332,8 +343,8 @@ export default function App() {
           setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))
         }
         onClearNotifications={() => setNotifications([])}
-        editorTheme={settings.theme}
-        onEditorTheme={(theme) => setSettings((s) => ({ ...s, theme }))}
+        appTheme={settings.theme}
+        onAppTheme={(theme) => setSettings((s) => ({ ...s, theme }))}
         fontSize={settings.fontSize}
         onFontSize={(fontSize) => setSettings((s) => ({ ...s, fontSize }))}
       />
@@ -429,6 +440,7 @@ export default function App() {
               onOpen={openDsa}
               onToggleFavorite={(id) => setFavorites(toggleFavorite(id))}
               onCompanyFilter={setCompanyFilter}
+              trendingCompany={companyWidgets[0]?.name ?? null}
             />
           )}
 
@@ -515,6 +527,7 @@ export default function App() {
                       defaultLanguage={lab.language}
                       onMarkComplete={toggleComplete}
                       completed={completed}
+                      editorTheme={settings.theme === "light" ? "light" : "vs-dark"}
                     />
                   }
                 />
@@ -535,6 +548,7 @@ export default function App() {
                     defaultLanguage={lab.language}
                     onMarkComplete={toggleComplete}
                     completed={completed}
+                    editorTheme={settings.theme === "light" ? "light" : "vs-dark"}
                   />
                 )}
               </div>
@@ -553,6 +567,7 @@ export default function App() {
               }}
               mobilePane={mobilePane}
               onMobilePane={setMobilePane}
+              editorTheme={settings.theme === "light" ? "light" : "vs-dark"}
             />
           )}
           </>
