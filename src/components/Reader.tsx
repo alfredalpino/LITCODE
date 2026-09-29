@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import clsx from "clsx";
 import { loadText } from "../lib/content";
 import type { ContentDoc, LabModule } from "../types";
@@ -11,9 +12,21 @@ interface ReaderProps {
   module: LabModule | null;
   referencePath: string | null;
   referenceTitle?: string;
+  prevModule?: LabModule | null;
+  nextModule?: LabModule | null;
+  onPrev?: () => void;
+  onNext?: () => void;
 }
 
-export function Reader({ module, referencePath, referenceTitle }: ReaderProps) {
+export function Reader({
+  module,
+  referencePath,
+  referenceTitle,
+  prevModule,
+  nextModule,
+  onPrev,
+  onNext,
+}: ReaderProps) {
   const docs: ContentDoc[] = module
     ? module.docs.filter((d) => d.category !== "solutions")
     : [];
@@ -110,6 +123,35 @@ export function Reader({ module, referencePath, referenceTitle }: ReaderProps) {
           </div>
         )}
       </div>
+
+      {(onPrev || onNext) && (
+        <footer className="reader__nav">
+          <button
+            type="button"
+            className="reader__nav-btn"
+            disabled={!prevModule || !onPrev}
+            onClick={onPrev}
+          >
+            <ChevronLeft size={16} />
+            <span>
+              <small>Previous</small>
+              <strong>{prevModule?.title ?? "—"}</strong>
+            </span>
+          </button>
+          <button
+            type="button"
+            className="reader__nav-btn reader__nav-btn--next"
+            disabled={!nextModule || !onNext}
+            onClick={onNext}
+          >
+            <span>
+              <small>Next</small>
+              <strong>{nextModule?.title ?? "—"}</strong>
+            </span>
+            <ChevronRight size={16} />
+          </button>
+        </footer>
+      )}
     </section>
   );
 }

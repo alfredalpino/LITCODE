@@ -1,4 +1,6 @@
 export type LabLanguage = "javascript" | "typescript" | "python";
+export type AppMode = "labs" | "dsa";
+export type MobilePane = "read" | "code";
 
 export type DocCategory =
   | "docs"
@@ -66,7 +68,6 @@ export interface Catalog {
   labs: Lab[];
 }
 
-export type MobilePane = "read" | "code";
 export type ConsoleLineKind = "log" | "error" | "info" | "warn";
 
 export interface ConsoleLine {

@@ -5,12 +5,14 @@
   "type": "module",
   "scripts": {
     "sync": "node scripts/sync-content.mjs",
-    "predev": "npm run sync",
+    "dsa:gen": "node scripts/generate-dsa-bank.mjs",
+    "predev": "npm run sync && npm run dsa:gen",
     "dev": "vite",
-    "prebuild": "npm run sync",
+    "prebuild": "npm run sync && npm run dsa:gen",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:runners": "node scripts/smoke-runners.mjs"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",

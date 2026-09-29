@@ -1,12 +1,14 @@
 import { BookOpen, Code2, Menu, X } from "lucide-react";
 import clsx from "clsx";
 import type { CSSProperties } from "react";
-import type { Lab, MobilePane } from "../types";
+import type { AppMode, Lab, MobilePane } from "../types";
 
 interface TopBarProps {
   labs: Lab[];
   activeLabId: string;
   onLabChange: (id: string) => void;
+  mode: AppMode;
+  onModeChange: (mode: AppMode) => void;
   mobilePane: MobilePane;
   onMobilePane: (pane: MobilePane) => void;
   sidebarOpen: boolean;
@@ -18,6 +20,8 @@ export function TopBar({
   labs,
   activeLabId,
   onLabChange,
+  mode,
+  onModeChange,
   mobilePane,
   onMobilePane,
   sidebarOpen,
@@ -43,7 +47,7 @@ export function TopBar({
         <div className="topbar__titles">
           <span className="topbar__name">SDE Laboratory</span>
           <span className="topbar__sub">
-            {active?.short ?? "Lab"}
+            {mode === "dsa" ? "DSA Arena" : active?.short ?? "Lab"}
             {moduleTitle ? ` · ${moduleTitle}` : ""}
           </span>
         </div>
@@ -54,17 +58,24 @@ export function TopBar({
           <button
             key={lab.id}
             type="button"
-            className={clsx("lab-chip", activeLabId === lab.id && "is-active")}
-            style={
-              {
-                "--chip-accent": lab.accent,
-              } as CSSProperties
-            }
+            className={clsx(
+              "lab-chip",
+              mode === "labs" && activeLabId === lab.id && "is-active"
+            )}
+            style={{ "--chip-accent": lab.accent } as CSSProperties}
             onClick={() => onLabChange(lab.id)}
           >
             {lab.short}
           </button>
         ))}
+        <button
+          type="button"
+          className={clsx("lab-chip lab-chip--dsa", mode === "dsa" && "is-active")}
+          style={{ "--chip-accent": "#22c55e" } as CSSProperties}
+          onClick={() => onModeChange("dsa")}
+        >
+          DSA Arena
+        </button>
       </nav>
 
       <div className="topbar__mobile-toggle" role="tablist" aria-label="Pane">

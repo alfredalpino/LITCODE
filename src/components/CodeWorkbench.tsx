@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
 import { loadText } from "../lib/content";
 import { runCode } from "../lib/runner";
+import { SplitPane } from "./SplitPane";
 import type { CodeFile, ConsoleLine, LabLanguage, LabModule } from "../types";
 
 interface CodeWorkbenchProps {
@@ -53,8 +54,7 @@ export function CodeWorkbench({
   const [lines, setLines] = useState<ConsoleLine[]>([]);
   const [running, setRunning] = useState(false);
   const [fileMenuOpen, setFileMenuOpen] = useState(false);
-  const [consoleOpen, setConsoleOpen] = useState(true);
-  const [consoleHeight, setConsoleHeight] = useState(180);
+  const [consoleCollapsed, setConsoleCollapsed] = useState(false);
 
   useEffect(() => {
     setLanguage(defaultLanguage);
@@ -88,7 +88,7 @@ export function CodeWorkbench({
 
   async function handleRun() {
     setRunning(true);
-    setConsoleOpen(true);
+    setConsoleCollapsed(false);
     try {
       const result = await runCode(language, code);
       setLines(result.lines);
@@ -112,6 +112,88 @@ export function CodeWorkbench({
       : language === "typescript"
         ? "typescript"
         : "javascript";
+
+  const editorPane = (
+    <div className="workbench__editor">
+      <Editor
+        height="100%"
+        language={monacoLang}
+        value={code}
+        onChange={(v) => setCode(v ?? "")}
+        theme="vs-dark"
+        options={{
+          fontSize: 13.5,
+          fontFamily: '"JetBrains Mono", "SF Mono", Menlo, monospace',
+          fontLigatures: true,
+          minimap: { enabled: false },
+          scrollBeyondLastLine: false,
+          smoothScrolling: true,
+          cursorBlinking: "smooth",
+          cursorSmoothCaretAnimation: "on",
+          padding: { top: 14, bottom: 14 },
+          automaticLayout: true,
+          tabSize: 2,
+          wordWrap: "on",
+          renderLineHighlight: "line",
+          bracketPairColorization: { enabled: true },
+        }}
+        loading={<div className="editor-loading">Loading editor…</div>}
+      />
+    </div>
+  );
+
+  const consolePane = (
+    <div className={clsx("console", !consoleCollapsed && "is-open")}>
+      <div className="console__bar">
+        <button
+          type="button"
+          className="console__toggle"
+          onClick={() => setConsoleCollapsed((v) => !v)}
+        >
+          <Terminal size={14} />
+          Console
+          {lines.length > 0 && (
+            <span className="console__count">{lines.length}</span>
+          )}
+        </button>
+        <div className="console__bar-actions">
+          <button
+            type="button"
+            className="tool-btn"
+            onClick={() => setLines([])}
+            title="Clear console"
+          >
+            <Eraser size={14} />
+          </button>
+          <button
+            type="button"
+            className="run-btn run-btn--compact"
+            onClick={handleRun}
+            disabled={running}
+          >
+            <Play size={14} fill="currentColor" />
+            {running ? "Running…" : "Run"}
+          </button>
+        </div>
+      </div>
+      {!consoleCollapsed && (
+        <div className="console__output" role="log">
+          {lines.length === 0 ? (
+            <p className="console__empty">
+              Output appears here. Press Run or ⌘/Ctrl+Enter. Drag the gutter
+              above to resize.
+            </p>
+          ) : (
+            lines.map((l) => (
+              <pre key={l.id} className={clsx("console__line", `is-${l.kind}`)}>
+                {l.text}
+              </pre>
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <section className="workbench" aria-label="Code workbench">
@@ -172,14 +254,6 @@ export function CodeWorkbench({
           >
             <RotateCcw size={15} />
           </button>
-          <button
-            type="button"
-            className="tool-btn"
-            onClick={() => setLines([])}
-            title="Clear console"
-          >
-            <Eraser size={15} />
-          </button>
           {onMarkComplete && (
             <button
               type="button"
@@ -202,77 +276,23 @@ export function CodeWorkbench({
         </div>
       </div>
 
-      <div className="workbench__editor">
-        <Editor
-          height="100%"
-          language={monacoLang}
-          value={code}
-          onChange={(v) => setCode(v ?? "")}
-          theme="vs-dark"
-          options={{
-            fontSize: 13.5,
-            fontFamily: '"JetBrains Mono", "SF Mono", Menlo, monospace',
-            fontLigatures: true,
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-            smoothScrolling: true,
-            cursorBlinking: "smooth",
-            cursorSmoothCaretAnimation: "on",
-            padding: { top: 14, bottom: 14 },
-            automaticLayout: true,
-            tabSize: 2,
-            wordWrap: "on",
-            renderLineHighlight: "line",
-            bracketPairColorization: { enabled: true },
-          }}
-          loading={<div className="editor-loading">Loading editor…</div>}
-        />
-      </div>
-
-      <div
-        className={clsx("console", consoleOpen && "is-open")}
-        style={{ height: consoleOpen ? consoleHeight : 36 }}
-      >
-        <div className="console__bar">
-          <button
-            type="button"
-            className="console__toggle"
-            onClick={() => setConsoleOpen((v) => !v)}
-          >
-            <Terminal size={14} />
-            Console
-            {lines.length > 0 && (
-              <span className="console__count">{lines.length}</span>
-            )}
-          </button>
-          {consoleOpen && (
-            <input
-              type="range"
-              min={120}
-              max={360}
-              value={consoleHeight}
-              onChange={(e) => setConsoleHeight(Number(e.target.value))}
-              aria-label="Console height"
-              className="console__resize"
-            />
-          )}
+      {consoleCollapsed ? (
+        <div className="workbench__stack">
+          {editorPane}
+          {consolePane}
         </div>
-        {consoleOpen && (
-          <div className="console__output" role="log">
-            {lines.length === 0 ? (
-              <p className="console__empty">
-                Output appears here. Press Run or ⌘/Ctrl+Enter.
-              </p>
-            ) : (
-              lines.map((l) => (
-                <pre key={l.id} className={clsx("console__line", `is-${l.kind}`)}>
-                  {l.text}
-                </pre>
-              ))
-            )}
-          </div>
-        )}
-      </div>
+      ) : (
+        <SplitPane
+          className="workbench__split"
+          orientation="vertical"
+          first={editorPane}
+          second={consolePane}
+          initialRatio={0.68}
+          minFirst={140}
+          minSecond={110}
+          storageKey="sde-editor-console-ratio"
+        />
+      )}
     </section>
   );
 }
