@@ -1013,12 +1013,11 @@ html[data-theme="light"] .markdown-body pre {
   max-width: none;
   padding: 0;
 }
-}
 
 .markdown-body--dark h1,
 .markdown-body--dark h2,
 .markdown-body--dark h3 {
-  color: #fff;
+  color: var(--text-ink);
   border-color: var(--border-soft);
 }
 
