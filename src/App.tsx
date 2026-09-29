@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { AppNav, type NavSection, type NotifItem } from "./components/AppNav";
 import { LeftRail, type RailTab } from "./components/LeftRail";
 import { RightPanel } from "./components/RightPanel";
+import { ShellBody } from "./components/ShellBody";
 import { LabLibrary } from "./components/LabLibrary";
 import { DsaProblemsList } from "./components/DsaProblemsList";
 import { ContestView, InterviewView } from "./components/SectionViews";
@@ -10,8 +11,8 @@ import { CodeWorkbench } from "./components/CodeWorkbench";
 import { SplitPane } from "./components/SplitPane";
 import { DsaArena } from "./components/DsaArena";
 import { loadCatalog } from "./lib/content";
-import { loadDsaIndex } from "./lib/dsa/loader";
-import type { DsaIndexItem } from "./lib/dsa/types";
+import { loadCompanyPacks, loadDsaIndex } from "./lib/dsa/loader";
+import type { CompanyPacksFile, DsaIndexItem } from "./lib/dsa/types";
 import {
   loadProgress,
   moduleKey,
@@ -78,6 +79,7 @@ export default function App() {
   const [dsaTopics, setDsaTopics] = useState<string[]>([]);
   const [dsaCompanies, setDsaCompanies] = useState<string[]>([]);
   const [dsaTotal, setDsaTotal] = useState(0);
+  const [companyPacks, setCompanyPacks] = useState<CompanyPacksFile | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [companyFilter, setCompanyFilter] = useState<string | null>(null);
   const [contestDiff, setContestDiff] = useState<"All" | "Easy" | "Medium" | "Hard">("All");
@@ -106,6 +108,10 @@ export default function App() {
         setDsaCompanies(file.catalog.companies);
         setDsaTotal(file.catalog.total);
       })
+      .catch(() => undefined);
+
+    loadCompanyPacks()
+      .then(setCompanyPacks)
       .catch(() => undefined);
   }, []);
 
@@ -165,15 +171,37 @@ export default function App() {
   );
 
   const companyWidgets = useMemo(() => {
+    if (companyPacks?.companies?.length) return companyPacks.companies;
     const counts: Record<string, number> = {};
     for (const it of dsaItems) {
       for (const c of it.companies) counts[c] = (counts[c] ?? 0) + 1;
     }
     return Object.entries(counts)
       .sort((a, b) => b[1] - a[1])
-      .slice(0, 10)
-      .map(([name, count]) => ({ name, count }));
-  }, [dsaItems]);
+      .map(([name, count]) => ({
+        name,
+        thirty: 0,
+        threeMonths: 0,
+        sixMonths: 0,
+        moreThanSix: 0,
+        all: count,
+        count,
+      }));
+  }, [companyPacks, dsaItems]);
+
+  const filteredDsaItems = useMemo(() => {
+    if (!companyFilter || !companyPacks) return dsaItems;
+    return dsaItems.map((it) => {
+      const slug =
+        it.slug ||
+        (it.id.startsWith("lc-") ? it.id.slice(3) : undefined);
+      if (!slug) return it;
+      const pack = companyPacks.problems[slug];
+      const freq =
+        pack?.companies.find((c) => c.name === companyFilter)?.frequency ?? 0;
+      return { ...it, frequency: freq };
+    });
+  }, [dsaItems, companyFilter, companyPacks]);
 
   const hardProblems = useMemo(
     () => dsaItems.filter((i) => i.difficulty === "Hard"),
@@ -310,16 +338,43 @@ export default function App() {
         onFontSize={(fontSize) => setSettings((s) => ({ ...s, fontSize }))}
       />
 
-      <div className={clsxBody(showRail, showRight)}>
-        {showRail && (
+      <ShellBody
+        showRail={showRail}
+        showRight={showRight}
+        rail={
           <LeftRail
             active={rail}
             favoritesCount={favorites.length}
             onChange={goRail}
           />
-        )}
-
-        <div className="lc-main">
+        }
+        right={
+          <RightPanel
+            streak={streak}
+            solvedLabs={labSolvedCount}
+            totalLabs={labTotalCount}
+            solvedDsa={Object.keys(dsaSolved).length}
+            totalDsa={dsaTotal || 10000}
+            companies={companyWidgets}
+            activeCompany={companyFilter}
+            onCompany={(name) => {
+              setCompanyFilter(name);
+              setSection("problems");
+              setRail("explore");
+              setMode("dsa");
+              setContestDiff("All");
+              setView("list");
+            }}
+            onOpenProgress={() => goSection("interview")}
+            sourceNote={
+              companyPacks
+                ? `${companyPacks.companyCount} companies · ${companyPacks.problemCount.toLocaleString()} LC problems`
+                : undefined
+            }
+          />
+        }
+        main={
+          <>
           {view === "list" && listKind === "labs" && (
             <LabLibrary
               labs={catalog.labs}
@@ -345,7 +400,7 @@ export default function App() {
 
           {view === "list" && (listKind === "problems" || listKind === "favorites") && (
             <DsaProblemsList
-              items={dsaItems}
+              items={filteredDsaItems}
               topics={dsaTopics}
               companies={dsaCompanies}
               total={dsaTotal}
@@ -366,8 +421,10 @@ export default function App() {
                 listKind === "favorites"
                   ? `${favorites.filter((f) => !f.includes(":")).length || favorites.length} saved DSA items`
                   : companyFilter
-                    ? `Filtered to ${companyFilter}`
-                    : undefined
+                    ? `Real ${companyFilter} set · liquidslr company-wise problems`
+                    : companyPacks
+                      ? `${companyPacks.problemCount.toLocaleString()} company-tagged LC titles + drills`
+                      : undefined
               }
               onOpen={openDsa}
               onToggleFavorite={(id) => setFavorites(toggleFavorite(id))}
@@ -498,37 +555,9 @@ export default function App() {
               onMobilePane={setMobilePane}
             />
           )}
-        </div>
-
-        {showRight && (
-          <RightPanel
-            streak={streak}
-            solvedLabs={labSolvedCount}
-            totalLabs={labTotalCount}
-            solvedDsa={Object.keys(dsaSolved).length}
-            totalDsa={dsaTotal || 10000}
-            companies={companyWidgets}
-            activeCompany={companyFilter}
-            onCompany={(name) => {
-              setCompanyFilter(name);
-              setSection("problems");
-              setRail("explore");
-              setMode("dsa");
-              setContestDiff("All");
-              setView("list");
-            }}
-            onOpenProgress={() => goSection("interview")}
-          />
-        )}
-      </div>
+          </>
+        }
+      />
     </div>
   );
-}
-
-function clsxBody(rail: boolean, right: boolean) {
-  return [
-    "lc-body",
-    rail ? "has-rail" : "no-rail",
-    right ? "has-right" : "no-right",
-  ].join(" ");
 }

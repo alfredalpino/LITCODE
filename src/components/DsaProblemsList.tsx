@@ -66,7 +66,7 @@ export function DsaProblemsList({
   const filtered = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     const company = companyFilter ?? "All";
-    return items.filter((it) => {
+    const list = items.filter((it) => {
       if (favoritesOnly && !favorites.includes(it.id)) return false;
       if (diff !== "All" && it.difficulty !== diff) return false;
       if (topic !== "All" && !it.topics.includes(topic)) return false;
@@ -79,9 +79,14 @@ export function DsaProblemsList({
         it.title.toLowerCase().includes(q) ||
         String(it.num).includes(q) ||
         it.topics.some((t) => t.toLowerCase().includes(q)) ||
-        it.companies.some((c) => c.toLowerCase().includes(q))
+        it.companies.some((c) => c.toLowerCase().includes(q)) ||
+        (it.slug ?? "").includes(q)
       );
     });
+    if (company !== "All") {
+      return [...list].sort((a, b) => (b.frequency ?? 0) - (a.frequency ?? 0));
+    }
+    return list;
   }, [
     items,
     searchQuery,
@@ -195,7 +200,12 @@ export function DsaProblemsList({
           }}
         >
           <option value="All">Companies</option>
-          {companies.map((c) => (
+          {(companyFilter && !companies.includes(companyFilter)
+            ? [companyFilter, ...companies]
+            : companies
+          )
+            .slice(0, 120)
+            .map((c) => (
             <option key={c} value={c}>
               {c}
             </option>
@@ -215,7 +225,7 @@ export function DsaProblemsList({
             <tr>
               <th className="col-status" />
               <th className="col-title">Title</th>
-              <th className="col-acc">Acceptance</th>
+              <th className="col-acc">{companyFilter ? "Frequency" : "Acceptance"}</th>
               <th className="col-diff">Difficulty</th>
               <th className="col-fav" />
             </tr>
@@ -235,8 +245,13 @@ export function DsaProblemsList({
                   <td className="col-title">
                     <span className="lc-table__num">{it.num}.</span> {it.title}
                     {it.hasJudge && <span className="lc-table__meta">Judge</span>}
+                    {it.kind === "leetcode" && <span className="lc-table__meta">LC</span>}
                   </td>
-                  <td className="col-acc">{acceptanceRate(it.id)}%</td>
+                  <td className="col-acc">
+                    {companyFilter
+                      ? `${(it.frequency ?? 0).toFixed(1)}%`
+                      : `${acceptanceRate(it.id)}%`}
+                  </td>
                   <td className={clsx("col-diff", `is-${it.difficulty.toLowerCase()}`)}>
                     {it.difficulty}
                   </td>

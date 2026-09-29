@@ -20,12 +20,31 @@ const TOPICS = [
   "Monotonic Stack", "Design", "Intervals", "Matrix", "Recursion",
 ];
 
-const COMPANIES = [
-  "Google", "Meta", "Amazon", "Apple", "Microsoft", "Netflix", "Uber",
-  "Airbnb", "Stripe", "Bloomberg", "Adobe", "Oracle", "LinkedIn", "Salesforce",
-];
-
 const DIFFS = ["Easy", "Medium", "Hard"];
+
+const PACKS_PATH = path.join(OUT, "company-packs.json");
+if (!fs.existsSync(PACKS_PATH)) {
+  console.error("Missing public/dsa/company-packs.json — run: npm run companies:gen");
+  process.exit(1);
+}
+const COMPANY_PACKS = JSON.parse(fs.readFileSync(PACKS_PATH, "utf8"));
+
+function titleKey(title) {
+  return String(title).toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function companiesForSlug(slug) {
+  const p = COMPANY_PACKS.problems[slug];
+  if (!p) return [];
+  return p.companies.map((c) => c.name);
+}
+
+function frequencyFor(slug, company) {
+  const p = COMPANY_PACKS.problems[slug];
+  if (!p) return 0;
+  const hit = p.companies.find((c) => c.name === company);
+  return hit?.frequency ?? 0;
+}
 const TWISTS = [
   "",
   ". Follow-up: explain the space/time tradeoff aloud as if in an onsite",
@@ -199,12 +218,6 @@ function hash(n) {
   return x;
 }
 
-function companiesFor(i) {
-  const a = COMPANIES[i % COMPANIES.length];
-  const b = COMPANIES[(i * 3 + 5) % COMPANIES.length];
-  return a === b ? [a] : [a, b];
-}
-
 function buildTests(patternKey, seed) {
   if (patternKey === "pair-sum") {
     const a = (seed % 17) + 2;
@@ -246,19 +259,63 @@ fs.mkdirSync(OUT, { recursive: true });
 
 const index = [];
 const seedsMap = {};
+const seenTitles = new Set();
+const seenSlugs = new Set();
 
 for (const seed of SEEDS) {
+  const tk = titleKey(seed.title);
+  const slug = COMPANY_PACKS.titleIndex[tk];
+  const companies = slug
+    ? companiesForSlug(slug)
+    : Array.isArray(seed.companies)
+      ? seed.companies
+      : [];
   index.push({
     id: seed.id,
     num: index.length + 1,
     title: seed.title,
     difficulty: seed.difficulty,
     topics: seed.topics,
-    companies: seed.companies,
+    companies,
     kind: "seed",
     hasJudge: true,
+    slug: slug || undefined,
+    frequency: slug ? Math.max(0, ...companies.map((c) => frequencyFor(slug, c))) : undefined,
   });
-  seedsMap[seed.id] = { ...seed, kind: "seed", hasJudge: true };
+  seedsMap[seed.id] = {
+    ...seed,
+    companies,
+    kind: "seed",
+    hasJudge: true,
+    slug: slug || undefined,
+  };
+  seenTitles.add(tk);
+  if (slug) seenSlugs.add(slug);
+}
+
+// Real company-tagged LeetCode problems from liquidslr packs
+const packSlugs = Object.keys(COMPANY_PACKS.problems).sort();
+for (const slug of packSlugs) {
+  if (seenSlugs.has(slug)) continue;
+  const p = COMPANY_PACKS.problems[slug];
+  const tk = titleKey(p.title);
+  if (seenTitles.has(tk)) continue;
+  const companies = p.companies.map((c) => c.name);
+  index.push({
+    id: `lc-${slug}`,
+    num: index.length + 1,
+    title: p.title,
+    difficulty: p.difficulty,
+    topics: p.topics?.length ? p.topics : ["Interview"],
+    companies,
+    kind: "leetcode",
+    hasJudge: false,
+    slug,
+    link: p.link,
+    frequency: p.companies[0]?.frequency ?? 0,
+  });
+  seenTitles.add(tk);
+  seenSlugs.add(slug);
 }
 
 let variant = 0;
@@ -280,11 +337,10 @@ while (index.length < TARGET) {
     title,
     difficulty,
     topics,
-    companies: companiesFor(variant),
+    companies: [],
     kind: "generated",
     pattern: pattern.key,
     hasJudge,
-    // compact hydrate fields embedded in index to avoid 10k full files
     n,
     twistIndex,
     seed: h,
@@ -293,6 +349,8 @@ while (index.length < TARGET) {
   variant++;
 }
 
+const catalogCompanies = COMPANY_PACKS.companies.map((c) => c.name);
+
 fs.writeFileSync(
   path.join(OUT, "index.json"),
   JSON.stringify({
@@ -300,10 +358,13 @@ fs.writeFileSync(
       generatedAt: new Date().toISOString(),
       total: index.length,
       topics: TOPICS,
-      companies: COMPANIES,
+      companies: catalogCompanies,
       patterns: PATTERNS.map((p) => p.key),
+      companySource: COMPANY_PACKS.source,
+      companyCount: COMPANY_PACKS.companyCount,
+      companyProblemCount: COMPANY_PACKS.problemCount,
       sourceNote:
-        "Original SDE Laboratory Studio bank. Pattern taxonomy inspired by open DSA communities (https://github.com/topics/dsa-questions).",
+        "Company tags from liquidslr/leetcode-company-wise-problems. Extra drills are original pattern variants.",
     },
     index,
   })
@@ -325,4 +386,6 @@ for (const key of JUDGED) {
 }
 fs.writeFileSync(path.join(OUT, "test-packs.json"), JSON.stringify(testPacks));
 
-console.log(`DSA bank: ${index.length} indexed · ${SEEDS.length} full seeds → public/dsa/`);
+console.log(
+  `DSA bank: ${index.length} indexed · ${SEEDS.length} seeds · ${packSlugs.length} company LC problems → public/dsa/`
+);

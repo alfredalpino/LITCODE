@@ -129,12 +129,15 @@ export function InterviewView({
 
       <h3 className="lc-section-title">Company packs</h3>
       <div className="lc-companies">
-        {companies.slice(0, 8).map((c) => (
+        {companies.slice(0, 12).map((c) => (
           <button key={c} type="button" className="lc-company" onClick={() => onOpenCompanyPack(c)}>
             {c}
           </button>
         ))}
       </div>
+      <p className="lc-muted" style={{ marginTop: 12 }}>
+        Real company tags from liquidslr/leetcode-company-wise-problems.
+      </p>
     </div>
   );
 }

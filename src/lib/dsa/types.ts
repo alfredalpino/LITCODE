@@ -7,9 +7,41 @@ export interface DsaIndexItem {
   difficulty: Difficulty;
   topics: string[];
   companies: string[];
-  kind: "seed" | "generated";
+  kind: "seed" | "generated" | "leetcode";
   pattern?: string;
   hasJudge: boolean;
+  slug?: string;
+  link?: string;
+  frequency?: number;
+}
+
+export interface CompanyPackMeta {
+  name: string;
+  thirty: number;
+  threeMonths: number;
+  sixMonths: number;
+  moreThanSix: number;
+  all: number;
+  count: number;
+}
+
+export interface CompanyPacksFile {
+  source: string;
+  generatedAt: string;
+  companyCount: number;
+  problemCount: number;
+  companies: CompanyPackMeta[];
+  problems: Record<
+    string,
+    {
+      title: string;
+      difficulty: Difficulty;
+      topics: string[];
+      link: string;
+      companies: Array<{ name: string; frequency: number }>;
+    }
+  >;
+  titleIndex: Record<string, string>;
 }
 
 export interface DsaTestCase {
@@ -47,6 +79,9 @@ export interface DsaIndexFile {
     companies: string[];
     patterns: string[];
     sourceNote: string;
+    companySource?: string;
+    companyCount?: number;
+    companyProblemCount?: number;
   };
   index: DsaIndexItem[];
 }

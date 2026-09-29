@@ -1,4 +1,9 @@
-import type { DsaIndexFile, DsaIndexItem, DsaProblem } from "./types";
+import type {
+  CompanyPacksFile,
+  DsaIndexFile,
+  DsaIndexItem,
+  DsaProblem,
+} from "./types";
 
 type PatternsFile = {
   twists: string[];
@@ -17,6 +22,7 @@ let seedsPromise: Promise<Record<string, DsaProblem>> | null = null;
 let patternsPromise: Promise<PatternsFile> | null = null;
 let testPacksPromise: Promise<Record<string, Record<string, DsaProblem["tests"]>>> | null =
   null;
+let companyPacksPromise: Promise<CompanyPacksFile> | null = null;
 
 export function loadDsaIndex(): Promise<DsaIndexFile> {
   if (!indexPromise) {
@@ -26,6 +32,16 @@ export function loadDsaIndex(): Promise<DsaIndexFile> {
     });
   }
   return indexPromise;
+}
+
+export function loadCompanyPacks(): Promise<CompanyPacksFile> {
+  if (!companyPacksPromise) {
+    companyPacksPromise = fetch("/dsa/company-packs.json").then((r) => {
+      if (!r.ok) throw new Error("Failed to load company packs");
+      return r.json();
+    });
+  }
+  return companyPacksPromise;
 }
 
 function loadSeeds() {
@@ -80,7 +96,56 @@ export async function loadDsaProblem(id: string): Promise<DsaProblem> {
   ]);
 
   const meta = indexFile.index.find((i) => i.id === id) as HydrateMeta | undefined;
-  if (!meta || !meta.pattern) throw new Error(`Problem ${id} not found`);
+  if (!meta) throw new Error(`Problem ${id} not found`);
+
+  if (meta.kind === "leetcode" || id.startsWith("lc-")) {
+    const slug = meta.slug || id.replace(/^lc-/, "");
+    const link = meta.link || `https://leetcode.com/problems/${slug}/`;
+    const topics = meta.topics?.length ? meta.topics : ["Interview"];
+    const companyLine = meta.companies.slice(0, 12).join(", ");
+    return {
+      id: meta.id,
+      title: meta.title,
+      difficulty: meta.difficulty,
+      topics,
+      companies: meta.companies,
+      functionName: "solve",
+      description: [
+        `Interview problem tagged by real company lists ([liquidslr company-wise pack](${link.includes("leetcode") ? "https://github.com/liquidslr/leetcode-company-wise-problems" : link})).`,
+        "",
+        `**${meta.title}** · ${meta.difficulty}`,
+        "",
+        topics.length ? `Topics: ${topics.join(", ")}` : "",
+        companyLine ? `Asked at: ${companyLine}${meta.companies.length > 12 ? "…" : ""}` : "",
+        "",
+        `Official statement: [leetcode.com/problems/${slug}](${link})`,
+        "",
+        "Practice here with the starter below. Prefer the optimal approach you would defend in an onsite.",
+      ]
+        .filter(Boolean)
+        .join("\n"),
+      examples: [
+        {
+          input: "See LeetCode examples",
+          output: "Match the official expected output",
+          explanation: "Open the LeetCode link for canonical I/O samples.",
+        },
+      ],
+      constraints: ["Follow the official LeetCode constraints for this title"],
+      starter: {
+        javascript:
+          "/**\n * Implement the solution you would ship in interview.\n * Rename / adjust signature to match the problem.\n */\nfunction solve(...args) {\n  \n}\n",
+        typescript:
+          "function solve(...args: unknown[]): unknown {\n  \n}\n",
+        python: "def solve(*args):\n    ...\n",
+      },
+      tests: [{ id: "Explore", input: [] }],
+      kind: "leetcode",
+      hasJudge: false,
+    };
+  }
+
+  if (!meta.pattern) throw new Error(`Problem ${id} not found`);
 
   const pattern = patternsFile.patterns.find((p) => p.key === meta.pattern);
   if (!pattern) throw new Error(`Pattern ${meta.pattern} missing`);

@@ -1,7 +1,10 @@
-import { useMemo } from "react";
-import { Flame } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Flame, Search } from "lucide-react";
 import clsx from "clsx";
 import type { StreakState } from "../lib/stats";
+import type { CompanyPackMeta } from "../lib/dsa/types";
+
+type CompanyWindow = "thirty" | "threeMonths" | "all";
 
 interface RightPanelProps {
   streak: StreakState;
@@ -9,10 +12,11 @@ interface RightPanelProps {
   totalLabs: number;
   solvedDsa: number;
   totalDsa: number;
-  companies: Array<{ name: string; count: number }>;
+  companies: CompanyPackMeta[];
   activeCompany: string | null;
   onCompany: (name: string | null) => void;
   onOpenProgress: () => void;
+  sourceNote?: string;
   visible?: boolean;
 }
 
@@ -34,6 +38,12 @@ function monthGrid(history: string[]) {
   return cells;
 }
 
+function windowCount(c: CompanyPackMeta, w: CompanyWindow) {
+  if (w === "thirty") return c.thirty || 0;
+  if (w === "threeMonths") return c.threeMonths || 0;
+  return c.all || c.count || 0;
+}
+
 export function RightPanel({
   streak,
   solvedLabs,
@@ -44,12 +54,30 @@ export function RightPanel({
   activeCompany,
   onCompany,
   onOpenProgress,
+  sourceNote,
   visible = true,
 }: RightPanelProps) {
   const cells = useMemo(() => monthGrid(streak.history ?? []), [streak.history]);
+  const [window, setWindow] = useState<CompanyWindow>("threeMonths");
+  const [browse, setBrowse] = useState("");
+  const [showAll, setShowAll] = useState(false);
+
   if (!visible) return null;
 
   const monthLabel = new Date().toLocaleString("en", { month: "long", year: "numeric" });
+
+  const ranked = useMemo(() => {
+    return [...companies]
+      .map((c) => ({ ...c, rankCount: windowCount(c, window) }))
+      .filter((c) => c.rankCount > 0)
+      .sort((a, b) => b.rankCount - a.rankCount || a.name.localeCompare(b.name));
+  }, [companies, window]);
+
+  const trending = ranked.slice(0, 10);
+  const q = browse.trim().toLowerCase();
+  const browsed = showAll
+    ? ranked.filter((c) => !q || c.name.toLowerCase().includes(q)).slice(0, 80)
+    : trending;
 
   return (
     <aside className="lc-right" aria-label="Progress">
@@ -119,19 +147,61 @@ export function RightPanel({
             </button>
           )}
         </div>
+
+        <div className="lc-window-tabs">
+          {(
+            [
+              ["thirty", "30d"],
+              ["threeMonths", "3mo"],
+              ["all", "All"],
+            ] as const
+          ).map(([id, label]) => (
+            <button
+              key={id}
+              type="button"
+              className={clsx("lc-window-tab", window === id && "is-active")}
+              onClick={() => setWindow(id)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
         <div className="lc-companies">
-          {companies.map((c) => (
+          {browsed.map((c) => (
             <button
               key={c.name}
               type="button"
               className={clsx("lc-company", activeCompany === c.name && "is-active")}
               onClick={() => onCompany(activeCompany === c.name ? null : c.name)}
+              title={`${c.name} · ${c.rankCount} problems`}
             >
               {c.name}
-              <span>{c.count}</span>
+              <span>{c.rankCount}</span>
             </button>
           ))}
         </div>
+
+        <div className="lc-company-tools">
+          <button
+            type="button"
+            className="lc-link"
+            onClick={() => setShowAll((v) => !v)}
+          >
+            {showAll ? "Show top 10" : `Browse all ${companies.length}`}
+          </button>
+          {showAll && (
+            <label className="lc-company-search">
+              <Search size={12} />
+              <input
+                value={browse}
+                onChange={(e) => setBrowse(e.target.value)}
+                placeholder="Filter companies…"
+              />
+            </label>
+          )}
+        </div>
+        {sourceNote && <p className="lc-card__hint">{sourceNote}</p>}
       </section>
     </aside>
   );
