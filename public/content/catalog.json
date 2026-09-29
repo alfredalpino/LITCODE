@@ -1,0 +1,2183 @@
+{
+  "generatedAt": "2026-09-29T11:48:46.976Z",
+  "labs": [
+    {
+      "id": "javascript",
+      "title": "JavaScript Laboratory",
+      "short": "JS",
+      "language": "javascript",
+      "accent": "#e8a317",
+      "modules": [
+        {
+          "id": "00-orientation",
+          "slug": "00-orientation",
+          "title": "Orientation",
+          "order": 0,
+          "docs": [
+            {
+              "id": "javascript/00-orientation/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/00-orientation/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "javascript/00-orientation/challenges/C01-explain-layers.md",
+              "name": "C01-explain-layers.md",
+              "title": "C01-explain-layers",
+              "path": "javascript/00-orientation/challenges/C01-explain-layers.md",
+              "category": "challenges",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/00-orientation/predictions/P01-first-prediction.md",
+              "name": "P01-first-prediction.md",
+              "title": "P01-first-prediction",
+              "path": "javascript/00-orientation/predictions/P01-first-prediction.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/00-orientation/review.md",
+              "name": "review.md",
+              "title": "review",
+              "path": "javascript/00-orientation/review.md",
+              "category": "review",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [
+            {
+              "id": "javascript/00-orientation/challenges/broken/01-broken-log.js",
+              "name": "01-broken-log.js",
+              "path": "javascript/00-orientation/challenges/broken/01-broken-log.js",
+              "category": "challenges",
+              "language": "javascript",
+              "relative": "challenges/broken/01-broken-log.js"
+            },
+            {
+              "id": "javascript/00-orientation/experiments/01-verify-environment.js",
+              "name": "01-verify-environment.js",
+              "path": "javascript/00-orientation/experiments/01-verify-environment.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/01-verify-environment.js"
+            },
+            {
+              "id": "javascript/00-orientation/experiments/02-first-prediction.js",
+              "name": "02-first-prediction.js",
+              "path": "javascript/00-orientation/experiments/02-first-prediction.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/02-first-prediction.js"
+            }
+          ],
+          "solutions": [
+            {
+              "id": "javascript/00-orientation/solutions/01-broken-log.md",
+              "name": "01-broken-log.md",
+              "title": "01-broken-log",
+              "path": "javascript/00-orientation/solutions/01-broken-log.md",
+              "category": "solutions",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/00-orientation/solutions/C01-explain-layers.md",
+              "name": "C01-explain-layers.md",
+              "title": "C01-explain-layers",
+              "path": "javascript/00-orientation/solutions/C01-explain-layers.md",
+              "category": "solutions",
+              "isPrimary": false
+            }
+          ]
+        },
+        {
+          "id": "01-runtime",
+          "slug": "01-runtime",
+          "title": "Runtime",
+          "order": 1,
+          "docs": [
+            {
+              "id": "javascript/01-runtime/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/01-runtime/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "javascript/01-runtime/challenges/C01-trace-hello.md",
+              "name": "C01-trace-hello.md",
+              "title": "C01-trace-hello",
+              "path": "javascript/01-runtime/challenges/C01-trace-hello.md",
+              "category": "challenges",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/01-runtime/challenges/C02-predict-stack.md",
+              "name": "C02-predict-stack.md",
+              "title": "C02-predict-stack",
+              "path": "javascript/01-runtime/challenges/C02-predict-stack.md",
+              "category": "challenges",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/01-runtime/challenges/C03-classify.md",
+              "name": "C03-classify.md",
+              "title": "C03-classify",
+              "path": "javascript/01-runtime/challenges/C03-classify.md",
+              "category": "challenges",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/01-runtime/challenges/C04-mini-tracer.md",
+              "name": "C04-mini-tracer.md",
+              "title": "C04-mini-tracer",
+              "path": "javascript/01-runtime/challenges/C04-mini-tracer.md",
+              "category": "challenges",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/01-runtime/diagrams/execution-pipeline.md",
+              "name": "execution-pipeline.md",
+              "title": "execution-pipeline",
+              "path": "javascript/01-runtime/diagrams/execution-pipeline.md",
+              "category": "docs",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/01-runtime/predictions/P01-hello.md",
+              "name": "P01-hello.md",
+              "title": "P01-hello",
+              "path": "javascript/01-runtime/predictions/P01-hello.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/01-runtime/predictions/P02-errors.md",
+              "name": "P02-errors.md",
+              "title": "P02-errors",
+              "path": "javascript/01-runtime/predictions/P02-errors.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/01-runtime/predictions/P03-sync-order.md",
+              "name": "P03-sync-order.md",
+              "title": "P03-sync-order",
+              "path": "javascript/01-runtime/predictions/P03-sync-order.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/01-runtime/predictions/P04-call-stack.md",
+              "name": "P04-call-stack.md",
+              "title": "P04-call-stack",
+              "path": "javascript/01-runtime/predictions/P04-call-stack.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/01-runtime/predictions/P05-layers.md",
+              "name": "P05-layers.md",
+              "title": "P05-layers",
+              "path": "javascript/01-runtime/predictions/P05-layers.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/01-runtime/review.md",
+              "name": "review.md",
+              "title": "review",
+              "path": "javascript/01-runtime/review.md",
+              "category": "review",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [
+            {
+              "id": "javascript/01-runtime/challenges/broken/01-silent-order.js",
+              "name": "01-silent-order.js",
+              "path": "javascript/01-runtime/challenges/broken/01-silent-order.js",
+              "category": "challenges",
+              "language": "javascript",
+              "relative": "challenges/broken/01-silent-order.js"
+            },
+            {
+              "id": "javascript/01-runtime/challenges/broken/02-not-a-function.js",
+              "name": "02-not-a-function.js",
+              "path": "javascript/01-runtime/challenges/broken/02-not-a-function.js",
+              "category": "challenges",
+              "language": "javascript",
+              "relative": "challenges/broken/02-not-a-function.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/01-hello.js",
+              "name": "01-hello.js",
+              "path": "javascript/01-runtime/experiments/01-hello.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/01-hello.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/02-syntax-error.js",
+              "name": "02-syntax-error.js",
+              "path": "javascript/01-runtime/experiments/02-syntax-error.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/02-syntax-error.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/02b-valid-syntax.js",
+              "name": "02b-valid-syntax.js",
+              "path": "javascript/01-runtime/experiments/02b-valid-syntax.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/02b-valid-syntax.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/03-runtime-error.js",
+              "name": "03-runtime-error.js",
+              "path": "javascript/01-runtime/experiments/03-runtime-error.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/03-runtime-error.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/04-partial-execution.js",
+              "name": "04-partial-execution.js",
+              "path": "javascript/01-runtime/experiments/04-partial-execution.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/04-partial-execution.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/05-sync-order.js",
+              "name": "05-sync-order.js",
+              "path": "javascript/01-runtime/experiments/05-sync-order.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/05-sync-order.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/06-call-stack-intro.js",
+              "name": "06-call-stack-intro.js",
+              "path": "javascript/01-runtime/experiments/06-call-stack-intro.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/06-call-stack-intro.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/07-stack-trace.js",
+              "name": "07-stack-trace.js",
+              "path": "javascript/01-runtime/experiments/07-stack-trace.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/07-stack-trace.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/08-console-is-host.js",
+              "name": "08-console-is-host.js",
+              "path": "javascript/01-runtime/experiments/08-console-is-host.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/08-console-is-host.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/09-layers-evidence.js",
+              "name": "09-layers-evidence.js",
+              "path": "javascript/01-runtime/experiments/09-layers-evidence.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/09-layers-evidence.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/10-script-scope-teaser.js",
+              "name": "10-script-scope-teaser.js",
+              "path": "javascript/01-runtime/experiments/10-script-scope-teaser.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/10-script-scope-teaser.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/11-strict-mode-teaser.js",
+              "name": "11-strict-mode-teaser.js",
+              "path": "javascript/01-runtime/experiments/11-strict-mode-teaser.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/11-strict-mode-teaser.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/12-structure-matters.js",
+              "name": "12-structure-matters.js",
+              "path": "javascript/01-runtime/experiments/12-structure-matters.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/12-structure-matters.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/13-blocking-sync.js",
+              "name": "13-blocking-sync.js",
+              "path": "javascript/01-runtime/experiments/13-blocking-sync.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/13-blocking-sync.js"
+            },
+            {
+              "id": "javascript/01-runtime/experiments/14-nested-calls-depth.js",
+              "name": "14-nested-calls-depth.js",
+              "path": "javascript/01-runtime/experiments/14-nested-calls-depth.js",
+              "category": "experiments",
+              "language": "javascript",
+              "relative": "experiments/14-nested-calls-depth.js"
+            }
+          ],
+          "solutions": [
+            {
+              "id": "javascript/01-runtime/solutions/C01-trace-hello.md",
+              "name": "C01-trace-hello.md",
+              "title": "C01-trace-hello",
+              "path": "javascript/01-runtime/solutions/C01-trace-hello.md",
+              "category": "solutions",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/01-runtime/solutions/C02-predict-stack.md",
+              "name": "C02-predict-stack.md",
+              "title": "C02-predict-stack",
+              "path": "javascript/01-runtime/solutions/C02-predict-stack.md",
+              "category": "solutions",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/01-runtime/solutions/C03-classify.md",
+              "name": "C03-classify.md",
+              "title": "C03-classify",
+              "path": "javascript/01-runtime/solutions/C03-classify.md",
+              "category": "solutions",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/01-runtime/solutions/C04-mini-tracer.md",
+              "name": "C04-mini-tracer.md",
+              "title": "C04-mini-tracer",
+              "path": "javascript/01-runtime/solutions/C04-mini-tracer.md",
+              "category": "solutions",
+              "isPrimary": false
+            },
+            {
+              "id": "javascript/01-runtime/solutions/broken.md",
+              "name": "broken.md",
+              "title": "broken",
+              "path": "javascript/01-runtime/solutions/broken.md",
+              "category": "solutions",
+              "isPrimary": false
+            }
+          ]
+        },
+        {
+          "id": "02-values-types",
+          "slug": "02-values-types",
+          "title": "Values Types",
+          "order": 2,
+          "docs": [
+            {
+              "id": "javascript/02-values-types/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/02-values-types/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "03-variables",
+          "slug": "03-variables",
+          "title": "Variables",
+          "order": 3,
+          "docs": [
+            {
+              "id": "javascript/03-variables/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/03-variables/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "04-operators",
+          "slug": "04-operators",
+          "title": "Operators",
+          "order": 4,
+          "docs": [
+            {
+              "id": "javascript/04-operators/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/04-operators/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "05-control-flow",
+          "slug": "05-control-flow",
+          "title": "Control Flow",
+          "order": 5,
+          "docs": [
+            {
+              "id": "javascript/05-control-flow/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/05-control-flow/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "06-functions",
+          "slug": "06-functions",
+          "title": "Functions",
+          "order": 6,
+          "docs": [
+            {
+              "id": "javascript/06-functions/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/06-functions/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "07-scope",
+          "slug": "07-scope",
+          "title": "Scope",
+          "order": 7,
+          "docs": [
+            {
+              "id": "javascript/07-scope/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/07-scope/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "08-closures",
+          "slug": "08-closures",
+          "title": "Closures",
+          "order": 8,
+          "docs": [
+            {
+              "id": "javascript/08-closures/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/08-closures/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "09-objects",
+          "slug": "09-objects",
+          "title": "Objects",
+          "order": 9,
+          "docs": [
+            {
+              "id": "javascript/09-objects/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/09-objects/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "10-prototypes",
+          "slug": "10-prototypes",
+          "title": "Prototypes",
+          "order": 10,
+          "docs": [
+            {
+              "id": "javascript/10-prototypes/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/10-prototypes/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "11-classes",
+          "slug": "11-classes",
+          "title": "Classes",
+          "order": 11,
+          "docs": [
+            {
+              "id": "javascript/11-classes/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/11-classes/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "12-arrays",
+          "slug": "12-arrays",
+          "title": "Arrays",
+          "order": 12,
+          "docs": [
+            {
+              "id": "javascript/12-arrays/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/12-arrays/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "13-iterators",
+          "slug": "13-iterators",
+          "title": "Iterators",
+          "order": 13,
+          "docs": [
+            {
+              "id": "javascript/13-iterators/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/13-iterators/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "14-generators",
+          "slug": "14-generators",
+          "title": "Generators",
+          "order": 14,
+          "docs": [
+            {
+              "id": "javascript/14-generators/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/14-generators/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "15-this",
+          "slug": "15-this",
+          "title": "This",
+          "order": 15,
+          "docs": [
+            {
+              "id": "javascript/15-this/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/15-this/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "16-async",
+          "slug": "16-async",
+          "title": "Async",
+          "order": 16,
+          "docs": [
+            {
+              "id": "javascript/16-async/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/16-async/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "17-event-loop",
+          "slug": "17-event-loop",
+          "title": "Event Loop",
+          "order": 17,
+          "docs": [
+            {
+              "id": "javascript/17-event-loop/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/17-event-loop/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "18-promises",
+          "slug": "18-promises",
+          "title": "Promises",
+          "order": 18,
+          "docs": [
+            {
+              "id": "javascript/18-promises/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/18-promises/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "19-modules",
+          "slug": "19-modules",
+          "title": "Modules",
+          "order": 19,
+          "docs": [
+            {
+              "id": "javascript/19-modules/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/19-modules/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "20-error-handling",
+          "slug": "20-error-handling",
+          "title": "Error Handling",
+          "order": 20,
+          "docs": [
+            {
+              "id": "javascript/20-error-handling/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/20-error-handling/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "21-dom",
+          "slug": "21-dom",
+          "title": "Dom",
+          "order": 21,
+          "docs": [
+            {
+              "id": "javascript/21-dom/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/21-dom/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "22-browser-runtime",
+          "slug": "22-browser-runtime",
+          "title": "Browser Runtime",
+          "order": 22,
+          "docs": [
+            {
+              "id": "javascript/22-browser-runtime/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/22-browser-runtime/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "23-web-apis",
+          "slug": "23-web-apis",
+          "title": "Web Apis",
+          "order": 23,
+          "docs": [
+            {
+              "id": "javascript/23-web-apis/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/23-web-apis/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "24-networking",
+          "slug": "24-networking",
+          "title": "Networking",
+          "order": 24,
+          "docs": [
+            {
+              "id": "javascript/24-networking/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/24-networking/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "25-fetch",
+          "slug": "25-fetch",
+          "title": "Fetch",
+          "order": 25,
+          "docs": [
+            {
+              "id": "javascript/25-fetch/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/25-fetch/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "26-storage",
+          "slug": "26-storage",
+          "title": "Storage",
+          "order": 26,
+          "docs": [
+            {
+              "id": "javascript/26-storage/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/26-storage/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "27-performance",
+          "slug": "27-performance",
+          "title": "Performance",
+          "order": 27,
+          "docs": [
+            {
+              "id": "javascript/27-performance/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/27-performance/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "28-memory",
+          "slug": "28-memory",
+          "title": "Memory",
+          "order": 28,
+          "docs": [
+            {
+              "id": "javascript/28-memory/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/28-memory/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "29-security",
+          "slug": "29-security",
+          "title": "Security",
+          "order": 29,
+          "docs": [
+            {
+              "id": "javascript/29-security/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/29-security/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "30-functional-programming",
+          "slug": "30-functional-programming",
+          "title": "Functional Programming",
+          "order": 30,
+          "docs": [
+            {
+              "id": "javascript/30-functional-programming/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/30-functional-programming/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "31-design-patterns",
+          "slug": "31-design-patterns",
+          "title": "Design Patterns",
+          "order": 31,
+          "docs": [
+            {
+              "id": "javascript/31-design-patterns/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/31-design-patterns/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "32-testing",
+          "slug": "32-testing",
+          "title": "Testing",
+          "order": 32,
+          "docs": [
+            {
+              "id": "javascript/32-testing/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/32-testing/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "33-node-runtime",
+          "slug": "33-node-runtime",
+          "title": "Node Runtime",
+          "order": 33,
+          "docs": [
+            {
+              "id": "javascript/33-node-runtime/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/33-node-runtime/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "34-npm",
+          "slug": "34-npm",
+          "title": "Npm",
+          "order": 34,
+          "docs": [
+            {
+              "id": "javascript/34-npm/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/34-npm/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "35-typescript-preview",
+          "slug": "35-typescript-preview",
+          "title": "Typescript Preview",
+          "order": 35,
+          "docs": [
+            {
+              "id": "javascript/35-typescript-preview/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/35-typescript-preview/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "36-advanced-language",
+          "slug": "36-advanced-language",
+          "title": "Advanced Language",
+          "order": 36,
+          "docs": [
+            {
+              "id": "javascript/36-advanced-language/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/36-advanced-language/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "37-internals",
+          "slug": "37-internals",
+          "title": "Internals",
+          "order": 37,
+          "docs": [
+            {
+              "id": "javascript/37-internals/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/37-internals/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "38-interview-lab",
+          "slug": "38-interview-lab",
+          "title": "Interview Lab",
+          "order": 38,
+          "docs": [
+            {
+              "id": "javascript/38-interview-lab/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/38-interview-lab/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "39-project-lab",
+          "slug": "39-project-lab",
+          "title": "Project Lab",
+          "order": 39,
+          "docs": [
+            {
+              "id": "javascript/39-project-lab/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/39-project-lab/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        },
+        {
+          "id": "40-capstone",
+          "slug": "40-capstone",
+          "title": "Capstone",
+          "order": 40,
+          "docs": [
+            {
+              "id": "javascript/40-capstone/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "javascript/40-capstone/README.md",
+              "category": "docs",
+              "isPrimary": true
+            }
+          ],
+          "codeFiles": [],
+          "solutions": []
+        }
+      ],
+      "references": [
+        {
+          "id": "ADVANCED_JAVASCRIPT_FACTS",
+          "title": "ADVANCED JAVASCRIPT FACTS",
+          "path": "javascript/ADVANCED_JAVASCRIPT_FACTS.md",
+          "kind": "reference"
+        },
+        {
+          "id": "CHEAT_SHEET",
+          "title": "CHEAT SHEET",
+          "path": "javascript/CHEAT_SHEET.md",
+          "kind": "reference"
+        },
+        {
+          "id": "CURRICULUM",
+          "title": "CURRICULUM",
+          "path": "javascript/CURRICULUM.md",
+          "kind": "reference"
+        },
+        {
+          "id": "GLOSSARY",
+          "title": "GLOSSARY",
+          "path": "javascript/GLOSSARY.md",
+          "kind": "reference"
+        },
+        {
+          "id": "PROGRESS",
+          "title": "PROGRESS",
+          "path": "javascript/PROGRESS.md",
+          "kind": "reference"
+        },
+        {
+          "id": "README",
+          "title": "README",
+          "path": "javascript/README.md",
+          "kind": "reference"
+        }
+      ],
+      "stats": {
+        "modules": 41,
+        "docs": 61,
+        "codeFiles": 20
+      }
+    },
+    {
+      "id": "python-dsa",
+      "title": "Python + DSA Laboratory",
+      "short": "Python",
+      "language": "python",
+      "accent": "#3b82f6",
+      "modules": [
+        {
+          "id": "00-python-runtime",
+          "slug": "00-python-runtime",
+          "title": "Python Runtime",
+          "order": 0,
+          "docs": [
+            {
+              "id": "python-dsa/00-python-runtime/LAB.md",
+              "name": "LAB.md",
+              "title": "Lab Guide",
+              "path": "python-dsa/00-python-runtime/LAB.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "python-dsa/00-python-runtime/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "python-dsa/00-python-runtime/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "python-dsa/00-python-runtime/exercises/EXERCISES.md",
+              "name": "EXERCISES.md",
+              "title": "EXERCISES",
+              "path": "python-dsa/00-python-runtime/exercises/EXERCISES.md",
+              "category": "exercises",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [
+            {
+              "id": "python-dsa/00-python-runtime/debug/same_object.py",
+              "name": "same_object.py",
+              "path": "python-dsa/00-python-runtime/debug/same_object.py",
+              "category": "debug",
+              "language": "python",
+              "relative": "debug/same_object.py"
+            },
+            {
+              "id": "python-dsa/00-python-runtime/experiments/01_ast_dump.py",
+              "name": "01_ast_dump.py",
+              "path": "python-dsa/00-python-runtime/experiments/01_ast_dump.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/01_ast_dump.py"
+            },
+            {
+              "id": "python-dsa/00-python-runtime/experiments/02_disassemble.py",
+              "name": "02_disassemble.py",
+              "path": "python-dsa/00-python-runtime/experiments/02_disassemble.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/02_disassemble.py"
+            },
+            {
+              "id": "python-dsa/00-python-runtime/experiments/03_code_object.py",
+              "name": "03_code_object.py",
+              "path": "python-dsa/00-python-runtime/experiments/03_code_object.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/03_code_object.py"
+            },
+            {
+              "id": "python-dsa/00-python-runtime/experiments/04_when_errors_happen.py",
+              "name": "04_when_errors_happen.py",
+              "path": "python-dsa/00-python-runtime/experiments/04_when_errors_happen.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/04_when_errors_happen.py"
+            },
+            {
+              "id": "python-dsa/00-python-runtime/experiments/05_rewrite_constant.py",
+              "name": "05_rewrite_constant.py",
+              "path": "python-dsa/00-python-runtime/experiments/05_rewrite_constant.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/05_rewrite_constant.py"
+            }
+          ],
+          "solutions": [
+            {
+              "id": "python-dsa/00-python-runtime/solutions/SOLUTIONS.md",
+              "name": "SOLUTIONS.md",
+              "title": "SOLUTIONS",
+              "path": "python-dsa/00-python-runtime/solutions/SOLUTIONS.md",
+              "category": "solutions",
+              "isPrimary": false
+            }
+          ]
+        },
+        {
+          "id": "01-values-types",
+          "slug": "01-values-types",
+          "title": "Values Types",
+          "order": 1,
+          "docs": [
+            {
+              "id": "python-dsa/01-values-types/LAB.md",
+              "name": "LAB.md",
+              "title": "Lab Guide",
+              "path": "python-dsa/01-values-types/LAB.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "python-dsa/01-values-types/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "python-dsa/01-values-types/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "python-dsa/01-values-types/exercises/EXERCISES.md",
+              "name": "EXERCISES.md",
+              "title": "EXERCISES",
+              "path": "python-dsa/01-values-types/exercises/EXERCISES.md",
+              "category": "exercises",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [
+            {
+              "id": "python-dsa/01-values-types/debug/distinct_count.py",
+              "name": "distinct_count.py",
+              "path": "python-dsa/01-values-types/debug/distinct_count.py",
+              "category": "debug",
+              "language": "python",
+              "relative": "debug/distinct_count.py"
+            },
+            {
+              "id": "python-dsa/01-values-types/experiments/01_catalog.py",
+              "name": "01_catalog.py",
+              "path": "python-dsa/01-values-types/experiments/01_catalog.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/01_catalog.py"
+            },
+            {
+              "id": "python-dsa/01-values-types/experiments/02_identity.py",
+              "name": "02_identity.py",
+              "path": "python-dsa/01-values-types/experiments/02_identity.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/02_identity.py"
+            },
+            {
+              "id": "python-dsa/01-values-types/experiments/03_bool_and_none.py",
+              "name": "03_bool_and_none.py",
+              "path": "python-dsa/01-values-types/experiments/03_bool_and_none.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/03_bool_and_none.py"
+            },
+            {
+              "id": "python-dsa/01-values-types/experiments/04_hashability.py",
+              "name": "04_hashability.py",
+              "path": "python-dsa/01-values-types/experiments/04_hashability.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/04_hashability.py"
+            },
+            {
+              "id": "python-dsa/01-values-types/experiments/05_protocols.py",
+              "name": "05_protocols.py",
+              "path": "python-dsa/01-values-types/experiments/05_protocols.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/05_protocols.py"
+            }
+          ],
+          "solutions": [
+            {
+              "id": "python-dsa/01-values-types/solutions/SOLUTIONS.md",
+              "name": "SOLUTIONS.md",
+              "title": "SOLUTIONS",
+              "path": "python-dsa/01-values-types/solutions/SOLUTIONS.md",
+              "category": "solutions",
+              "isPrimary": false
+            }
+          ]
+        },
+        {
+          "id": "02-variables-bindings",
+          "slug": "02-variables-bindings",
+          "title": "Variables Bindings",
+          "order": 2,
+          "docs": [
+            {
+              "id": "python-dsa/02-variables-bindings/LAB.md",
+              "name": "LAB.md",
+              "title": "Lab Guide",
+              "path": "python-dsa/02-variables-bindings/LAB.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "python-dsa/02-variables-bindings/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "python-dsa/02-variables-bindings/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "python-dsa/02-variables-bindings/exercises/EXERCISES.md",
+              "name": "EXERCISES.md",
+              "title": "EXERCISES",
+              "path": "python-dsa/02-variables-bindings/exercises/EXERCISES.md",
+              "category": "exercises",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [
+            {
+              "id": "python-dsa/02-variables-bindings/debug/zeros_grid.py",
+              "name": "zeros_grid.py",
+              "path": "python-dsa/02-variables-bindings/debug/zeros_grid.py",
+              "category": "debug",
+              "language": "python",
+              "relative": "debug/zeros_grid.py"
+            },
+            {
+              "id": "python-dsa/02-variables-bindings/experiments/01_shared_list.py",
+              "name": "01_shared_list.py",
+              "path": "python-dsa/02-variables-bindings/experiments/01_shared_list.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/01_shared_list.py"
+            },
+            {
+              "id": "python-dsa/02-variables-bindings/experiments/02_nested_copy.py",
+              "name": "02_nested_copy.py",
+              "path": "python-dsa/02-variables-bindings/experiments/02_nested_copy.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/02_nested_copy.py"
+            },
+            {
+              "id": "python-dsa/02-variables-bindings/experiments/03_rebind_versus_mutate.py",
+              "name": "03_rebind_versus_mutate.py",
+              "path": "python-dsa/02-variables-bindings/experiments/03_rebind_versus_mutate.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/03_rebind_versus_mutate.py"
+            },
+            {
+              "id": "python-dsa/02-variables-bindings/experiments/04_tuple_alias.py",
+              "name": "04_tuple_alias.py",
+              "path": "python-dsa/02-variables-bindings/experiments/04_tuple_alias.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/04_tuple_alias.py"
+            }
+          ],
+          "solutions": [
+            {
+              "id": "python-dsa/02-variables-bindings/solutions/SOLUTIONS.md",
+              "name": "SOLUTIONS.md",
+              "title": "SOLUTIONS",
+              "path": "python-dsa/02-variables-bindings/solutions/SOLUTIONS.md",
+              "category": "solutions",
+              "isPrimary": false
+            }
+          ]
+        },
+        {
+          "id": "03-control-flow",
+          "slug": "03-control-flow",
+          "title": "Control Flow",
+          "order": 3,
+          "docs": [
+            {
+              "id": "python-dsa/03-control-flow/LAB.md",
+              "name": "LAB.md",
+              "title": "Lab Guide",
+              "path": "python-dsa/03-control-flow/LAB.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "python-dsa/03-control-flow/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "python-dsa/03-control-flow/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "python-dsa/03-control-flow/exercises/EXERCISES.md",
+              "name": "EXERCISES.md",
+              "title": "EXERCISES",
+              "path": "python-dsa/03-control-flow/exercises/EXERCISES.md",
+              "category": "exercises",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [
+            {
+              "id": "python-dsa/03-control-flow/debug/contains.py",
+              "name": "contains.py",
+              "path": "python-dsa/03-control-flow/debug/contains.py",
+              "category": "debug",
+              "language": "python",
+              "relative": "debug/contains.py"
+            },
+            {
+              "id": "python-dsa/03-control-flow/experiments/01_truthiness.py",
+              "name": "01_truthiness.py",
+              "path": "python-dsa/03-control-flow/experiments/01_truthiness.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/01_truthiness.py"
+            },
+            {
+              "id": "python-dsa/03-control-flow/experiments/02_short_circuit.py",
+              "name": "02_short_circuit.py",
+              "path": "python-dsa/03-control-flow/experiments/02_short_circuit.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/02_short_circuit.py"
+            },
+            {
+              "id": "python-dsa/03-control-flow/experiments/03_loop_else.py",
+              "name": "03_loop_else.py",
+              "path": "python-dsa/03-control-flow/experiments/03_loop_else.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/03_loop_else.py"
+            },
+            {
+              "id": "python-dsa/03-control-flow/experiments/04_pair_count.py",
+              "name": "04_pair_count.py",
+              "path": "python-dsa/03-control-flow/experiments/04_pair_count.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/04_pair_count.py"
+            },
+            {
+              "id": "python-dsa/03-control-flow/experiments/05_match.py",
+              "name": "05_match.py",
+              "path": "python-dsa/03-control-flow/experiments/05_match.py",
+              "category": "experiments",
+              "language": "python",
+              "relative": "experiments/05_match.py"
+            }
+          ],
+          "solutions": [
+            {
+              "id": "python-dsa/03-control-flow/solutions/SOLUTIONS.md",
+              "name": "SOLUTIONS.md",
+              "title": "SOLUTIONS",
+              "path": "python-dsa/03-control-flow/solutions/SOLUTIONS.md",
+              "category": "solutions",
+              "isPrimary": false
+            }
+          ]
+        }
+      ],
+      "references": [
+        {
+          "id": "COMPLEXITY_REFERENCE",
+          "title": "COMPLEXITY REFERENCE",
+          "path": "python-dsa/COMPLEXITY_REFERENCE.md",
+          "kind": "reference"
+        },
+        {
+          "id": "CURRICULUM",
+          "title": "CURRICULUM",
+          "path": "python-dsa/CURRICULUM.md",
+          "kind": "reference"
+        },
+        {
+          "id": "DSA_FACTS",
+          "title": "DSA FACTS",
+          "path": "python-dsa/DSA_FACTS.md",
+          "kind": "reference"
+        },
+        {
+          "id": "GLOSSARY",
+          "title": "GLOSSARY",
+          "path": "python-dsa/GLOSSARY.md",
+          "kind": "reference"
+        },
+        {
+          "id": "INTERVIEW_PLAYBOOK",
+          "title": "INTERVIEW PLAYBOOK",
+          "path": "python-dsa/INTERVIEW_PLAYBOOK.md",
+          "kind": "reference"
+        },
+        {
+          "id": "LEARNING_LOG",
+          "title": "LEARNING LOG",
+          "path": "python-dsa/LEARNING_LOG.md",
+          "kind": "reference"
+        },
+        {
+          "id": "PROGRESS",
+          "title": "PROGRESS",
+          "path": "python-dsa/PROGRESS.md",
+          "kind": "reference"
+        },
+        {
+          "id": "PYTHON_FACTS",
+          "title": "PYTHON FACTS",
+          "path": "python-dsa/PYTHON_FACTS.md",
+          "kind": "reference"
+        },
+        {
+          "id": "README",
+          "title": "README",
+          "path": "python-dsa/README.md",
+          "kind": "reference"
+        }
+      ],
+      "stats": {
+        "modules": 4,
+        "docs": 21,
+        "codeFiles": 23
+      }
+    },
+    {
+      "id": "typescript",
+      "title": "TypeScript Laboratory",
+      "short": "TS",
+      "language": "typescript",
+      "accent": "#3178c6",
+      "modules": [
+        {
+          "id": "00-typescript-runtime-boundary",
+          "slug": "00-typescript-runtime-boundary",
+          "title": "Typescript Runtime Boundary",
+          "order": 0,
+          "docs": [
+            {
+              "id": "typescript/00-typescript-runtime-boundary/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "typescript/00-typescript-runtime-boundary/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/challenges/C01-will-it-compile.md",
+              "name": "C01-will-it-compile.md",
+              "title": "C01-will-it-compile",
+              "path": "typescript/00-typescript-runtime-boundary/challenges/C01-will-it-compile.md",
+              "category": "challenges",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/challenges/C03-explain-pipeline.md",
+              "name": "C03-explain-pipeline.md",
+              "title": "C03-explain-pipeline",
+              "path": "typescript/00-typescript-runtime-boundary/challenges/C03-explain-pipeline.md",
+              "category": "challenges",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/predictions/P01-username-annotation.md",
+              "name": "P01-username-annotation.md",
+              "title": "P01-username-annotation",
+              "path": "typescript/00-typescript-runtime-boundary/predictions/P01-username-annotation.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/predictions/P02-greet-erasure.md",
+              "name": "P02-greet-erasure.md",
+              "title": "P02-greet-erasure",
+              "path": "typescript/00-typescript-runtime-boundary/predictions/P02-greet-erasure.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/predictions/P03-what-survives.md",
+              "name": "P03-what-survives.md",
+              "title": "P03-what-survives",
+              "path": "typescript/00-typescript-runtime-boundary/predictions/P03-what-survives.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/predictions/P04-json-assertion.md",
+              "name": "P04-json-assertion.md",
+              "title": "P04-json-assertion",
+              "path": "typescript/00-typescript-runtime-boundary/predictions/P04-json-assertion.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/review.md",
+              "name": "review.md",
+              "title": "review",
+              "path": "typescript/00-typescript-runtime-boundary/review.md",
+              "category": "review",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [
+            {
+              "id": "typescript/00-typescript-runtime-boundary/challenges/broken/02-unsafe-greet.ts",
+              "name": "02-unsafe-greet.ts",
+              "path": "typescript/00-typescript-runtime-boundary/challenges/broken/02-unsafe-greet.ts",
+              "category": "challenges",
+              "language": "typescript",
+              "relative": "challenges/broken/02-unsafe-greet.ts"
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/experiments/01-greet.ts",
+              "name": "01-greet.ts",
+              "path": "typescript/00-typescript-runtime-boundary/experiments/01-greet.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/01-greet.ts"
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/experiments/02-username.ts",
+              "name": "02-username.ts",
+              "path": "typescript/00-typescript-runtime-boundary/experiments/02-username.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/02-username.ts"
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/experiments/03-inspect-erasure.ts",
+              "name": "03-inspect-erasure.ts",
+              "path": "typescript/00-typescript-runtime-boundary/experiments/03-inspect-erasure.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/03-inspect-erasure.ts"
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/experiments/04-runtime-survival.ts",
+              "name": "04-runtime-survival.ts",
+              "path": "typescript/00-typescript-runtime-boundary/experiments/04-runtime-survival.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/04-runtime-survival.ts"
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/experiments/05-json-lie.ts",
+              "name": "05-json-lie.ts",
+              "path": "typescript/00-typescript-runtime-boundary/experiments/05-json-lie.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/05-json-lie.ts"
+            }
+          ],
+          "solutions": [
+            {
+              "id": "typescript/00-typescript-runtime-boundary/solutions/02-unsafe-greet.fixed.ts",
+              "name": "02-unsafe-greet.fixed.ts",
+              "path": "typescript/00-typescript-runtime-boundary/solutions/02-unsafe-greet.fixed.ts",
+              "category": "solutions",
+              "language": "typescript",
+              "relative": "solutions/02-unsafe-greet.fixed.ts"
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/solutions/C01-answers.md",
+              "name": "C01-answers.md",
+              "title": "C01-answers",
+              "path": "typescript/00-typescript-runtime-boundary/solutions/C01-answers.md",
+              "category": "solutions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/solutions/C01-hints.md",
+              "name": "C01-hints.md",
+              "title": "C01-hints",
+              "path": "typescript/00-typescript-runtime-boundary/solutions/C01-hints.md",
+              "category": "solutions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/solutions/C03-pipeline.md",
+              "name": "C03-pipeline.md",
+              "title": "C03-pipeline",
+              "path": "typescript/00-typescript-runtime-boundary/solutions/C03-pipeline.md",
+              "category": "solutions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/00-typescript-runtime-boundary/solutions/WHY-typescript.md",
+              "name": "WHY-typescript.md",
+              "title": "WHY-typescript",
+              "path": "typescript/00-typescript-runtime-boundary/solutions/WHY-typescript.md",
+              "category": "solutions",
+              "isPrimary": false
+            }
+          ]
+        },
+        {
+          "id": "01-toolchain",
+          "slug": "01-toolchain",
+          "title": "Toolchain",
+          "order": 1,
+          "docs": [
+            {
+              "id": "typescript/01-toolchain/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "typescript/01-toolchain/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "typescript/01-toolchain/predictions/P01-versions.md",
+              "name": "P01-versions.md",
+              "title": "P01-versions",
+              "path": "typescript/01-toolchain/predictions/P01-versions.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/01-toolchain/predictions/P02-artifacts.md",
+              "name": "P02-artifacts.md",
+              "title": "P02-artifacts",
+              "path": "typescript/01-toolchain/predictions/P02-artifacts.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/01-toolchain/review.md",
+              "name": "review.md",
+              "title": "review",
+              "path": "typescript/01-toolchain/review.md",
+              "category": "review",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [
+            {
+              "id": "typescript/01-toolchain/challenges/broken/01-implicit-any.ts",
+              "name": "01-implicit-any.ts",
+              "path": "typescript/01-toolchain/challenges/broken/01-implicit-any.ts",
+              "category": "challenges",
+              "language": "typescript",
+              "relative": "challenges/broken/01-implicit-any.ts"
+            },
+            {
+              "id": "typescript/01-toolchain/challenges/broken/02-null-access.ts",
+              "name": "02-null-access.ts",
+              "path": "typescript/01-toolchain/challenges/broken/02-null-access.ts",
+              "category": "challenges",
+              "language": "typescript",
+              "relative": "challenges/broken/02-null-access.ts"
+            },
+            {
+              "id": "typescript/01-toolchain/experiments/01-verify-toolchain.ts",
+              "name": "01-verify-toolchain.ts",
+              "path": "typescript/01-toolchain/experiments/01-verify-toolchain.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/01-verify-toolchain.ts"
+            },
+            {
+              "id": "typescript/01-toolchain/experiments/02-sample-export.ts",
+              "name": "02-sample-export.ts",
+              "path": "typescript/01-toolchain/experiments/02-sample-export.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/02-sample-export.ts"
+            },
+            {
+              "id": "typescript/01-toolchain/experiments/03-strict-null-demo.ts",
+              "name": "03-strict-null-demo.ts",
+              "path": "typescript/01-toolchain/experiments/03-strict-null-demo.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/03-strict-null-demo.ts"
+            }
+          ],
+          "solutions": [
+            {
+              "id": "typescript/01-toolchain/solutions/03-strict-null-demo.fixed.ts",
+              "name": "03-strict-null-demo.fixed.ts",
+              "path": "typescript/01-toolchain/solutions/03-strict-null-demo.fixed.ts",
+              "category": "solutions",
+              "language": "typescript",
+              "relative": "solutions/03-strict-null-demo.fixed.ts"
+            },
+            {
+              "id": "typescript/01-toolchain/solutions/C03-blurb.md",
+              "name": "C03-blurb.md",
+              "title": "C03-blurb",
+              "path": "typescript/01-toolchain/solutions/C03-blurb.md",
+              "category": "solutions",
+              "isPrimary": false
+            }
+          ]
+        },
+        {
+          "id": "02-basic-types",
+          "slug": "02-basic-types",
+          "title": "Basic Types",
+          "order": 2,
+          "docs": [
+            {
+              "id": "typescript/02-basic-types/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "typescript/02-basic-types/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "typescript/02-basic-types/challenges/C01-assignability-worksheet.md",
+              "name": "C01-assignability-worksheet.md",
+              "title": "C01-assignability-worksheet",
+              "path": "typescript/02-basic-types/challenges/C01-assignability-worksheet.md",
+              "category": "challenges",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/02-basic-types/challenges/C03-assert-never.md",
+              "name": "C03-assert-never.md",
+              "title": "C03-assert-never",
+              "path": "typescript/02-basic-types/challenges/C03-assert-never.md",
+              "category": "challenges",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/02-basic-types/predictions/P01-typeof-null.md",
+              "name": "P01-typeof-null.md",
+              "title": "P01-typeof-null",
+              "path": "typescript/02-basic-types/predictions/P01-typeof-null.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/02-basic-types/predictions/P02-any-unknown.md",
+              "name": "P02-any-unknown.md",
+              "title": "P02-any-unknown",
+              "path": "typescript/02-basic-types/predictions/P02-any-unknown.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/02-basic-types/review.md",
+              "name": "review.md",
+              "title": "review",
+              "path": "typescript/02-basic-types/review.md",
+              "category": "review",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [
+            {
+              "id": "typescript/02-basic-types/challenges/broken/01-any-bug.ts",
+              "name": "01-any-bug.ts",
+              "path": "typescript/02-basic-types/challenges/broken/01-any-bug.ts",
+              "category": "challenges",
+              "language": "typescript",
+              "relative": "challenges/broken/01-any-bug.ts"
+            },
+            {
+              "id": "typescript/02-basic-types/experiments/01-primitives-exist.ts",
+              "name": "01-primitives-exist.ts",
+              "path": "typescript/02-basic-types/experiments/01-primitives-exist.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/01-primitives-exist.ts"
+            },
+            {
+              "id": "typescript/02-basic-types/experiments/02-any-vs-unknown.ts",
+              "name": "02-any-vs-unknown.ts",
+              "path": "typescript/02-basic-types/experiments/02-any-vs-unknown.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/02-any-vs-unknown.ts"
+            },
+            {
+              "id": "typescript/02-basic-types/experiments/03-never-fail.ts",
+              "name": "03-never-fail.ts",
+              "path": "typescript/02-basic-types/experiments/03-never-fail.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/03-never-fail.ts"
+            },
+            {
+              "id": "typescript/02-basic-types/experiments/04-void-vs-undefined.ts",
+              "name": "04-void-vs-undefined.ts",
+              "path": "typescript/02-basic-types/experiments/04-void-vs-undefined.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/04-void-vs-undefined.ts"
+            },
+            {
+              "id": "typescript/02-basic-types/experiments/05-assignability-matrix.ts",
+              "name": "05-assignability-matrix.ts",
+              "path": "typescript/02-basic-types/experiments/05-assignability-matrix.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/05-assignability-matrix.ts"
+            },
+            {
+              "id": "typescript/02-basic-types/experiments/06-object-vs-empty.ts",
+              "name": "06-object-vs-empty.ts",
+              "path": "typescript/02-basic-types/experiments/06-object-vs-empty.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/06-object-vs-empty.ts"
+            }
+          ],
+          "solutions": [
+            {
+              "id": "typescript/02-basic-types/solutions/01-any-bug.fixed.ts",
+              "name": "01-any-bug.fixed.ts",
+              "path": "typescript/02-basic-types/solutions/01-any-bug.fixed.ts",
+              "category": "solutions",
+              "language": "typescript",
+              "relative": "solutions/01-any-bug.fixed.ts"
+            },
+            {
+              "id": "typescript/02-basic-types/solutions/C01-assignability.md",
+              "name": "C01-assignability.md",
+              "title": "C01-assignability",
+              "path": "typescript/02-basic-types/solutions/C01-assignability.md",
+              "category": "solutions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/02-basic-types/solutions/C03-hints.md",
+              "name": "C03-hints.md",
+              "title": "C03-hints",
+              "path": "typescript/02-basic-types/solutions/C03-hints.md",
+              "category": "solutions",
+              "isPrimary": false
+            }
+          ]
+        },
+        {
+          "id": "03-type-inference",
+          "slug": "03-type-inference",
+          "title": "Type Inference",
+          "order": 3,
+          "docs": [
+            {
+              "id": "typescript/03-type-inference/README.md",
+              "name": "README.md",
+              "title": "Lesson",
+              "path": "typescript/03-type-inference/README.md",
+              "category": "docs",
+              "isPrimary": true
+            },
+            {
+              "id": "typescript/03-type-inference/challenges/C01-infer-quiz.md",
+              "name": "C01-infer-quiz.md",
+              "title": "C01-infer-quiz",
+              "path": "typescript/03-type-inference/challenges/C01-infer-quiz.md",
+              "category": "challenges",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/03-type-inference/predictions/P01-const-let.md",
+              "name": "P01-const-let.md",
+              "title": "P01-const-let",
+              "path": "typescript/03-type-inference/predictions/P01-const-let.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/03-type-inference/predictions/P02-conditional.md",
+              "name": "P02-conditional.md",
+              "title": "P02-conditional",
+              "path": "typescript/03-type-inference/predictions/P02-conditional.md",
+              "category": "predictions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/03-type-inference/review.md",
+              "name": "review.md",
+              "title": "review",
+              "path": "typescript/03-type-inference/review.md",
+              "category": "review",
+              "isPrimary": false
+            }
+          ],
+          "codeFiles": [
+            {
+              "id": "typescript/03-type-inference/challenges/broken/01-over-annotated.ts",
+              "name": "01-over-annotated.ts",
+              "path": "typescript/03-type-inference/challenges/broken/01-over-annotated.ts",
+              "category": "challenges",
+              "language": "typescript",
+              "relative": "challenges/broken/01-over-annotated.ts"
+            },
+            {
+              "id": "typescript/03-type-inference/challenges/broken/02-needs-literal.ts",
+              "name": "02-needs-literal.ts",
+              "path": "typescript/03-type-inference/challenges/broken/02-needs-literal.ts",
+              "category": "challenges",
+              "language": "typescript",
+              "relative": "challenges/broken/02-needs-literal.ts"
+            },
+            {
+              "id": "typescript/03-type-inference/experiments/01-const-vs-let.ts",
+              "name": "01-const-vs-let.ts",
+              "path": "typescript/03-type-inference/experiments/01-const-vs-let.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/01-const-vs-let.ts"
+            },
+            {
+              "id": "typescript/03-type-inference/experiments/02-conditional-union.ts",
+              "name": "02-conditional-union.ts",
+              "path": "typescript/03-type-inference/experiments/02-conditional-union.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/02-conditional-union.ts"
+            },
+            {
+              "id": "typescript/03-type-inference/experiments/03-contextual-typing.ts",
+              "name": "03-contextual-typing.ts",
+              "path": "typescript/03-type-inference/experiments/03-contextual-typing.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/03-contextual-typing.ts"
+            },
+            {
+              "id": "typescript/03-type-inference/experiments/04-annotation-vs-inference.ts",
+              "name": "04-annotation-vs-inference.ts",
+              "path": "typescript/03-type-inference/experiments/04-annotation-vs-inference.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/04-annotation-vs-inference.ts"
+            },
+            {
+              "id": "typescript/03-type-inference/experiments/05-as-const-preview.ts",
+              "name": "05-as-const-preview.ts",
+              "path": "typescript/03-type-inference/experiments/05-as-const-preview.ts",
+              "category": "experiments",
+              "language": "typescript",
+              "relative": "experiments/05-as-const-preview.ts"
+            }
+          ],
+          "solutions": [
+            {
+              "id": "typescript/03-type-inference/solutions/01-over-annotated.fixed.ts",
+              "name": "01-over-annotated.fixed.ts",
+              "path": "typescript/03-type-inference/solutions/01-over-annotated.fixed.ts",
+              "category": "solutions",
+              "language": "typescript",
+              "relative": "solutions/01-over-annotated.fixed.ts"
+            },
+            {
+              "id": "typescript/03-type-inference/solutions/02-needs-literal.fixed.ts",
+              "name": "02-needs-literal.fixed.ts",
+              "path": "typescript/03-type-inference/solutions/02-needs-literal.fixed.ts",
+              "category": "solutions",
+              "language": "typescript",
+              "relative": "solutions/02-needs-literal.fixed.ts"
+            },
+            {
+              "id": "typescript/03-type-inference/solutions/C01-infer-quiz.md",
+              "name": "C01-infer-quiz.md",
+              "title": "C01-infer-quiz",
+              "path": "typescript/03-type-inference/solutions/C01-infer-quiz.md",
+              "category": "solutions",
+              "isPrimary": false
+            },
+            {
+              "id": "typescript/03-type-inference/solutions/annotation-guidance.md",
+              "name": "annotation-guidance.md",
+              "title": "annotation-guidance",
+              "path": "typescript/03-type-inference/solutions/annotation-guidance.md",
+              "category": "solutions",
+              "isPrimary": false
+            }
+          ]
+        }
+      ],
+      "references": [
+        {
+          "id": "ARCHITECTURE_NOTES",
+          "title": "ARCHITECTURE NOTES",
+          "path": "typescript/ARCHITECTURE_NOTES.md",
+          "kind": "reference"
+        },
+        {
+          "id": "COMMON_MISTAKES",
+          "title": "COMMON MISTAKES",
+          "path": "typescript/COMMON_MISTAKES.md",
+          "kind": "reference"
+        },
+        {
+          "id": "COMPILER_REFERENCE",
+          "title": "COMPILER REFERENCE",
+          "path": "typescript/COMPILER_REFERENCE.md",
+          "kind": "reference"
+        },
+        {
+          "id": "CURRICULUM",
+          "title": "CURRICULUM",
+          "path": "typescript/CURRICULUM.md",
+          "kind": "reference"
+        },
+        {
+          "id": "GLOSSARY",
+          "title": "GLOSSARY",
+          "path": "typescript/GLOSSARY.md",
+          "kind": "reference"
+        },
+        {
+          "id": "INTERVIEW_PLAYBOOK",
+          "title": "INTERVIEW PLAYBOOK",
+          "path": "typescript/INTERVIEW_PLAYBOOK.md",
+          "kind": "reference"
+        },
+        {
+          "id": "PROGRESS",
+          "title": "PROGRESS",
+          "path": "typescript/PROGRESS.md",
+          "kind": "reference"
+        },
+        {
+          "id": "README",
+          "title": "README",
+          "path": "typescript/README.md",
+          "kind": "reference"
+        },
+        {
+          "id": "TYPE_PATTERNS",
+          "title": "TYPE PATTERNS",
+          "path": "typescript/TYPE_PATTERNS.md",
+          "kind": "reference"
+        },
+        {
+          "id": "TYPE_SYSTEM_FACTS",
+          "title": "TYPE SYSTEM FACTS",
+          "path": "typescript/TYPE_SYSTEM_FACTS.md",
+          "kind": "reference"
+        },
+        {
+          "id": "TYPESCRIPT_FACTS",
+          "title": "TYPESCRIPT FACTS",
+          "path": "typescript/TYPESCRIPT_FACTS.md",
+          "kind": "reference"
+        }
+      ],
+      "stats": {
+        "modules": 4,
+        "docs": 34,
+        "codeFiles": 25
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+/* Reset leftovers from Vite template — App.css owns the design system. */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
