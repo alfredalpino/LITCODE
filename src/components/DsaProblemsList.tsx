@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CheckCircle2, Circle, Shuffle, Star } from "lucide-react";
 import clsx from "clsx";
 import type { DsaIndexItem } from "../lib/dsa/types";
@@ -12,8 +12,14 @@ interface DsaProblemsListProps {
   solved: Record<string, boolean>;
   favorites: string[];
   searchQuery: string;
+  companyFilter: string | null;
+  favoritesOnly?: boolean;
+  difficultyPreset?: "All" | "Easy" | "Medium" | "Hard";
+  title?: string;
+  subtitle?: string;
   onOpen: (id: string) => void;
   onToggleFavorite: (id: string) => void;
+  onCompanyFilter: (name: string | null) => void;
 }
 
 export function DsaProblemsList({
@@ -23,15 +29,29 @@ export function DsaProblemsList({
   solved,
   favorites,
   searchQuery,
+  companyFilter,
+  favoritesOnly = false,
+  difficultyPreset = "All",
+  title = "DSA Arena",
+  subtitle,
   onOpen,
   onToggleFavorite,
+  onCompanyFilter,
 }: DsaProblemsListProps) {
-  const [diff, setDiff] = useState<"All" | "Easy" | "Medium" | "Hard">("All");
+  const [diff, setDiff] = useState<"All" | "Easy" | "Medium" | "Hard">(difficultyPreset);
   const [topic, setTopic] = useState("All");
-  const [company, setCompany] = useState("All");
   const [status, setStatus] = useState<"All" | "Todo" | "Solved">("All");
   const [page, setPage] = useState(0);
   const pageSize = 50;
+
+  useEffect(() => {
+    setDiff(difficultyPreset);
+    setPage(0);
+  }, [difficultyPreset]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [companyFilter, favoritesOnly, searchQuery]);
 
   const topicCounts = useMemo(() => {
     const map: Record<string, number> = {};
@@ -45,7 +65,9 @@ export function DsaProblemsList({
 
   const filtered = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
+    const company = companyFilter ?? "All";
     return items.filter((it) => {
+      if (favoritesOnly && !favorites.includes(it.id)) return false;
       if (diff !== "All" && it.difficulty !== diff) return false;
       if (topic !== "All" && !it.topics.includes(topic)) return false;
       if (company !== "All" && !it.companies.includes(company)) return false;
@@ -56,10 +78,21 @@ export function DsaProblemsList({
       return (
         it.title.toLowerCase().includes(q) ||
         String(it.num).includes(q) ||
-        it.topics.some((t) => t.toLowerCase().includes(q))
+        it.topics.some((t) => t.toLowerCase().includes(q)) ||
+        it.companies.some((c) => c.toLowerCase().includes(q))
       );
     });
-  }, [items, searchQuery, diff, topic, company, status, solved]);
+  }, [
+    items,
+    searchQuery,
+    diff,
+    topic,
+    companyFilter,
+    status,
+    solved,
+    favoritesOnly,
+    favorites,
+  ]);
 
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const pageItems = filtered.slice(page * pageSize, page * pageSize + pageSize);
@@ -75,8 +108,13 @@ export function DsaProblemsList({
     <div className="lc-feed">
       <div className="lc-banners">
         <div className="lc-banner lc-banner--a">
-          <strong>DSA Arena</strong>
-          <span>{total.toLocaleString()} industry-level drills</span>
+          <strong>{title}</strong>
+          <span>
+            {subtitle ??
+              `${total.toLocaleString()} industry-level drills${
+                companyFilter ? ` · ${companyFilter}` : ""
+              }`}
+          </span>
         </div>
         <div className="lc-banner lc-banner--b">
           <strong>Auto-Judge</strong>
@@ -84,7 +122,7 @@ export function DsaProblemsList({
         </div>
         <div className="lc-banner lc-banner--c">
           <strong>Company tags</strong>
-          <span>Google · Meta · Amazon · Stripe…</span>
+          <span>Filter from the right panel or toolbar</span>
         </div>
       </div>
 
@@ -150,9 +188,9 @@ export function DsaProblemsList({
           <option value="Solved">Solved</option>
         </select>
         <select
-          value={company}
+          value={companyFilter ?? "All"}
           onChange={(e) => {
-            setCompany(e.target.value);
+            onCompanyFilter(e.target.value === "All" ? null : e.target.value);
             setPage(0);
           }}
         >

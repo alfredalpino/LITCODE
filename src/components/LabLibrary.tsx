@@ -6,10 +6,13 @@ import { acceptanceRate } from "../lib/stats";
 import { moduleKey } from "../lib/progress";
 
 interface LabLibraryProps {
+  labs: Lab[];
   lab: Lab;
   progress: Record<string, boolean>;
   favorites: string[];
   searchQuery: string;
+  favoritesOnly?: boolean;
+  onLabChange: (id: string) => void;
   onOpenModule: (mod: LabModule) => void;
   onToggleFavorite: (id: string) => void;
   onShuffle?: () => void;
@@ -23,10 +26,13 @@ function difficultyFor(order: number, total: number): "Easy" | "Medium" | "Hard"
 }
 
 export function LabLibrary({
+  labs,
   lab,
   progress,
   favorites,
   searchQuery,
+  favoritesOnly = false,
+  onLabChange,
   onOpenModule,
   onToggleFavorite,
   onShuffle,
@@ -53,6 +59,8 @@ export function LabLibrary({
         return { m, done, d, acc: acceptanceRate(m.id) };
       })
       .filter(({ m, done, d }) => {
+        const favId = `${lab.id}:${m.id}`;
+        if (favoritesOnly && !favorites.includes(favId)) return false;
         if (diff !== "All" && d !== diff) return false;
         if (status === "Todo" && done) return false;
         if (status === "Solved" && !done) return false;
@@ -67,12 +75,30 @@ export function LabLibrary({
           String(m.order).includes(q)
         );
       });
-  }, [lab, progress, searchQuery, diff, topic, status]);
+  }, [lab, progress, searchQuery, diff, topic, status, favoritesOnly, favorites]);
 
   const solved = lab.modules.filter((m) => progress[moduleKey(lab.id, m.id)]).length;
 
   return (
     <div className="lc-feed">
+      <div className="lc-lab-switch">
+        {labs.map((l) => (
+          <button
+            key={l.id}
+            type="button"
+            className={clsx("lc-lab-switch__btn", lab.id === l.id && "is-active")}
+            onClick={() => onLabChange(l.id)}
+          >
+            {l.short}
+            <em>{l.modules.length}</em>
+          </button>
+        ))}
+      </div>
+
+      {favoritesOnly && (
+        <p className="lc-banner-note">Showing favorites for {lab.title}. Switch labs above to see more.</p>
+      )}
+
       <div className="lc-banners">
         <div className="lc-banner lc-banner--a">
           <strong>{lab.title}</strong>

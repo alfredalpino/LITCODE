@@ -1,10 +1,4 @@
-import {
-  BookMarked,
-  Compass,
-  Library,
-  ListChecks,
-  Star,
-} from "lucide-react";
+import { BookMarked, Compass, Library, ListChecks, Star } from "lucide-react";
 import clsx from "clsx";
 
 export type RailTab = "library" | "explore" | "study" | "lists";
@@ -12,7 +6,7 @@ export type RailTab = "library" | "explore" | "study" | "lists";
 interface LeftRailProps {
   active: RailTab;
   onChange: (tab: RailTab) => void;
-  collapsed?: boolean;
+  favoritesCount: number;
 }
 
 const ITEMS: Array<{ id: RailTab; label: string; icon: typeof Library }> = [
@@ -22,9 +16,9 @@ const ITEMS: Array<{ id: RailTab; label: string; icon: typeof Library }> = [
   { id: "lists", label: "My Lists", icon: Star },
 ];
 
-export function LeftRail({ active, onChange, collapsed }: LeftRailProps) {
+export function LeftRail({ active, onChange, favoritesCount }: LeftRailProps) {
   return (
-    <aside className={clsx("lc-rail", collapsed && "is-collapsed")} aria-label="Workspace">
+    <aside className="lc-rail" aria-label="Workspace">
       <div className="lc-rail__items">
         {ITEMS.map(({ id, label, icon: Icon }) => (
           <button
@@ -43,9 +37,14 @@ export function LeftRail({ active, onChange, collapsed }: LeftRailProps) {
         <p className="lc-rail__lists-label">
           <ListChecks size={14} /> Lists
         </p>
-        <button type="button" className="lc-rail__list-item is-active">
+        <button
+          type="button"
+          className={clsx("lc-rail__list-item", active === "lists" && "is-active")}
+          onClick={() => onChange("lists")}
+        >
           <Star size={13} />
           Favorites
+          {favoritesCount > 0 && <em>{favoritesCount}</em>}
         </button>
       </div>
     </aside>

@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { AppNav, type NavSection } from "./components/AppNav";
+import { AppNav, type NavSection, type NotifItem } from "./components/AppNav";
 import { LeftRail, type RailTab } from "./components/LeftRail";
 import { RightPanel } from "./components/RightPanel";
 import { LabLibrary } from "./components/LabLibrary";
 import { DsaProblemsList } from "./components/DsaProblemsList";
+import { ContestView, InterviewView } from "./components/SectionViews";
 import { Reader } from "./components/Reader";
 import { CodeWorkbench } from "./components/CodeWorkbench";
 import { SplitPane } from "./components/SplitPane";
@@ -32,12 +33,43 @@ import "./lc-shell.css";
 
 type WorkspaceView = "list" | "solve";
 
+const SETTINGS_KEY = "sde-lab-settings-v1";
+const NOTIF_KEY = "sde-lab-notifs-v1";
+
+function loadSettings() {
+  try {
+    const raw = localStorage.getItem(SETTINGS_KEY);
+    if (raw) return JSON.parse(raw) as { theme: "vs-dark" | "light"; fontSize: number };
+  } catch {
+    /* ignore */
+  }
+  return { theme: "vs-dark" as const, fontSize: 13 };
+}
+
+function loadNotifs(): NotifItem[] {
+  try {
+    const raw = localStorage.getItem(NOTIF_KEY);
+    if (raw) return JSON.parse(raw) as NotifItem[];
+  } catch {
+    /* ignore */
+  }
+  return [
+    {
+      id: "welcome",
+      title: "Welcome to SDE Lab",
+      body: "Problems, Labs, Contest, and Interview are live. Mark modules complete to fill progress.",
+      ts: Date.now(),
+      read: false,
+    },
+  ];
+}
+
 export default function App() {
   const [catalog, setCatalog] = useState<Catalog | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [mode, setMode] = useState<AppMode>("labs");
-  const [section, setSection] = useState<NavSection>("labs");
-  const [rail, setRail] = useState<RailTab>("library");
+  const [mode, setMode] = useState<AppMode>("dsa");
+  const [section, setSection] = useState<NavSection>("problems");
+  const [rail, setRail] = useState<RailTab>("explore");
   const [view, setView] = useState<WorkspaceView>("list");
   const [labId, setLabId] = useState("javascript");
   const [moduleId, setModuleId] = useState<string | null>(null);
@@ -47,11 +79,15 @@ export default function App() {
   const [dsaCompanies, setDsaCompanies] = useState<string[]>([]);
   const [dsaTotal, setDsaTotal] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const [companyFilter, setCompanyFilter] = useState<string | null>(null);
+  const [contestDiff, setContestDiff] = useState<"All" | "Easy" | "Medium" | "Hard">("All");
   const [mobilePane, setMobilePane] = useState<MobilePane>("read");
   const [progress, setProgress] = useState<ProgressMap>(() => loadProgress());
   const [dsaSolved, setDsaSolved] = useState(() => loadDsaSolved());
   const [favorites, setFavorites] = useState(() => loadFavorites());
   const [streak, setStreak] = useState<StreakState>(() => loadStreak());
+  const [settings, setSettings] = useState(loadSettings);
+  const [notifications, setNotifications] = useState<NotifItem[]>(loadNotifs);
 
   useEffect(() => {
     setStreak(touchStreak());
@@ -70,10 +106,17 @@ export default function App() {
         setDsaCompanies(file.catalog.companies);
         setDsaTotal(file.catalog.total);
       })
-      .catch(() => {
-        /* DSA optional at boot */
-      });
+      .catch(() => undefined);
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+    document.documentElement.style.setProperty("--editor-font-size", `${settings.fontSize}px`);
+  }, [settings]);
+
+  useEffect(() => {
+    localStorage.setItem(NOTIF_KEY, JSON.stringify(notifications));
+  }, [notifications]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
@@ -81,9 +124,7 @@ export default function App() {
         e.preventDefault();
         document.querySelector<HTMLButtonElement>(".run-btn")?.click();
       }
-      if (e.key === "Escape" && view === "solve") {
-        setView("list");
-      }
+      if (e.key === "Escape" && view === "solve") setView("list");
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -125,7 +166,7 @@ export default function App() {
 
   const companyWidgets = useMemo(() => {
     const counts: Record<string, number> = {};
-    for (const it of dsaItems.slice(0, 2000)) {
+    for (const it of dsaItems) {
       for (const c of it.companies) counts[c] = (counts[c] ?? 0) + 1;
     }
     return Object.entries(counts)
@@ -134,24 +175,64 @@ export default function App() {
       .map(([name, count]) => ({ name, count }));
   }, [dsaItems]);
 
-  const onLabChange = useCallback((id: string) => {
-    setMode("labs");
-    setSection("labs");
-    setLabId(id);
-    setView("list");
-    setModuleId(null);
-    setSearchQuery("");
+  const hardProblems = useMemo(
+    () => dsaItems.filter((i) => i.difficulty === "Hard"),
+    [dsaItems]
+  );
+
+  const pushNotif = useCallback((title: string, body: string) => {
+    setNotifications((prev) => [
+      { id: `${Date.now()}`, title, body, ts: Date.now(), read: false },
+      ...prev,
+    ].slice(0, 30));
   }, []);
 
-  const onModeChange = useCallback((m: AppMode) => {
-    setMode(m);
+  const goSection = useCallback((s: NavSection) => {
+    setSection(s);
     setView("list");
-    setSection(m === "dsa" ? "problems" : "labs");
     setSearchQuery("");
+    if (s === "problems") {
+      setMode("dsa");
+      setRail("explore");
+      setCompanyFilter(null);
+      setContestDiff("All");
+    } else if (s === "labs") {
+      setMode("labs");
+      setRail("library");
+    } else if (s === "contest") {
+      setMode("dsa");
+      setRail("explore");
+      setContestDiff("Hard");
+    } else if (s === "interview") {
+      setMode("dsa");
+      setRail("study");
+    }
+  }, []);
+
+  const goRail = useCallback((tab: RailTab) => {
+    setRail(tab);
+    setView("list");
+    if (tab === "library") {
+      setSection("labs");
+      setMode("labs");
+    } else if (tab === "explore") {
+      setSection("problems");
+      setMode("dsa");
+      setCompanyFilter(null);
+      setContestDiff("All");
+    } else if (tab === "study") {
+      setSection("interview");
+      setMode("dsa");
+    } else if (tab === "lists") {
+      setSection("problems");
+      setMode("dsa");
+    }
   }, []);
 
   const openModule = useCallback((mod: LabModule) => {
     setModuleId(mod.id);
+    setMode("labs");
+    setSection("labs");
     setView("solve");
     setMobilePane("read");
     setStreak(touchStreak());
@@ -174,16 +255,14 @@ export default function App() {
       return next;
     });
     setStreak(touchStreak());
-  }, [lab, module]);
+    pushNotif("Module updated", `${module.title} progress saved.`);
+  }, [lab, module, pushNotif]);
 
   if (error) {
     return (
       <div className="boot-error">
         <h1>Could not load laboratory content</h1>
         <p>{error}</p>
-        <p>
-          Run <code>npm run sync</code> then restart the dev server.
-        </p>
       </div>
     );
   }
@@ -201,50 +280,59 @@ export default function App() {
   const showRight = view === "list";
   const showRail = view === "list";
 
+  const listKind: "labs" | "problems" | "contest" | "interview" | "favorites" =
+    rail === "lists"
+      ? "favorites"
+      : section === "interview" || rail === "study"
+        ? "interview"
+        : section === "contest"
+          ? "contest"
+          : section === "labs" || rail === "library"
+            ? "labs"
+            : "problems";
+
   return (
     <div className="app-shell lc-shell">
       <AppNav
-        labs={catalog.labs}
-        mode={mode}
         section={section}
-        activeLabId={lab.id}
         streak={streak.count}
-        onSection={(s) => {
-          setSection(s);
-          if (s === "problems" || s === "dsa") {
-            setMode("dsa");
-            setView("list");
-          } else if (s === "labs") {
-            setMode("labs");
-            setView("list");
-          } else if (s === "progress") {
-            setView("list");
-          }
-        }}
-        onLabChange={onLabChange}
-        onModeChange={onModeChange}
         searchQuery={searchQuery}
         onSearch={setSearchQuery}
+        onSection={goSection}
+        notifications={notifications}
+        onMarkNotificationsRead={() =>
+          setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))
+        }
+        onClearNotifications={() => setNotifications([])}
+        editorTheme={settings.theme}
+        onEditorTheme={(theme) => setSettings((s) => ({ ...s, theme }))}
+        fontSize={settings.fontSize}
+        onFontSize={(fontSize) => setSettings((s) => ({ ...s, fontSize }))}
       />
 
       <div className={clsxBody(showRail, showRight)}>
         {showRail && (
           <LeftRail
             active={rail}
-            onChange={(tab) => {
-              setRail(tab);
-              setView("list");
-            }}
+            favoritesCount={favorites.length}
+            onChange={goRail}
           />
         )}
 
         <div className="lc-main">
-          {view === "list" && mode === "labs" && (
+          {view === "list" && listKind === "labs" && (
             <LabLibrary
+              labs={catalog.labs}
               lab={lab}
               progress={progress}
               favorites={favorites}
               searchQuery={searchQuery}
+              onLabChange={(id) => {
+                setLabId(id);
+                setMode("labs");
+                setSection("labs");
+                setRail("library");
+              }}
               onOpenModule={openModule}
               onToggleFavorite={(id) => setFavorites(toggleFavorite(id))}
               onShuffle={() => {
@@ -255,7 +343,7 @@ export default function App() {
             />
           )}
 
-          {view === "list" && mode === "dsa" && (
+          {view === "list" && (listKind === "problems" || listKind === "favorites") && (
             <DsaProblemsList
               items={dsaItems}
               topics={dsaTopics}
@@ -264,8 +352,61 @@ export default function App() {
               solved={dsaSolved}
               favorites={favorites}
               searchQuery={searchQuery}
+              companyFilter={companyFilter}
+              favoritesOnly={listKind === "favorites"}
+              difficultyPreset={contestDiff}
+              title={
+                listKind === "favorites"
+                  ? "My Lists · Favorites"
+                  : companyFilter
+                    ? `${companyFilter} interview pack`
+                    : "Problems"
+              }
+              subtitle={
+                listKind === "favorites"
+                  ? `${favorites.filter((f) => !f.includes(":")).length || favorites.length} saved DSA items`
+                  : companyFilter
+                    ? `Filtered to ${companyFilter}`
+                    : undefined
+              }
               onOpen={openDsa}
               onToggleFavorite={(id) => setFavorites(toggleFavorite(id))}
+              onCompanyFilter={setCompanyFilter}
+            />
+          )}
+
+          {view === "list" && listKind === "contest" && (
+            <ContestView
+              hardProblems={hardProblems}
+              onOpen={openDsa}
+              onStartWeekly={() => {
+                setContestDiff("Hard");
+                setCompanyFilter(null);
+                pushNotif("Contest started", "Hard difficulty filter applied. Good luck.");
+                const pick = hardProblems[Math.floor(Math.random() * Math.min(hardProblems.length, 40))];
+                if (pick) openDsa(pick.id);
+              }}
+            />
+          )}
+
+          {view === "list" && listKind === "interview" && (
+            <InterviewView
+              labs={catalog.labs}
+              solvedLabs={labSolvedCount}
+              totalLabs={labTotalCount}
+              solvedDsa={Object.keys(dsaSolved).length}
+              totalDsa={dsaTotal}
+              streak={streak.count}
+              companies={dsaCompanies}
+              onOpenLabs={() => goSection("labs")}
+              onOpenCompanyPack={(c) => {
+                setCompanyFilter(c);
+                setSection("problems");
+                setRail("explore");
+                setMode("dsa");
+                setContestDiff("All");
+                pushNotif("Company pack", `Filtered Problems to ${c}.`);
+              }}
             />
           )}
 
@@ -295,7 +436,6 @@ export default function App() {
                   </button>
                 </div>
               </div>
-
               <div className="workspace__desktop lc-solve__panes">
                 <SplitPane
                   storageKey="sde-main-split"
@@ -308,16 +448,8 @@ export default function App() {
                       referencePath={null}
                       prevModule={prevModule}
                       nextModule={nextModule}
-                      onPrev={
-                        prevModule
-                          ? () => setModuleId(prevModule.id)
-                          : undefined
-                      }
-                      onNext={
-                        nextModule
-                          ? () => setModuleId(nextModule.id)
-                          : undefined
-                      }
+                      onPrev={prevModule ? () => setModuleId(prevModule.id) : undefined}
+                      onNext={nextModule ? () => setModuleId(nextModule.id) : undefined}
                     />
                   }
                   second={
@@ -330,7 +462,6 @@ export default function App() {
                   }
                 />
               </div>
-
               <div className="workspace__mobile lc-solve__panes">
                 {mobilePane === "read" ? (
                   <Reader
@@ -359,7 +490,10 @@ export default function App() {
               items={dsaItems}
               onBack={() => setView("list")}
               onChangeProblem={setDsaId}
-              onAccepted={(id) => setDsaSolved(markDsaSolved(id))}
+              onAccepted={(id) => {
+                setDsaSolved(markDsaSolved(id));
+                pushNotif("Accepted", `Problem ${id} marked solved.`);
+              }}
               mobilePane={mobilePane}
               onMobilePane={setMobilePane}
             />
@@ -374,6 +508,16 @@ export default function App() {
             solvedDsa={Object.keys(dsaSolved).length}
             totalDsa={dsaTotal || 10000}
             companies={companyWidgets}
+            activeCompany={companyFilter}
+            onCompany={(name) => {
+              setCompanyFilter(name);
+              setSection("problems");
+              setRail("explore");
+              setMode("dsa");
+              setContestDiff("All");
+              setView("list");
+            }}
+            onOpenProgress={() => goSection("interview")}
           />
         )}
       </div>

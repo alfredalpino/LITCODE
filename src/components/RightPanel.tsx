@@ -10,6 +10,9 @@ interface RightPanelProps {
   solvedDsa: number;
   totalDsa: number;
   companies: Array<{ name: string; count: number }>;
+  activeCompany: string | null;
+  onCompany: (name: string | null) => void;
+  onOpenProgress: () => void;
   visible?: boolean;
 }
 
@@ -38,6 +41,9 @@ export function RightPanel({
   solvedDsa,
   totalDsa,
   companies,
+  activeCompany,
+  onCompany,
+  onOpenProgress,
   visible = true,
 }: RightPanelProps) {
   const cells = useMemo(() => monthGrid(streak.history ?? []), [streak.history]);
@@ -77,7 +83,7 @@ export function RightPanel({
         </div>
       </section>
 
-      <section className="lc-card">
+      <section className="lc-card lc-card--clickable" onClick={onOpenProgress}>
         <h3>Progress</h3>
         <div className="lc-progress-row">
           <span>Lab modules</span>
@@ -101,13 +107,26 @@ export function RightPanel({
             }}
           />
         </div>
+        <p className="lc-card__hint">Click for interview dashboard</p>
       </section>
 
       <section className="lc-card">
-        <h3>Trending Companies</h3>
+        <div className="lc-card__head">
+          <h3>Trending Companies</h3>
+          {activeCompany && (
+            <button type="button" className="lc-link" onClick={() => onCompany(null)}>
+              Clear
+            </button>
+          )}
+        </div>
         <div className="lc-companies">
           {companies.map((c) => (
-            <button key={c.name} type="button" className="lc-company">
+            <button
+              key={c.name}
+              type="button"
+              className={clsx("lc-company", activeCompany === c.name && "is-active")}
+              onClick={() => onCompany(activeCompany === c.name ? null : c.name)}
+            >
               {c.name}
               <span>{c.count}</span>
             </button>
