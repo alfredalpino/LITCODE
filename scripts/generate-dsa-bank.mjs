@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 import { companiesForSlug, frequencyFor } from "./lib/company-pack-query.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const OUT = path.join(__dirname, "..", "public", "dsa");
+const OUT = path.join(__dirname, "..", "public", "data", "dsa");
 
 const TOPICS = [
   "Array", "Hash Table", "Two Pointers", "Sliding Window", "Stack", "Queue",
@@ -20,9 +20,18 @@ const TOPICS = [
   "Monotonic Stack", "Design", "Intervals", "Matrix", "Recursion",
 ];
 
-const PACKS_PATH = path.join(OUT, "company-packs.json");
+const PACKS_PATH = path.join(
+  __dirname,
+  "..",
+  "public",
+  "data",
+  "companies",
+  "company-packs.json"
+);
 if (!fs.existsSync(PACKS_PATH)) {
-  console.error("Missing public/dsa/company-packs.json — run: npm run companies:gen");
+  console.error(
+    "Missing public/data/companies/company-packs.json — run: npm run companies:gen"
+  );
   process.exit(1);
 }
 const COMPANY_PACKS = JSON.parse(fs.readFileSync(PACKS_PATH, "utf8"));
@@ -346,5 +355,5 @@ for (const key of JUDGED) {
 fs.writeFileSync(path.join(OUT, "test-packs.json"), JSON.stringify(testPacks));
 
 console.log(
-  `DSA interview bank: ${index.length} problems · ${SEEDS.length} judged seeds · company-tagged LC only → public/dsa/`
+  `DSA interview bank: ${index.length} problems · ${SEEDS.length} judged seeds · company-tagged LC only → public/data/dsa/`
 );

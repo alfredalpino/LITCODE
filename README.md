@@ -108,12 +108,13 @@ LITCODE/
 ├── src/                 # UI, studio shell, runners, DSA loaders
 ├── public/              # Static assets, synced content/, dsa/
 ├── scripts/             # Sync, DSA bank, company packs, tests
-├── docs/                # Architecture, audits, decisions
-├── *-laboratory/        # Curriculum sources (mirrored into public/content)
-└── BRAND.md             # Brand system
+├── docs/                # Architecture, audits, decisions, brand
+├── laboratories/        # Curriculum sources (mirrored into public/data)
+├── companies/           # Company pack pipeline
+└── public/data/         # Runtime tanker (catalog, labs, DSA, companies)
 ```
 
-Curriculum folders are walked by `scripts/sync-content.mjs` into `public/content/` on `predev` / `prebuild`. Generator scripts under each laboratory's `scripts/` directory stay out of that mirror so they are not duplicated into `public/content`.
+Curriculum folders are walked by `scripts/sync-content.mjs` into `public/data/` on `predev` / `prebuild`. Generator scripts under each laboratory's `scripts/` directory stay out of that mirror so they are not duplicated into the tanker.
 
 ---
 
@@ -123,7 +124,7 @@ Curriculum folders are walked by `scripts/sync-content.mjs` into `public/content
 - Monaco editor · Framer Motion · Sucrase (TS in-browser)
 - Pyodide for Python in the browser
 - Judge0-compatible remote execute for compiled / other languages
-- Deployable on Netlify (`@netlify/plugin-nextjs`)
+- Deployable on Vercel
 
 ---
 
@@ -142,7 +143,7 @@ Deeper notes: [`docs/WORKSPACE_INDEX.md`](./docs/WORKSPACE_INDEX.md)
 
 ## Brand
 
-See [BRAND.md](./BRAND.md).
+See [docs/brand/BRAND.md](./docs/brand/BRAND.md).
 
 - Product name: **LITCODE**  
 - Tagline: **Predict. Run. Break. Prove.**  

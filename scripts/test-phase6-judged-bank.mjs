@@ -32,7 +32,7 @@ describe("phase6 judged bank", () => {
   });
 
   it("public seeds.json mirrors after dsa:gen (if present)", () => {
-    const pubPath = path.join(ROOT, "public/dsa/seeds.json");
+    const pubPath = path.join(ROOT, "public/data/dsa/seeds.json");
     let raw;
     try {
       raw = readFileSync(pubPath, "utf8");
@@ -50,7 +50,7 @@ describe("phase6 judged bank", () => {
     );
     const ids = new Set(seeds.map((s) => s.id));
     const graph = JSON.parse(
-      readFileSync(path.join(ROOT, "public/content/skill-graph.json"), "utf8")
+      readFileSync(path.join(ROOT, "public/data/skill-graph.json"), "utf8")
     );
     const bridges = graph.nodes.filter((n) => n.challengeRef?.challengeId);
     assert.ok(bridges.length >= 10);

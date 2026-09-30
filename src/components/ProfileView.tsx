@@ -8,11 +8,13 @@ import {
   Globe,
   Link2,
   MapPin,
+  Pencil,
   Share2,
   Star,
 } from "lucide-react";
 import type { UserProfile } from "@/components/StudioProvider";
 import { ProgressNextSteps } from "@/components/ProgressNextSteps";
+import { SITE_URL } from "@/lib/site";
 
 interface ProfileViewProps {
   profile: UserProfile;
@@ -49,8 +51,9 @@ export function ProfileView({
   const [editing, setEditing] = useState(false);
 
   const shareUrl = useMemo(() => {
-    // SSR fallback uses current Netlify slug until site rename (see LITCODE/README.md).
-    if (typeof window === "undefined") return `https://litcode.netlify.app/u/${profile.username}`;
+    if (typeof window === "undefined") {
+      return `${SITE_URL}/profile?u=${encodeURIComponent(profile.username)}`;
+    }
     return `${window.location.origin}/profile?u=${encodeURIComponent(profile.username)}`;
   }, [profile.username]);
 
@@ -69,79 +72,91 @@ export function ProfileView({
     }
   }
 
+  const stats = [
+    { label: "DSA solved", value: String(solvedDsa) },
+    { label: "Lab modules", value: String(solvedLabs) },
+    {
+      label: "Day streak",
+      value: String(streak),
+      icon: <Flame size={14} aria-hidden />,
+    },
+    {
+      label: "Favorites",
+      value: String(favorites),
+      icon: <Star size={14} aria-hidden />,
+    },
+    { label: "Local rank", value: `#${ranking.toLocaleString()}` },
+  ];
+
   return (
     <div className="lc-feed lc-profile">
-      <section className="lc-profile__hero">
+      <header className="lc-profile__hero">
         <div
           className="lc-profile__avatar"
           style={{
-            background: `linear-gradient(145deg, hsl(${profile.avatarHue} 70% 42%), hsl(${(profile.avatarHue + 40) % 360} 65% 28%))`,
+            background: `linear-gradient(145deg, hsl(${profile.avatarHue} 65% 40%), hsl(${(profile.avatarHue + 36) % 360} 55% 26%))`,
           }}
+          aria-hidden
         >
           {profile.displayName.slice(0, 1).toUpperCase()}
         </div>
-        <div className="lc-profile__meta">
+
+        <div className="lc-profile__identity">
+          <p className="lc-profile__eyebrow">Profile</p>
           <h1>{profile.displayName}</h1>
           <p className="lc-profile__handle">@{profile.username}</p>
-          <p className="lc-profile__headline">{profile.headline}</p>
+          {profile.headline ? (
+            <p className="lc-profile__headline">{profile.headline}</p>
+          ) : null}
           <div className="lc-profile__chips">
-            {profile.location && (
+            {profile.location ? (
               <span>
                 <MapPin size={12} /> {profile.location}
               </span>
-            )}
-            {profile.github && (
+            ) : null}
+            {profile.github ? (
               <a href={profile.github} target="_blank" rel="noreferrer">
                 <Link2 size={12} /> GitHub
               </a>
-            )}
-            {profile.website && (
+            ) : null}
+            {profile.website ? (
               <a href={profile.website} target="_blank" rel="noreferrer">
                 <Globe size={12} /> Website
               </a>
-            )}
+            ) : null}
           </div>
         </div>
+
         <div className="lc-profile__actions">
           <button type="button" className="lc-profile__share" onClick={copyShare}>
             {copied ? <Check size={14} /> : <Share2 size={14} />}
-            {copied ? "Copied" : "Share profile"}
+            {copied ? "Copied" : "Share"}
           </button>
-          <button type="button" className="lc-link" onClick={() => setEditing((v) => !v)}>
-            {editing ? "Done" : "Edit profile"}
+          <button
+            type="button"
+            className="lc-profile__edit"
+            onClick={() => setEditing((v) => !v)}
+          >
+            <Pencil size={14} />
+            {editing ? "Done" : "Edit"}
           </button>
         </div>
-      </section>
+      </header>
 
-      <section className="lc-profile__stats">
-        <div>
-          <strong>{solvedDsa}</strong>
-          <span>DSA solved</span>
-        </div>
-        <div>
-          <strong>{solvedLabs}</strong>
-          <span>Lab modules</span>
-        </div>
-        <div>
-          <strong>
-            <Flame size={14} /> {streak}
-          </strong>
-          <span>Day streak</span>
-        </div>
-        <div>
-          <strong>
-            <Star size={14} /> {favorites}
-          </strong>
-          <span>Favorites</span>
-        </div>
-        <div>
-          <strong>#{ranking.toLocaleString()}</strong>
-          <span>Local rank</span>
-        </div>
-      </section>
+      <ul className="lc-profile__stats" aria-label="Local progress stats">
+        {stats.map((s) => (
+          <li key={s.label}>
+            <strong>
+              {s.icon}
+              {s.value}
+            </strong>
+            <span>{s.label}</span>
+          </li>
+        ))}
+      </ul>
 
-      <section className="lc-card lc-card--wide">
-        <h3>About</h3>
+      <section className="lc-profile__panel">
+        <h2>About</h2>
         {editing ? (
           <div className="lc-profile__form">
             {(
@@ -162,7 +177,7 @@ export function ProfileView({
                 />
               </label>
             ))}
-            <label>
+            <label className="lc-profile__form-full">
               <span>Bio</span>
               <textarea
                 rows={4}
@@ -170,7 +185,7 @@ export function ProfileView({
                 onChange={(e) => onChange({ ...profile, bio: e.target.value })}
               />
             </label>
-            <label>
+            <label className="lc-profile__form-full">
               <span>Avatar hue</span>
               <input
                 type="range"
@@ -184,7 +199,9 @@ export function ProfileView({
             </label>
           </div>
         ) : (
-          <p className="lc-muted">{profile.bio || "No bio yet."}</p>
+          <p className="lc-profile__bio">
+            {profile.bio || "No bio yet — hit Edit to introduce yourself."}
+          </p>
         )}
       </section>
 
@@ -195,21 +212,21 @@ export function ProfileView({
         onOpenChallenge={onOpenChallenge}
       />
 
-      {onOpenProgress && (
-        <section className="lc-card lc-card--wide">
-          <h3>Skill evidence</h3>
+      {onOpenProgress ? (
+        <section className="lc-profile__panel">
+          <h2>Skill evidence</h2>
           <p className="lc-muted">
-            Known / learning / weak / mastered buckets live on Progress — local events + skill graph
-            across JS, TypeScript, Python, and judged challenges.
+            Known / learning / weak / mastered buckets live on Progress — local events
+            plus the skill graph across labs and judged challenges.
           </p>
-          <button type="button" className="run-btn" onClick={onOpenProgress}>
+          <button type="button" className="lc-profile__cta" onClick={onOpenProgress}>
             Open Progress
           </button>
         </section>
-      )}
+      ) : null}
 
-      <section className="lc-card lc-card--wide">
-        <h3>Share link</h3>
+      <section className="lc-profile__panel">
+        <h2>Share link</h2>
         <div className="lc-profile__linkrow">
           <Link2 size={14} />
           <code>{shareUrl}</code>
@@ -218,12 +235,12 @@ export function ProfileView({
           </button>
         </div>
         <p className="lc-card__hint">
-          Progress is stored in this browser. Share the link so others can open the studio —
-          your public card shows username and stats.
+          Progress stays in this browser. Sharing opens the studio; your card shows
+          username and local stats.
         </p>
         <p className="lc-card__hint">
-          Bank: {totalDsa.toLocaleString()} indexed titles · {totalLabs} lab modules (see Ready
-          badges — scaffolds are not complete labs)
+          Bank: {totalDsa.toLocaleString()} indexed titles · {totalLabs} lab modules
+          (Ready vs scaffold badges are honest).
         </p>
       </section>
     </div>

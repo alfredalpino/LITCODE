@@ -1,13 +1,13 @@
 /**
  * Public site origin for SEO (sitemap, robots, Open Graph, canonical).
  *
- * Set `NEXT_PUBLIC_SITE_URL` in `.env.local` (local) and Netlify env (deploy).
+ * Set `NEXT_PUBLIC_SITE_URL` in `.env.local` (local) and Vercel env (deploy).
  * No trailing slash. Must match the real host users open — wrong values poison
  * canonical URLs and OG previews.
  *
  * Placeholder default below is intentional until the operator locks a real
  * production domain. Do not treat it as confirmation that litcode.dev is live.
- * Local: `http://localhost:3000`. Production: your Netlify URL or custom domain.
+ * Local: `http://localhost:3000`. Production: your Vercel URL or custom domain.
  */
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://litcode.dev";

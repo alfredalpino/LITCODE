@@ -14,7 +14,7 @@ const ROOT = path.resolve(__dirname, "..");
 
 describe("company packs query helpers", () => {
   const packs = JSON.parse(
-    readFileSync(path.join(ROOT, "public/dsa/company-packs.json"), "utf8")
+    readFileSync(path.join(ROOT, "public/data/companies/company-packs.json"), "utf8")
   );
 
   it("pack file has companies and problems indexes", () => {

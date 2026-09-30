@@ -13,7 +13,7 @@ import { execSync } from "node:child_process";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
-const OUT = path.join(ROOT, "public", "dsa", "company-packs.json");
+const OUT = path.join(ROOT, "public", "data", "companies", "company-packs.json");
 const CACHE = path.join(ROOT, ".cache");
 
 const SOURCES = [
@@ -386,7 +386,7 @@ const payload = {
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 fs.writeFileSync(OUT, JSON.stringify(payload));
 console.log(
-  `Company packs: ${companies.length} companies · ${Object.keys(problemsOut).length} problems → public/dsa/company-packs.json`
+  `Company packs: ${companies.length} companies · ${Object.keys(problemsOut).length} problems → public/data/companies/company-packs.json`
 );
 console.log(
   `Top: ${companies

@@ -33,4 +33,18 @@ All workspace audits, architecture, and phase docs now live here inside the LITC
 | [PHASE9_PRODUCT_POLISH.md](./PHASE9_PRODUCT_POLISH.md) | Product polish |
 | [PHASE10_COMMERCIAL_READINESS.md](./PHASE10_COMMERCIAL_READINESS.md) | Commercial readiness |
 
-Product root: [`../`](../) · Brand: [`../BRAND.md`](../BRAND.md)
+Product root: [`../`](../) · Brand: [`./brand/BRAND.md`](./brand/BRAND.md)
+
+## Brand
+
+| Doc | Purpose |
+|---|---|
+| [brand/BRAND.md](./brand/BRAND.md) | Brand system overview |
+| [brand/colors.md](./brand/colors.md) | Color tokens |
+| [brand/typography.md](./brand/typography.md) | Type |
+| [brand/messaging.md](./brand/messaging.md) | Messaging |
+| [brand/voice-and-tone.md](./brand/voice-and-tone.md) | Voice |
+| [brand/tagline.md](./brand/tagline.md) | Tagline |
+| [brand/brand-identity.md](./brand/brand-identity.md) | Identity |
+| [brand/brand-strategy.md](./brand/brand-strategy.md) | Strategy |
+| [brand/naming-analysis.md](./brand/naming-analysis.md) | Naming |

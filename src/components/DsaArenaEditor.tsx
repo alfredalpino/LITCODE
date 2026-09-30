@@ -21,7 +21,7 @@ export function DsaArenaEditor(props: {
   problem: DsaProblem | null;
   code: string;
   setCode: (code: string) => void;
-  editorTheme: "vs-dark" | "light";
+  editorTheme: "vs-dark" | "light" | "hc-black";
   setLayout: (layout: ArenaLayoutId) => void;
   savedFlash: boolean;
 }) {

@@ -106,7 +106,7 @@ describe("progress persistence", () => {
 describe("skill-graph loader shape", () => {
   it("validates authored skill-graph.json", () => {
     const raw = readFileSync(
-      path.join(ROOT, "public/content/skill-graph.json"),
+      path.join(ROOT, "public/data/skill-graph.json"),
       "utf8"
     );
     const graph = JSON.parse(raw);
@@ -128,7 +128,7 @@ describe("skill-graph loader shape", () => {
   it("recommendNext returns bound nodes when language prereqs are free", async () => {
     // Inline minimal recommend mirroring src/lib/skill-graph.ts language rule
     const graph = JSON.parse(
-      readFileSync(path.join(ROOT, "public/content/skill-graph.json"), "utf8")
+      readFileSync(path.join(ROOT, "public/data/skill-graph.json"), "utf8")
     );
     const byId = new Map(graph.nodes.map((n) => [n.id, n]));
     const evidence = {};

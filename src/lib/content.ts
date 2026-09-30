@@ -1,6 +1,6 @@
 import type { Catalog } from "../types";
 
-const CONTENT_BASE = "/content";
+const CONTENT_BASE = "/data";
 
 async function fetchJson<T>(url: string, attempts = 3): Promise<T> {
   let lastError: Error | null = null;

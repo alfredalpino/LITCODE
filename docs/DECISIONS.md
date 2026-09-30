@@ -279,7 +279,7 @@ Format: Decision / Context / Options / Chosen / Reason / Trade-offs / Future imp
 |---|---|
 | **Decision** | Adopt **LITCODE** as the product brand name, replacing “SDE Laboratory Studio” / “SDE Lab” / “SDE Laboratory” in user-facing and package metadata |
 | **Context** | Phase 1–2 used descriptive working names; audits flagged weak memorability and LeetCode-chrome brand conflict; Phase 3 branding mission |
-| **Options** | (A) Keep SDE Lab (B) LITCODE (C) Interlab (D) Titra / other shortlist — see `LITCODE/naming-analysis.md` |
+| **Options** | (A) Keep SDE Lab (B) LITCODE (C) Interlab (D) Titra / other shortlist — see `docs/brand/naming-analysis.md` |
 | **Chosen** | B — LITCODE |
 | **Reason** | Encodes scarce IP (predict→run→break→explain loop); short SaaS-extensible noun; developer-credible; clearer than collided alternatives (Drylab, Labora, Lathe, Speculo, etc.) |
 | **Trade-offs** | “Loop*” category has adjacent brands (email, returns); compound still needs registrar + trademark counsel before public launch — light diligence only in Phase 3 |
@@ -293,7 +293,7 @@ Format: Decision / Context / Options / Chosen / Reason / Trade-offs / Future imp
 |---|---|
 | **Decision** | **Tagline:** “Predict. Run. Break. Prove.” · **Motto:** “Prove what you think you know.” · **Secondary:** “Run the experiment. Keep the skill.” |
 | **Context** | Need lines that communicate engineering mastery / practice / experimentation — not generic “Learn to code” |
-| **Options** | Compared in `LITCODE/tagline.md` (A–H) |
+| **Options** | Compared in `docs/brand/tagline.md` (A–H) |
 | **Chosen** | A tagline + C motto + B secondary |
 | **Reason** | Tagline is the pedagogy loop compressed; motto is the strategic proof line from product architecture; secondary softens onboarding |
 | **Trade-offs** | Tagline is instructional — acceptable for a laboratory brand |
@@ -311,7 +311,7 @@ Format: Decision / Context / Options / Chosen / Reason / Trade-offs / Future imp
 | **Chosen** | C |
 | **Reason** | Differentiates from AI-SaaS defaults; matches experimental/precise personality; reuses shipping type stack |
 | **Trade-offs** | Dark-first bias — light tokens defined for settings parity |
-| **Future implications** | Phase 4+ UI work should migrate CSS variables toward `--lf-*` tokens in `LITCODE/colors.md` when touching chrome |
+| **Future implications** | Phase 4+ UI work should migrate CSS variables toward `--lf-*` tokens in `docs/brand/colors.md` when touching chrome |
 
 ---
 

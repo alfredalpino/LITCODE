@@ -22,6 +22,7 @@ import {
 } from "@/lib/progress";
 import { appendEvent } from "@/lib/events";
 import { track } from "@/lib/analytics";
+import { normalizeThemeId, themeColorMeta, type AppThemeId } from "@/lib/themes";
 import {
   loadDsaSolved,
   loadFavorites,
@@ -54,18 +55,18 @@ function loadSettings() {
     const raw = localStorage.getItem(SETTINGS_KEY);
     if (raw) {
       const parsed = JSON.parse(raw) as {
-        theme?: "vs-dark" | "light" | "dark";
+        theme?: string;
         fontSize: number;
       };
       return {
-        theme: (parsed.theme === "light" ? "light" : "dark") as "dark" | "light",
+        theme: normalizeThemeId(parsed.theme),
         fontSize: parsed.fontSize ?? 13,
       };
     }
   } catch {
     /* ignore */
   }
-  return { theme: "dark" as const, fontSize: 13 };
+  return { theme: "campfire" as const, fontSize: 13 };
 }
 
 function loadNotifs(): NotifItem[] {
@@ -139,9 +140,9 @@ type StudioContextValue = {
   dsaSolved: Record<string, boolean>;
   favorites: string[];
   streak: StreakState;
-  settings: { theme: "dark" | "light"; fontSize: number };
+  settings: { theme: AppThemeId; fontSize: number };
   setSettings: React.Dispatch<
-    React.SetStateAction<{ theme: "dark" | "light"; fontSize: number }>
+    React.SetStateAction<{ theme: AppThemeId; fontSize: number }>
   >;
   notifications: NotifItem[];
   setNotifications: React.Dispatch<React.SetStateAction<NotifItem[]>>;
@@ -256,7 +257,7 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     document.documentElement.setAttribute("data-theme", settings.theme);
     document.documentElement.style.setProperty("--editor-font-size", `${settings.fontSize}px`);
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", settings.theme === "light" ? "#f5f6f8" : "#1a1b26");
+    if (meta) meta.setAttribute("content", themeColorMeta(settings.theme));
   }, [settings, hydrated]);
 
   useEffect(() => {

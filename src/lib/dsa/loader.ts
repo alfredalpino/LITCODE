@@ -6,6 +6,9 @@ import {
   type PatternsFile,
 } from "./hydrate";
 
+const DSA_BASE = "/data/dsa";
+const COMPANIES_BASE = "/data/companies";
+
 let indexPromise: Promise<DsaIndexFile> | null = null;
 let seedsPromise: Promise<Record<string, DsaProblem>> | null = null;
 let patternsPromise: Promise<PatternsFile> | null = null;
@@ -15,7 +18,7 @@ let companyPacksPromise: Promise<CompanyPacksFile> | null = null;
 
 export function loadDsaIndex(): Promise<DsaIndexFile> {
   if (!indexPromise) {
-    indexPromise = fetch("/dsa/index.json")
+    indexPromise = fetch(`${DSA_BASE}/index.json`)
       .then((r) => {
         if (!r.ok) throw new Error("Failed to load DSA index");
         return r.json();
@@ -30,7 +33,7 @@ export function loadDsaIndex(): Promise<DsaIndexFile> {
 
 export function loadCompanyPacks(): Promise<CompanyPacksFile> {
   if (!companyPacksPromise) {
-    companyPacksPromise = fetch("/dsa/company-packs.json")
+    companyPacksPromise = fetch(`${COMPANIES_BASE}/company-packs.json`)
       .then((r) => {
         if (!r.ok) throw new Error("Failed to load company packs");
         return r.json();
@@ -45,7 +48,7 @@ export function loadCompanyPacks(): Promise<CompanyPacksFile> {
 
 function loadSeeds() {
   if (!seedsPromise) {
-    seedsPromise = fetch("/dsa/seeds.json").then((r) => {
+    seedsPromise = fetch(`${DSA_BASE}/seeds.json`).then((r) => {
       if (!r.ok) throw new Error("Failed to load DSA seeds");
       return r.json();
     });
@@ -55,7 +58,7 @@ function loadSeeds() {
 
 function loadPatterns() {
   if (!patternsPromise) {
-    patternsPromise = fetch("/dsa/patterns.json").then((r) => {
+    patternsPromise = fetch(`${DSA_BASE}/patterns.json`).then((r) => {
       if (!r.ok) throw new Error("Failed to load DSA patterns");
       return r.json();
     });
@@ -65,7 +68,7 @@ function loadPatterns() {
 
 function loadTestPacks() {
   if (!testPacksPromise) {
-    testPacksPromise = fetch("/dsa/test-packs.json").then((r) => {
+    testPacksPromise = fetch(`${DSA_BASE}/test-packs.json`).then((r) => {
       if (!r.ok) throw new Error("Failed to load DSA test packs");
       return r.json();
     });

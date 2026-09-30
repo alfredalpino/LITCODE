@@ -8,4 +8,4 @@
 
 CI runs those three checks plus `npm audit` on every pull request. Keep each change focused: one behavior, and a test that pins it.
 
-Curriculum generator scripts live in the `*-laboratory/scripts` folders. `scripts/sync-content.mjs` does not copy those `scripts/` directories into `public/content`.
+Curriculum generator scripts live in the `laboratories/*/scripts` folders. `scripts/sync-content.mjs` does not copy those `scripts/` directories into `public/data`.

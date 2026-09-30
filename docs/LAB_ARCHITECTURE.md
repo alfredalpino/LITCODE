@@ -149,7 +149,7 @@ Document the choice in a future DEC when migrating — do not merge recklessly.
 2. Isolation path: **Dedicated Worker and/or sandboxed iframe** with opaque origin, tight CSP, no privileged cookies, structured message protocol for console/results.
 3. Time/memory budgets enforced in the isolate; kill runaway loops.
 4. Hidden tests stay in client for v1 judged seeds (acceptable for learning trust model); move to server judge only when cheating resistance matters (Pro contests / certifications) — **not** a v1 requirement.
-5. CSP / COOP / COEP headers on Netlify when isolation lands (`netlify.toml` today only sets Cache-Control for `/content/*` and `/dsa/*`).
+5. CSP / COOP / COEP headers on Vercel when isolation lands (CDN cache headers for `/data/*`).
 6. Pyodide: pin version; prefer self-host over unbounded CDN when going multi-tenant.
 
 ### Threat tiers

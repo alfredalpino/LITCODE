@@ -17,7 +17,7 @@ const STAGE = { unseen: 0, exposed: 1, practicing: 2, passing: 3, mastered: 4 };
 
 function loadGraph() {
   return JSON.parse(
-    readFileSync(path.join(ROOT, "public/content/skill-graph.json"), "utf8")
+    readFileSync(path.join(ROOT, "public/data/skill-graph.json"), "utf8")
   );
 }
 

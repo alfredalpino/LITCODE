@@ -10,7 +10,7 @@ const ROOT = path.resolve(__dirname, "..");
 describe("content catalog smoke", () => {
   it("serves expected language labs with modules", () => {
     const catalog = JSON.parse(
-      readFileSync(path.join(ROOT, "public/content/catalog.json"), "utf8")
+      readFileSync(path.join(ROOT, "public/data/catalog.json"), "utf8")
     );
     assert.ok(catalog.generatedAt);
     const ids = catalog.labs.map((l) => l.id);

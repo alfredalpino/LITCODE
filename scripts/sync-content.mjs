@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 /**
- * Walks the three laboratory folders (siblings of this Next.js root) and emits:
- * - public/content/catalog.json
- * - mirrored markdown + code files under public/content/{labId}/...
+ * Walks laboratories/ and emits the runtime tanker:
+ * - public/data/catalog.json
+ * - public/data/labs/{labId}/... (mirrored markdown + code)
+ * - preserves public/data/skill-graph.json when already present
  *
- * Monolith layout (LITCODE IS the Next.js project):
+ * Layout:
  *   LITCODE/
  *     package.json · app/ · src/ · public/ · scripts/
- *     javascript-laboratory/
- *     python-dsa-laboratory/
- *     typescript-development-laboratory/
+ *     laboratories/{javascript,typescript,python-dsa,...}/
+ *     companies/
+ *     public/data/   ← tanker
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -18,9 +19,13 @@ import { deriveModuleMeta } from "./lib/module-status.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
-/** Labs live next to package.json inside LITCODE. */
 const WORKSPACE = ROOT;
-const OUT = path.join(ROOT, "public", "content");
+const OUT = path.join(ROOT, "public", "data");
+const LABS_OUT = path.join(OUT, "labs");
+
+function labSource(id) {
+  return path.join(WORKSPACE, "laboratories", id);
+}
 
 const LABS = [
   {
@@ -29,14 +34,8 @@ const LABS = [
     short: "JS",
     language: "javascript",
     accent: "#e8a317",
-    source: path.join(WORKSPACE, "javascript-laboratory"),
-    excludeDirs: new Set([
-      "node_modules",
-      ".git",
-      "dist",
-      "netlify-fetch-playground",
-      ".netlify",
-    ]),
+    source: labSource("javascript"),
+    excludeDirs: new Set(["node_modules", ".git", "dist", ".netlify"]),
   },
   {
     id: "python-dsa",
@@ -44,7 +43,7 @@ const LABS = [
     short: "Python",
     language: "python",
     accent: "#3b82f6",
-    source: path.join(WORKSPACE, "python-dsa-laboratory"),
+    source: labSource("python-dsa"),
     excludeDirs: new Set(["node_modules", ".git", "dist", "__pycache__", ".venv"]),
   },
   {
@@ -53,7 +52,7 @@ const LABS = [
     short: "TS",
     language: "typescript",
     accent: "#3178c6",
-    source: path.join(WORKSPACE, "typescript-development-laboratory"),
+    source: labSource("typescript"),
     excludeDirs: new Set([
       "node_modules",
       ".git",
@@ -73,7 +72,7 @@ const LABS = [
     short: "Ruby",
     language: "ruby",
     accent: "#cc342d",
-    source: path.join(WORKSPACE, "ruby-laboratory"),
+    source: labSource("ruby"),
     excludeDirs: new Set(["node_modules", ".git", "dist"]),
   },
   {
@@ -82,7 +81,7 @@ const LABS = [
     short: "Rust",
     language: "rust",
     accent: "#f74c00",
-    source: path.join(WORKSPACE, "rust-laboratory"),
+    source: labSource("rust"),
     excludeDirs: new Set(["node_modules", ".git", "dist", "target"]),
   },
   {
@@ -91,7 +90,7 @@ const LABS = [
     short: "C/C++",
     language: "cpp",
     accent: "#00599c",
-    source: path.join(WORKSPACE, "cpp-laboratory"),
+    source: labSource("cpp"),
     excludeDirs: new Set(["node_modules", ".git", "dist", "build"]),
   },
   {
@@ -100,7 +99,7 @@ const LABS = [
     short: "Java",
     language: "java",
     accent: "#f89820",
-    source: path.join(WORKSPACE, "java-laboratory"),
+    source: labSource("java"),
     excludeDirs: new Set(["node_modules", ".git", "dist", "target", "build"]),
   },
   {
@@ -109,7 +108,7 @@ const LABS = [
     short: "Go",
     language: "go",
     accent: "#00add8",
-    source: path.join(WORKSPACE, "go-laboratory"),
+    source: labSource("go"),
     excludeDirs: new Set(["node_modules", ".git", "dist", "bin", "vendor"]),
   },
   {
@@ -118,7 +117,7 @@ const LABS = [
     short: "Kotlin",
     language: "kotlin",
     accent: "#7f52ff",
-    source: path.join(WORKSPACE, "kotlin-laboratory"),
+    source: labSource("kotlin"),
     excludeDirs: new Set(["node_modules", ".git", "dist", "build", ".gradle"]),
   },
   {
@@ -127,7 +126,7 @@ const LABS = [
     short: "Swift",
     language: "swift",
     accent: "#f05138",
-    source: path.join(WORKSPACE, "swift-laboratory"),
+    source: labSource("swift"),
     excludeDirs: new Set(["node_modules", ".git", "dist", ".build"]),
   },
   {
@@ -136,7 +135,7 @@ const LABS = [
     short: "PHP",
     language: "php",
     accent: "#777bb4",
-    source: path.join(WORKSPACE, "php-laboratory"),
+    source: labSource("php"),
     excludeDirs: new Set(["node_modules", ".git", "dist", "vendor"]),
   },
   {
@@ -145,7 +144,7 @@ const LABS = [
     short: "C#",
     language: "csharp",
     accent: "#512bd4",
-    source: path.join(WORKSPACE, "csharp-laboratory"),
+    source: labSource("csharp"),
     excludeDirs: new Set(["node_modules", ".git", "dist", "bin", "obj"]),
   },
 ];
@@ -265,13 +264,18 @@ function categorize(relPath) {
   return "docs";
 }
 
+/** Catalog web path relative to /data */
+function webPath(labId, rel) {
+  return `labs/${labId}/${rel.replace(/\\/g, "/")}`;
+}
+
 function buildLab(lab) {
   if (!fs.existsSync(lab.source)) {
     console.warn(`Missing lab source: ${lab.source}`);
     return null;
   }
 
-  const outRoot = path.join(OUT, lab.id);
+  const outRoot = path.join(LABS_OUT, lab.id);
   fs.rmSync(outRoot, { recursive: true, force: true });
   fs.mkdirSync(outRoot, { recursive: true });
 
@@ -292,7 +296,7 @@ function buildLab(lab) {
       references.push({
         id: top.replace(/\.md$/i, ""),
         title: top.replace(/\.md$/i, "").replace(/_/g, " "),
-        path: `${lab.id}/${rel.replace(/\\/g, "/")}`,
+        path: webPath(lab.id, rel),
         kind: "reference",
       });
       continue;
@@ -313,14 +317,14 @@ function buildLab(lab) {
     }
 
     const mod = modules.get(top);
-    const webPath = `${lab.id}/${rel.replace(/\\/g, "/")}`;
+    const fileWebPath = webPath(lab.id, rel);
     const ext = path.extname(rel).toLowerCase();
     const base = path.basename(rel);
     const cat = categorize(rel);
 
     if (ext === ".md") {
       const doc = {
-        id: webPath,
+        id: fileWebPath,
         name: base,
         title:
           base === "README.md"
@@ -328,7 +332,7 @@ function buildLab(lab) {
             : base === "LAB.md"
               ? "Lab Guide"
               : base.replace(/\.md$/i, ""),
-        path: webPath,
+        path: fileWebPath,
         category: cat,
         isPrimary: base === "README.md" || base === "LAB.md",
       };
@@ -336,9 +340,9 @@ function buildLab(lab) {
       else mod.docs.push(doc);
     } else if (CODE_EXT.has(ext)) {
       const code = {
-        id: webPath,
+        id: fileWebPath,
         name: base,
-        path: webPath,
+        path: fileWebPath,
         category: cat,
         language: langFromExt(ext),
         relative: parts.slice(1).join("/"),
@@ -362,8 +366,7 @@ function buildLab(lab) {
     let overrideText = null;
     if (primaryDoc) {
       const primarySrc = path.join(lab.source, m.id, path.basename(primaryDoc.path));
-      // Primary path is labId/module/file — recover relative under module
-      const relFromLab = primaryDoc.path.slice(lab.id.length + 1);
+      const relFromLab = primaryDoc.path.replace(`labs/${lab.id}/`, "");
       const primaryAbs = path.join(lab.source, relFromLab);
       if (fs.existsSync(primaryAbs)) {
         readmeText = fs.readFileSync(primaryAbs, "utf8");
@@ -405,22 +408,36 @@ function buildLab(lab) {
   };
 }
 
+function ensureSkillGraph() {
+  const dest = path.join(OUT, "skill-graph.json");
+  if (fs.existsSync(dest)) return;
+  const legacy = path.join(ROOT, "public", "content", "skill-graph.json");
+  if (fs.existsSync(legacy)) {
+    fs.mkdirSync(OUT, { recursive: true });
+    fs.copyFileSync(legacy, dest);
+    console.log("Migrated skill-graph.json → public/data/");
+  }
+}
+
 const available = LABS.filter((lab) => fs.existsSync(lab.source));
 if (available.length === 0) {
   const existing = path.join(OUT, "catalog.json");
   if (fs.existsSync(existing)) {
     console.log(
-      "No sibling lab folders found — keeping existing public/content (CI/deploy mode)."
+      "No laboratory folders found — keeping existing public/data (CI/deploy mode)."
     );
     process.exit(0);
   }
   console.error(
-    "No lab sources found and no existing catalog. Clone labs as siblings or commit public/content."
+    "No lab sources found and no existing catalog. Place labs under laboratories/ or commit public/data."
   );
   process.exit(1);
 }
 
 fs.mkdirSync(OUT, { recursive: true });
+fs.mkdirSync(LABS_OUT, { recursive: true });
+ensureSkillGraph();
+
 const labs = available.map(buildLab).filter(Boolean);
 
 const catalog = {
@@ -435,5 +452,5 @@ const totalReady = labs.reduce((n, l) => n + (l.stats.ready ?? 0), 0);
 const totalScaffold = labs.reduce((n, l) => n + (l.stats.scaffold ?? 0), 0);
 const totalCode = labs.reduce((n, l) => n + l.stats.codeFiles, 0);
 console.log(
-  `Synced ${labs.length} labs · ${totalMods} modules (${totalReady} ready / ${totalScaffold} scaffold) · ${totalCode} code files → public/content/`
+  `Synced ${labs.length} labs · ${totalMods} modules (${totalReady} ready / ${totalScaffold} scaffold) · ${totalCode} code files → public/data/`
 );

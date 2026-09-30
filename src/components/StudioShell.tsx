@@ -17,6 +17,7 @@ import { CompaniesBrowse } from "@/components/CompaniesBrowse";
 import { CompaniesPack } from "@/components/CompaniesPack";
 import { Reader } from "@/components/Reader";
 import { itemsForCompany, companyFromSlug, companySlug } from "@/lib/dsa/company-filter";
+import { monacoThemeFor } from "@/lib/themes";
 import { SplitPane } from "@/components/SplitPane";
 
 const CodeWorkbench = dynamic(
@@ -129,7 +130,7 @@ export function StudioShell() {
         <h1>Could not load laboratory content</h1>
         <p>{s.error}</p>
         <p className="boot-error__hint">
-          Catalog is served from <code>/content/catalog.json</code>. If the
+          Catalog is served from <code>/data/catalog.json</code>. If the
           server was restarting, reload once it is ready.
         </p>
         <button
@@ -492,7 +493,7 @@ export function StudioShell() {
                         defaultLanguage={s.lab.language}
                         onMarkComplete={s.toggleComplete}
                         completed={s.completed}
-                        editorTheme={s.settings.theme === "light" ? "light" : "vs-dark"}
+                        editorTheme={monacoThemeFor(s.settings.theme)}
                       />
                     }
                   />
@@ -518,7 +519,7 @@ export function StudioShell() {
                       defaultLanguage={s.lab.language}
                       onMarkComplete={s.toggleComplete}
                       completed={s.completed}
-                      editorTheme={s.settings.theme === "light" ? "light" : "vs-dark"}
+                      editorTheme={monacoThemeFor(s.settings.theme)}
                     />
                   )}
                 </div>
@@ -549,7 +550,7 @@ export function StudioShell() {
                 }}
                 mobilePane={s.mobilePane}
                 onMobilePane={s.setMobilePane}
-                editorTheme={s.settings.theme === "light" ? "light" : "vs-dark"}
+                editorTheme={monacoThemeFor(s.settings.theme)}
                 onOpenCompany={(name) => {
                   s.setCompanyFilter(name);
                   s.setView("list");

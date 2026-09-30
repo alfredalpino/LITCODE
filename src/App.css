@@ -1,6 +1,9 @@
-/* LITCODE tokens — Omarchy-inspired (Tokyo Night Night neutrals from Omarchy colors.toml)
-   Fiery-orange brand accent (campfire), editor-grade neutrals. No neon. See LITCODE/colors.md */
+/* LITCODE tokens — Omarchy-inspired neutrals + curated themes.
+   Fiery-orange brand accent (campfire), editor-grade neutrals. No neon. See docs/brand/colors.md */
+
+/* Shared legacy aliases applied after each theme's --lf-* block */
 :root,
+html[data-theme="campfire"],
 html[data-theme="dark"] {
   --lf-void: #0e0e14;
   --lf-slate: #1a1b26;
@@ -10,14 +13,85 @@ html[data-theme="dark"] {
   --lf-steel: #565f89;
   --lf-chalk: #a9b1d6;
   --lf-bright: #c0caf5;
-  /* Brand accent — fiery campfire orange (was Tokyo-Night blue). Drives CTAs,
-     active pills, focus rings, selected states, and the LitcodeMark spark. */
   --lf-signal: #ff7a33;
   --lf-signal-dim: #e85d1f;
   --lf-warn: #e0af68;
   --lf-danger: #f7768e;
   --lf-pass: #9ece6a;
+  color-scheme: dark;
+}
 
+html[data-theme="paper"],
+html[data-theme="light"] {
+  --lf-void: #eef0f4;
+  --lf-slate: #f5f6f8;
+  --lf-panel: #ffffff;
+  --lf-elevated: #ffffff;
+  --lf-line: #d5dae3;
+  --lf-steel: #61708a;
+  --lf-chalk: #2e3440;
+  --lf-bright: #1a1b26;
+  --lf-signal: #c2410c;
+  --lf-signal-dim: #9a3412;
+  --lf-warn: #8f6c2f;
+  --lf-danger: #c25a6c;
+  --lf-pass: #4a7c59;
+  color-scheme: light;
+}
+
+html[data-theme="midnight"] {
+  --lf-void: #06070c;
+  --lf-slate: #0a0c12;
+  --lf-panel: #12151f;
+  --lf-elevated: #1a1e2c;
+  --lf-line: #252a3a;
+  --lf-steel: #6b7394;
+  --lf-chalk: #b4bcd4;
+  --lf-bright: #e2e6f5;
+  --lf-signal: #6b9eff;
+  --lf-signal-dim: #4d7fd9;
+  --lf-warn: #d4a85c;
+  --lf-danger: #e87890;
+  --lf-pass: #8bc96a;
+  color-scheme: dark;
+}
+
+html[data-theme="forest"] {
+  --lf-void: #0c100e;
+  --lf-slate: #121814;
+  --lf-panel: #1a221c;
+  --lf-elevated: #222c24;
+  --lf-line: #2c3830;
+  --lf-steel: #6a7d70;
+  --lf-chalk: #b5c4b8;
+  --lf-bright: #dce8df;
+  --lf-signal: #7cb87c;
+  --lf-signal-dim: #5f9a5f;
+  --lf-warn: #c9a45c;
+  --lf-danger: #d97878;
+  --lf-pass: #8fbf7a;
+  color-scheme: dark;
+}
+
+html[data-theme="high-contrast"] {
+  --lf-void: #000000;
+  --lf-slate: #000000;
+  --lf-panel: #0a0a0a;
+  --lf-elevated: #141414;
+  --lf-line: #ffffff;
+  --lf-steel: #c0c0c0;
+  --lf-chalk: #f0f0f0;
+  --lf-bright: #ffffff;
+  --lf-signal: #ffb000;
+  --lf-signal-dim: #e09800;
+  --lf-warn: #ffd666;
+  --lf-danger: #ff5555;
+  --lf-pass: #55ff88;
+  color-scheme: dark;
+}
+
+:root,
+html[data-theme] {
   /* Legacy aliases → LITCODE (keep class names stable) */
   --bg-app: var(--lf-slate);
   --bg-sidebar: var(--lf-panel);
@@ -48,48 +122,22 @@ html[data-theme="dark"] {
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --shadow-panel: none;
   --focus-ring: 0 0 0 2px var(--lf-slate), 0 0 0 4px var(--lf-signal);
-  color-scheme: dark;
 }
 
+html[data-theme="paper"],
 html[data-theme="light"] {
-  --lf-void: #eef0f4;
-  --lf-slate: #f5f6f8;
-  --lf-panel: #ffffff;
-  --lf-elevated: #ffffff;
-  --lf-line: #d5dae3;
-  --lf-steel: #61708a;
-  --lf-chalk: #2e3440;
-  --lf-bright: #1a1b26;
-  /* Brand accent — fiery orange, darkened for contrast on light surfaces. */
-  --lf-signal: #c2410c;
-  --lf-signal-dim: #9a3412;
-  --lf-warn: #8f6c2f;
-  --lf-danger: #c25a6c;
-  --lf-pass: #4a7c59;
-
-  --bg-app: var(--lf-slate);
-  --bg-sidebar: var(--lf-panel);
-  --bg-reader: var(--lf-panel);
   --bg-reader-elevated: #f8f9fb;
   --bg-editor: var(--lf-panel);
   --bg-console: #eef0f4;
-  --bg-toolbar: var(--lf-panel);
-  --border-soft: color-mix(in srgb, var(--lf-line) 90%, transparent);
-  --border-reader: var(--lf-line);
-  --text-ink: var(--lf-bright);
-  --text-ink-muted: var(--lf-steel);
   --text-ink-faint: color-mix(in srgb, var(--lf-steel) 80%, #fff);
-  --text-ui: var(--lf-bright);
-  --text-ui-muted: var(--lf-steel);
-  --accent: var(--lf-signal);
-  --accent-strong: var(--lf-signal-dim);
   --accent-soft: color-mix(in srgb, var(--lf-signal) 12%, transparent);
-  --danger: var(--lf-danger);
-  --warn: var(--lf-warn);
-  --success: var(--lf-pass);
-  --shadow-panel: none;
   --focus-ring: 0 0 0 2px #fff, 0 0 0 4px var(--lf-signal);
-  color-scheme: light;
+}
+
+html[data-theme="high-contrast"] {
+  --border-soft: var(--lf-line);
+  --shadow-panel: none;
+  --focus-ring: 0 0 0 3px #000, 0 0 0 5px var(--lf-signal);
 }
 
 *,
@@ -741,6 +789,7 @@ body.is-resizing .split-pane__gutter::after {
   box-shadow: var(--shadow-panel);
 }
 
+html[data-theme="paper"] .markdown-body pre,
 html[data-theme="light"] .markdown-body pre {
   background: #1c2128 !important;
 }

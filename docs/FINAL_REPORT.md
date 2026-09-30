@@ -89,7 +89,7 @@ Local execution disclaimer; DEC-016 runner isolation deferred for multi-tenant.
 
 ## 19. Deploy
 
-Netlify + `@netlify/plugin-nextjs`; `npm run sync` on prebuild.
+Vercel; `npm run sync` on prebuild.
 
 ## 20. Environment variables
 
@@ -127,7 +127,7 @@ JS 13–40, Python Core DS 09+, remaining TS scaffolds, judged bank growth.
 1. Production domain + `NEXT_PUBLIC_SITE_URL`
 2. Privacy/terms pages linked from footer (not yet in app)
 3. OG share image
-4. Netlify preview smoke on Labs / Problems / Progress
+4. Vercel preview smoke on Labs / Problems / Progress
 
 ## 28. P1 post-launch
 

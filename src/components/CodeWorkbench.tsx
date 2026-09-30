@@ -22,7 +22,7 @@ interface CodeWorkbenchProps {
   defaultLanguage: LabLanguage;
   onMarkComplete?: () => void;
   completed?: boolean;
-  editorTheme?: "vs-dark" | "light";
+  editorTheme?: "vs-dark" | "light" | "hc-black";
 }
 
 const STARTER: Record<LabLanguage, string> = {

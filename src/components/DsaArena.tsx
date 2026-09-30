@@ -38,7 +38,7 @@ interface DsaArenaProps {
   onAccepted?: (id: string) => void;
   mobilePane: MobilePane;
   onMobilePane: (p: MobilePane) => void;
-  editorTheme?: "vs-dark" | "light";
+  editorTheme?: "vs-dark" | "light" | "hc-black";
   interviewMode?: boolean;
   onOpenModule?: (labId: string, moduleId: string) => void;
   /** Open company pack page (unlocked — no paywall). */

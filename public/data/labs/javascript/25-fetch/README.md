@@ -28,6 +28,7 @@ Learn → Predict → Code → Execute → Observe → Break → Debug → Expla
 3. Practice with seeded cross-labs under `predict-the-output/`.
 
 **Early practice target:** when you want real HTTP instead of invented mocks, use
-[`../netlify-fetch-playground/`](../netlify-fetch-playground/) (`npx netlify dev`).
+`fetch` against public JSON APIs (e.g. JSONPlaceholder) from the browser workbench,
+or spin up a tiny local Express/Hono echo server.
 
 Do not skip ahead into project work without conceptual groundwork.

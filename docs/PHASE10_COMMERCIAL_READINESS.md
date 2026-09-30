@@ -12,7 +12,7 @@
 | Robots | `app/robots.ts` |
 | Sitemap | `app/sitemap.ts` — `/`, `/labs`, `/problems`, `/progress`, `/interview`, `/contest`, `/profile` |
 
-**Deploy:** Set `NEXT_PUBLIC_SITE_URL` to the production Netlify URL before launch.
+**Deploy:** Set `NEXT_PUBLIC_SITE_URL` to the production Vercel URL before launch.
 
 ## Landing & messaging
 

@@ -23,6 +23,7 @@ import {
 import clsx from "clsx";
 import { track } from "@/lib/analytics";
 import { LitcodeMark } from "@/components/brand/LitcodeMark";
+import { APP_THEMES, type AppThemeId } from "@/lib/themes";
 
 export type NavSection =
   | "problems"
@@ -58,8 +59,8 @@ interface AppNavProps {
   notifications: NotifItem[];
   onMarkNotificationsRead: () => void;
   onClearNotifications: () => void;
-  appTheme: "dark" | "light";
-  onAppTheme: (t: "dark" | "light") => void;
+  appTheme: AppThemeId;
+  onAppTheme: (t: AppThemeId) => void;
   fontSize: number;
   onFontSize: (n: number) => void;
   /** Show stopwatch only while solving a problem. */
@@ -536,16 +537,39 @@ export function AppNav({
               <div className="lc-dropdown__head">
                 <strong>Settings</strong>
               </div>
-              <label className="lc-setting">
-                <span>App theme</span>
-                <select
-                  value={appTheme}
-                  onChange={(e) => onAppTheme(e.target.value as "dark" | "light")}
-                >
-                  <option value="dark">Dark</option>
-                  <option value="light">Light</option>
-                </select>
-              </label>
+              <div className="lc-setting-block">
+                <span className="lc-setting-block__label">Appearance</span>
+                <div className="lc-theme-grid" role="listbox" aria-label="App theme">
+                  {APP_THEMES.map((theme) => (
+                    <button
+                      key={theme.id}
+                      type="button"
+                      role="option"
+                      aria-selected={appTheme === theme.id}
+                      className={clsx(
+                        "lc-theme-swatch",
+                        appTheme === theme.id && "is-active"
+                      )}
+                      onClick={() => onAppTheme(theme.id)}
+                      title={theme.description}
+                    >
+                      <span
+                        className="lc-theme-swatch__preview"
+                        style={{
+                          background: `linear-gradient(135deg, ${theme.swatch.bg} 0%, ${theme.swatch.panel} 55%, ${theme.swatch.panel} 100%)`,
+                          borderColor: theme.swatch.accent,
+                        }}
+                      >
+                        <span
+                          className="lc-theme-swatch__dot"
+                          style={{ background: theme.swatch.accent }}
+                        />
+                      </span>
+                      <span className="lc-theme-swatch__name">{theme.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
               <label className="lc-setting">
                 <span>Editor font size</span>
                 <input

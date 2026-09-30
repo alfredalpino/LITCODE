@@ -66,7 +66,7 @@ const PATTERN_KEY_TO_NODE: Record<string, string> = {
 };
 
 export async function loadSkillGraph(): Promise<SkillGraphFile> {
-  const res = await fetch("/content/skill-graph.json");
+  const res = await fetch("/data/skill-graph.json");
   if (!res.ok) throw new Error("Failed to load skill graph");
   return res.json() as Promise<SkillGraphFile>;
 }
