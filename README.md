@@ -59,11 +59,14 @@ Production-style run:
 npm run build && npm start
 ```
 
-Docker:
+Docker (self-contained sandbox):
 
 ```bash
 docker compose up --build
+# health: http://localhost:3000/api/health
 ```
+
+Files: `Dockerfile`, `docker-compose.yml`, `.dockerignore`.
 
 ### Useful scripts
 
@@ -73,7 +76,7 @@ docker compose up --build
 | `npm run build` | Production build |
 | `npm run lint` | Oxlint (`correctness` rules) |
 | `npm run typecheck` | `tsc --noEmit` |
-| `npm test` | Unit / integration suite (`tsx --test`, `tests/` plus `scripts/test-*`) |
+| `npm test` | Runnable suite via `scripts/run-tests.mjs` (`tests/*.test.ts`, `src/**/*.spec.ts`, `scripts/test-*`) |
 | `npm run companies:gen` | Rebuild company packs from upstream CSVs |
 | `npm run dsa:gen` | Rebuild the DSA interview index |
 
