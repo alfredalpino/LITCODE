@@ -1,0 +1,14 @@
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      JUDGE0_URL: https://ce.judge0.com
+      NEXT_PUBLIC_SITE_URL: http://localhost:3000
+      JUDGE0_AUTH_TOKEN: ""
+      LITCODE_EXECUTE_URL: http://127.0.0.1:3000
+      NEXT_PUBLIC_ANALYTICS_ENDPOINT: ""
+      SENTRY_DSN: ""
+      LOG_LEVEL: info

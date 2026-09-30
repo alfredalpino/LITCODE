@@ -45,15 +45,24 @@ Most “LeetCode clones” dump a problem bank and a timer. LITCODE is built aro
 git clone https://github.com/alfredalpino/LITCODE.git
 cd LITCODE
 npm install
+cp .env.example .env.local
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
 
+The app refuses to boot when `JUDGE0_URL` is missing. `.env.example` has a public Judge0 CE default you can keep for local practice.
+
 Production-style run:
 
 ```bash
 npm run build && npm start
+```
+
+Docker:
+
+```bash
+docker compose up --build
 ```
 
 ### Useful scripts
@@ -62,17 +71,28 @@ npm run build && npm start
 |---------|---------|
 | `npm run dev` | Dev server (syncs lab content, regenerates company packs + DSA bank) |
 | `npm run build` | Production build |
-| `npm test` | Unit / integration suite (`tsx --test`) |
+| `npm run lint` | Oxlint (`correctness` rules) |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm test` | Unit / integration suite (`tsx --test`, `tests/` plus `scripts/test-*`) |
 | `npm run companies:gen` | Rebuild company packs from upstream CSVs |
 | `npm run dsa:gen` | Rebuild the DSA interview index |
 
-Optional env:
+CI (`.github/workflows/ci.yml`) runs lint, typecheck, tests, and `npm audit` on every push and pull request.
 
-| Variable | Purpose |
-|----------|---------|
-| `NEXT_PUBLIC_SITE_URL` | Canonical site URL (SEO / OG) |
-| `JUDGE0_URL` | Self-hosted Judge0 base URL (default: public CE) |
-| `JUDGE0_AUTH_TOKEN` | Auth token if your Judge0 instance requires it |
+### Environment
+
+Copy `.env.example` to `.env.local`. Required and optional variables:
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `NODE_ENV` | Set by Next | `development`, `test`, or `production` |
+| `NEXT_PUBLIC_SITE_URL` | Production | Canonical site URL (SEO / OG). No trailing slash |
+| `JUDGE0_URL` | Yes, except tests and `next build` | Judge0 base URL |
+| `JUDGE0_AUTH_TOKEN` | No | Auth token if your Judge0 instance requires it |
+| `LITCODE_EXECUTE_URL` | No | Server-side origin for `/api/execute` |
+| `NEXT_PUBLIC_ANALYTICS_ENDPOINT` | No | Optional POST endpoint for learning events |
+| `SENTRY_DSN` | No | Optional error-tracking sink |
+| `LOG_LEVEL` | No | pino level (`info` by default) |
 
 ---
 
@@ -89,7 +109,7 @@ LITCODE/
 └── BRAND.md             # Brand system
 ```
 
-Curriculum folders are walked by `scripts/sync-content.mjs` into `public/content/` on `predev` / `prebuild`.
+Curriculum folders are walked by `scripts/sync-content.mjs` into `public/content/` on `predev` / `prebuild`. Generator scripts under each laboratory's `scripts/` directory stay out of that mirror so they are not duplicated into `public/content`.
 
 ---
 
@@ -108,8 +128,8 @@ Curriculum folders are walked by `scripts/sync-content.mjs` into `public/content
 Issues and PRs are welcome.
 
 1. Fork and clone  
-2. `npm install && npm run dev`  
-3. Keep changes focused; run `npm test` before opening a PR  
+2. `cp .env.example .env.local && npm install && npm run dev`  
+3. Keep changes focused; run `npm run lint && npm test` before opening a PR  
 4. Prefer honest lab status (`ready` vs `scaffold`) — don’t mark unfinished modules as ready  
 
 Deeper notes: [`docs/WORKSPACE_INDEX.md`](./docs/WORKSPACE_INDEX.md)

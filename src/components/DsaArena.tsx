@@ -5,11 +5,8 @@ import {
   ArrowLeft,
   Bug,
   Building2,
-  Check,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
-  LayoutGrid,
   Lightbulb,
   Maximize2,
   MessageSquare,
@@ -38,7 +35,6 @@ import {
 } from "../lib/skill-graph";
 import { splitVisibleHidden } from "../lib/workbench";
 import {
-  JUDGE_LANGUAGES,
   getJudgeLanguage,
   runnableLanguageLabels,
   starterForLanguage,
@@ -49,6 +45,13 @@ import { getRunnerAvailability } from "../lib/browser-runners";
 import type { CompanyPacksFile, DsaIndexItem, DsaProblem } from "../lib/dsa/types";
 import type { ConsoleLine, MobilePane } from "../types";
 import { PatternRelatedLabs } from "./PatternRelatedLabs";
+import { loadComments, saveComment, type LocalComment } from "../lib/dsa/comments";
+import { loadReaction, saveReaction, type Reaction } from "../lib/dsa/reactions";
+import {
+  DsaLanguageSelect,
+  DsaLayoutSelect,
+  type ArenaLayoutId,
+} from "./DsaArenaToolbar";
 
 interface DsaArenaProps {
   problemId: string;
@@ -69,67 +72,6 @@ interface DsaArenaProps {
 
 type LeftTab = "description" | "editorial" | "solutions" | "submissions" | "comments";
 type ConsoleTab = "testcase" | "result";
-type LayoutId = "default" | "stack" | "focus";
-
-const COMMENTS_KEY = "sde-lab-problem-comments-v1";
-const REACTIONS_KEY = "sde-lab-problem-reactions-v1";
-
-type LocalComment = {
-  id: string;
-  problemId: string;
-  body: string;
-  ts: number;
-};
-
-type Reaction = "up" | "down" | null;
-
-function loadReaction(problemId: string): Reaction {
-  try {
-    const raw = localStorage.getItem(REACTIONS_KEY);
-    if (!raw) return null;
-    const all = JSON.parse(raw) as Record<string, Reaction>;
-    return all[problemId] ?? null;
-  } catch {
-    return null;
-  }
-}
-
-function saveReaction(problemId: string, reaction: Reaction) {
-  try {
-    const raw = localStorage.getItem(REACTIONS_KEY);
-    const all: Record<string, Reaction> = raw
-      ? (JSON.parse(raw) as Record<string, Reaction>)
-      : {};
-    if (!reaction) delete all[problemId];
-    else all[problemId] = reaction;
-    localStorage.setItem(REACTIONS_KEY, JSON.stringify(all));
-  } catch {
-    /* ignore quota */
-  }
-}
-
-function loadComments(problemId: string): LocalComment[] {
-  try {
-    const raw = localStorage.getItem(COMMENTS_KEY);
-    if (!raw) return [];
-    const all = JSON.parse(raw) as LocalComment[];
-    return all.filter((c) => c.problemId === problemId).sort((a, b) => b.ts - a.ts);
-  } catch {
-    return [];
-  }
-}
-
-function saveComment(problemId: string, body: string) {
-  const raw = localStorage.getItem(COMMENTS_KEY);
-  const all: LocalComment[] = raw ? (JSON.parse(raw) as LocalComment[]) : [];
-  all.unshift({
-    id: `${Date.now()}`,
-    problemId,
-    body,
-    ts: Date.now(),
-  });
-  localStorage.setItem(COMMENTS_KEY, JSON.stringify(all.slice(0, 500)));
-}
 
 export function DsaArena({
   problemId,
@@ -164,7 +106,7 @@ export function DsaArena({
   const [showHints, setShowHints] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [layoutOpen, setLayoutOpen] = useState(false);
-  const [layout, setLayout] = useState<LayoutId>("stack");
+  const [layout, setLayout] = useState<ArenaLayoutId>("stack");
   const [commentDraft, setCommentDraft] = useState("");
   const [comments, setComments] = useState<LocalComment[]>([]);
   const [reaction, setReaction] = useState<Reaction>(null);
@@ -252,12 +194,6 @@ export function DsaArena({
     }
     document.addEventListener("mousedown", onDoc);
     return () => document.removeEventListener("mousedown", onDoc);
-  }, []);
-
-  const columns = useMemo(() => {
-    return [1, 2, 3].map((col) =>
-      JUDGE_LANGUAGES.filter((l) => l.column === col)
-    );
   }, []);
 
   function go(delta: number) {
@@ -817,48 +753,17 @@ export function DsaArena({
       <div className="lc-prob-code__bar">
         <div className="lc-prob-code__left">
           <span className="lc-prob-code__label">&lt;/&gt; Code</span>
-          <div className="lc-prob-lang" ref={langRef}>
-            <button
-              type="button"
-              className="lc-prob-lang__btn"
-              aria-expanded={langOpen}
-              onClick={() => setLangOpen((v) => !v)}
-            >
-              {langMeta?.label ?? language}
-              <ChevronDown size={14} />
-            </button>
-            {langOpen && (
-              <div className="lc-prob-lang__menu" role="listbox">
-                {columns.map((col, i) => (
-                  <div key={i} className="lc-prob-lang__col">
-                    {col.map((l) => (
-                      <button
-                        key={l.id}
-                        type="button"
-                        role="option"
-                        aria-selected={language === l.id}
-                        className={clsx(language === l.id && "is-active")}
-                        onClick={() => {
-                          setLanguage(l.id);
-                          setLangOpen(false);
-                        }}
-                      >
-                        {language === l.id ? <Check size={14} /> : <span />}
-                        {l.label}
-                        {!l.runnable && (
-                          <em>{l.availability === "planned" ? "soon" : "soon*"}</em>
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                ))}
-                <p className="lc-prob-lang__note">
-                  Run/Submit in-browser: {runnableLanguageLabels()}. WASM engines
-                  download on first Run. Go / C / C++ / Java next — no remote sandboxes.
-                </p>
-              </div>
-            )}
-          </div>
+          <DsaLanguageSelect
+            language={language}
+            label={langMeta?.label ?? language}
+            open={langOpen}
+            onOpenChange={setLangOpen}
+            onSelect={(id) => {
+              setLanguage(id);
+              setLangOpen(false);
+            }}
+            containerRef={langRef}
+          />
           {langMeta && !langMeta.runnable && langMeta.availability === "planned" && (
             <span className="lc-prob-code__badge">Runtime soon</span>
           )}
@@ -1071,50 +976,16 @@ export function DsaArena({
           </button>
         </div>
 
-        <div className="lc-prob-top__right" ref={layoutRef}>
-          <button
-            type="button"
-            className={clsx("lc-icon-btn", layoutOpen && "is-active")}
-            aria-label="Layouts"
-            aria-expanded={layoutOpen}
-            onClick={() => setLayoutOpen((v) => !v)}
-          >
-            <LayoutGrid size={16} />
-          </button>
-          {layoutOpen && (
-            <div className="lc-prob-layouts">
-              <div className="lc-prob-layouts__head">
-                <strong>Layouts</strong>
-              </div>
-              <div className="lc-prob-layouts__grid">
-                {(
-                  [
-                    ["default", "Default", "Equal description / code"],
-                    ["stack", "Stack", "Code + tests stacked (recommended)"],
-                    ["focus", "Focus", "Narrow statement, wide editor"],
-                  ] as const
-                ).map(([id, title, sub]) => (
-                  <button
-                    key={id}
-                    type="button"
-                    className={clsx(layout === id && "is-active")}
-                    onClick={() => {
-                      setLayout(id);
-                      setLayoutOpen(false);
-                    }}
-                  >
-                    <span className={`lc-prob-layouts__thumb is-${id}`} aria-hidden />
-                    <strong>{title}</strong>
-                    <span>{sub}</span>
-                  </button>
-                ))}
-              </div>
-              <p className="lc-prob-layouts__note">
-                Pick a workspace layout — all options free.
-              </p>
-            </div>
-          )}
-        </div>
+        <DsaLayoutSelect
+          layout={layout}
+          open={layoutOpen}
+          onOpenChange={setLayoutOpen}
+          onSelect={(id) => {
+            setLayout(id);
+            setLayoutOpen(false);
+          }}
+          containerRef={layoutRef}
+        />
       </header>
 
       <div className="workspace__mobile-bar">

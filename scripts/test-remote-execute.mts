@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { afterEach, beforeEach, describe, it } from "node:test";
+import { afterEach, describe, it } from "node:test";
 import {
   JUDGE0_LANGUAGE_IDS,
   ensureRunnable,

@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   JUDGE0_LANGUAGE_IDS,
-  MAX_EXECUTE_CODE_BYTES,
-  MAX_EXECUTE_STDIN_BYTES,
   ensureRunnable,
-  type ExecuteRequest,
   type ExecuteResponse,
 } from "../../../src/lib/remote-execute";
+import { parseExecuteRequest } from "../../../src/lib/execute-request";
+import { assertServerEnv } from "../../../src/lib/env";
+import { captureException } from "../../../src/lib/error-tracking";
+import { childLogger } from "../../../src/lib/logger";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+const log = childLogger("api/execute");
 const JUDGE0_ACCEPTED_STATUS_ID = 3;
 
 type Judge0Status = { id: number; description?: string };
@@ -24,18 +26,8 @@ type Judge0Submission = {
   memory?: number | null;
 };
 
-function byteLength(text: string): number {
-  return new TextEncoder().encode(text).length;
-}
-
-function judge0BaseUrl(): string {
-  const raw = process.env.JUDGE0_URL?.trim() || "https://ce.judge0.com";
-  return raw.replace(/\/$/, "");
-}
-
-function judge0Headers(): Record<string, string> {
+function judge0Headers(token: string | undefined): Record<string, string> {
   const headers: Record<string, string> = { "Content-Type": "application/json" };
-  const token = process.env.JUDGE0_AUTH_TOKEN?.trim();
   if (token) headers["X-Auth-Token"] = token;
   return headers;
 }
@@ -66,9 +58,21 @@ function mapSubmission(
 }
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
-  let body: ExecuteRequest;
+  let env;
   try {
-    body = (await req.json()) as ExecuteRequest;
+    env = assertServerEnv();
+  } catch (err) {
+    captureException(err, { route: "/api/execute" });
+    const message = err instanceof Error ? err.message : "Invalid server environment";
+    return NextResponse.json(
+      { ok: false, error: message, status: "Misconfigured", engine: "judge0" },
+      { status: 500 }
+    );
+  }
+
+  let payload: unknown;
+  try {
+    payload = await req.json();
   } catch {
     return NextResponse.json(
       { ok: false, error: "Invalid JSON body", status: "Bad Request", engine: "judge0" },
@@ -76,48 +80,16 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
   }
 
-  const language = typeof body.language === "string" ? body.language.trim() : "";
-  const code = typeof body.code === "string" ? body.code : "";
-  const stdin = typeof body.stdin === "string" ? body.stdin : "";
-
-  if (!language) {
+  const parsed = parseExecuteRequest(payload);
+  if (!parsed.ok) {
+    const statusText = parsed.status === 413 ? "Payload Too Large" : "Bad Request";
     return NextResponse.json(
-      { ok: false, error: "Missing language", status: "Bad Request", engine: "judge0" },
-      { status: 400 }
+      { ok: false, error: parsed.error, status: statusText, engine: "judge0" },
+      { status: parsed.status }
     );
   }
 
-  if (!code.trim()) {
-    return NextResponse.json(
-      { ok: false, error: "Missing code", status: "Bad Request", engine: "judge0" },
-      { status: 400 }
-    );
-  }
-
-  if (byteLength(code) > MAX_EXECUTE_CODE_BYTES) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error: `Code exceeds ${MAX_EXECUTE_CODE_BYTES} bytes`,
-        status: "Payload Too Large",
-        engine: "judge0",
-      },
-      { status: 413 }
-    );
-  }
-
-  if (byteLength(stdin) > MAX_EXECUTE_STDIN_BYTES) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error: `stdin exceeds ${MAX_EXECUTE_STDIN_BYTES} bytes`,
-        status: "Payload Too Large",
-        engine: "judge0",
-      },
-      { status: 413 }
-    );
-  }
-
+  const { language, code, stdin } = parsed.value;
   const languageId = JUDGE0_LANGUAGE_IDS[language as keyof typeof JUDGE0_LANGUAGE_IDS];
   if (!languageId) {
     return NextResponse.json(
@@ -132,12 +104,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   }
 
   const source = ensureRunnable(language, code);
-  const url = `${judge0BaseUrl()}/submissions?base64_encoded=false&wait=true`;
+  const url = `${env.JUDGE0_URL.replace(/\/$/, "")}/submissions?base64_encoded=false&wait=true`;
 
   try {
     const upstream = await fetch(url, {
       method: "POST",
-      headers: judge0Headers(),
+      headers: judge0Headers(env.JUDGE0_AUTH_TOKEN),
       body: JSON.stringify({
         language_id: languageId,
         source_code: source,
@@ -147,6 +119,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     if (!upstream.ok) {
       const text = await upstream.text();
+      log.warn({ status: upstream.status }, "judge0 http error");
       return NextResponse.json(
         {
           ok: false,
@@ -167,6 +140,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const payload = mapSubmission(language, submission);
     return NextResponse.json(payload, { status: 200 });
   } catch (err) {
+    captureException(err, { route: "/api/execute", language });
     const msg = err instanceof Error ? err.message : String(err);
     return NextResponse.json(
       {

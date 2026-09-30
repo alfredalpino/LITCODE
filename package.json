@@ -11,8 +11,9 @@
     "prebuild": "npm run sync && npm run companies:gen && npm run dsa:gen",
     "build": "next build",
     "start": "next start -p 3000 -H 0.0.0.0",
-    "lint": "oxlint",
-    "test": "tsx --test scripts/test-module-status.mjs scripts/test-learning-infra.mjs scripts/test-phase6-judged-bank.mjs scripts/test-phase8-unified.mjs scripts/test-catalog-smoke.mjs scripts/test-company-packs.mjs scripts/test-browser-runners.mts scripts/test-judge-languages.mts scripts/test-remote-execute.mts scripts/test-lang-icon.mts scripts/test-execute-route.mts",
+    "lint": "oxlint .",
+    "typecheck": "tsc --noEmit",
+    "test": "NODE_ENV=test tsx --test tests/*.test.ts scripts/test-*.mjs scripts/test-*.mts",
     "dsa:phase6": "node scripts/phase6-build-judged-bank.mjs && npm run dsa:gen",
     "test:runners": "node scripts/smoke-runners.mjs"
   },
@@ -25,12 +26,14 @@
     "lucide-react": "^1.48.0",
     "monaco-editor": "^0.57.0",
     "next": "16.3.7",
+    "pino": "^10.3.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "react-markdown": "^10.1.0",
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
-    "sucrase": "^3.35.0"
+    "sucrase": "^3.35.0",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@types/node": "^24.19.0",

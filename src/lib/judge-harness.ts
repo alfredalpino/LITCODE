@@ -148,7 +148,6 @@ except Exception as e:
     }
     case "javascript":
     case "typescript": {
-      const isTs = language === "typescript";
       const calls = cases
         .map((t) => {
           const args = t.input.map(jsLit).join(", ");
@@ -176,7 +175,7 @@ except Exception as e:
     }
     case "java": {
       const calls = cases
-        .map((t, i) => {
+        .map(() => {
           // Limited: only support primitive-ish JSON via manual for common array/int cases
           // Use a simple approach - compare string forms via Arrays.deepToString where possible
           return `

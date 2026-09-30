@@ -7,10 +7,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { companiesForSlug, frequencyFor } from "./lib/company-pack-query.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUT = path.join(__dirname, "..", "public", "dsa");
-const TARGET = 10000;
 
 const TOPICS = [
   "Array", "Hash Table", "Two Pointers", "Sliding Window", "Stack", "Queue",
@@ -19,8 +19,6 @@ const TOPICS = [
   "Bit Manipulation", "Math", "String", "Trie", "Union Find", "Prefix Sum",
   "Monotonic Stack", "Design", "Intervals", "Matrix", "Recursion",
 ];
-
-const DIFFS = ["Easy", "Medium", "Hard"];
 
 const PACKS_PATH = path.join(OUT, "company-packs.json");
 if (!fs.existsSync(PACKS_PATH)) {
@@ -33,17 +31,12 @@ function titleKey(title) {
   return String(title).toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 }
 
-function companiesForSlug(slug) {
-  const p = COMPANY_PACKS.problems[slug];
-  if (!p) return [];
-  return p.companies.map((c) => c.name);
+function companiesForSlugFromPacks(slug) {
+  return companiesForSlug(COMPANY_PACKS, slug);
 }
 
-function frequencyFor(slug, company) {
-  const p = COMPANY_PACKS.problems[slug];
-  if (!p) return 0;
-  const hit = p.companies.find((c) => c.name === company);
-  return hit?.frequency ?? 0;
+function frequencyForFromPacks(slug, company) {
+  return frequencyFor(COMPANY_PACKS, slug, company);
 }
 const TWISTS = [
   "",
@@ -203,15 +196,6 @@ const PATTERNS = [
   },
 ];
 
-function pickDiff(bias, r) {
-  let x = r;
-  for (let i = 0; i < bias.length; i++) {
-    x -= bias[i];
-    if (x <= 0) return DIFFS[i];
-  }
-  return "Medium";
-}
-
 function hash(n) {
   let x = (n * 2654435761) >>> 0;
   x ^= x >>> 16;
@@ -266,7 +250,7 @@ for (const seed of SEEDS) {
   const tk = titleKey(seed.title);
   const slug = COMPANY_PACKS.titleIndex[tk];
   const companies = slug
-    ? companiesForSlug(slug)
+    ? companiesForSlugFromPacks(slug)
     : Array.isArray(seed.companies)
       ? seed.companies
       : [];
@@ -281,7 +265,7 @@ for (const seed of SEEDS) {
     pattern: seed.pattern || undefined,
     hasJudge: true,
     slug: slug || undefined,
-    frequency: slug ? Math.max(0, ...companies.map((c) => frequencyFor(slug, c))) : undefined,
+    frequency: slug ? Math.max(0, ...companies.map((c) => frequencyForFromPacks(slug, c))) : undefined,
   });
   seedsMap[seed.id] = {
     ...seed,

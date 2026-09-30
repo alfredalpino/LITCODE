@@ -200,7 +200,7 @@ const CODE_EXT = new Set([
 ]);
 
 function shouldSkipDir(name, exclude) {
-  return exclude.has(name) || name.startsWith(".");
+  return exclude.has(name) || name.startsWith(".") || name === "scripts";
 }
 
 function titleFromSlug(slug) {

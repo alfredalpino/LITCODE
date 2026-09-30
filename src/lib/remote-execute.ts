@@ -122,11 +122,11 @@ export async function executeRemote(req: ExecuteRequest): Promise<ExecuteRespons
   }
 }
 
-export function remoteResultToLines(
+export function remoteResultToLines<T>(
   res: ExecuteResponse,
-  line: (kind: "log" | "info" | "warn" | "error", text: string) => { kind: string; text: string }
-): Array<{ kind: string; text: string }> {
-  const lines: Array<{ kind: string; text: string }> = [];
+  line: (kind: "log" | "info" | "warn" | "error", text: string) => T
+): T[] {
+  const lines: T[] = [];
   if (res.compileOutput.trim()) {
     for (const chunk of res.compileOutput.trim().split("\n")) {
       lines.push(line("error", chunk));
