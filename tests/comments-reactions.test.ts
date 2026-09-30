@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 import { loadComments, saveComment, type KeyValueStore } from "../src/lib/dsa/comments.ts";
 import { loadReaction, saveReaction } from "../src/lib/dsa/reactions.ts";
 

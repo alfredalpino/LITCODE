@@ -76,7 +76,8 @@ Files: `Dockerfile`, `docker-compose.yml`, `.dockerignore`.
 | `npm run build` | Production build |
 | `npm run lint` | Oxlint (`correctness` rules) |
 | `npm run typecheck` | `tsc --noEmit` |
-| `npm test` | Runnable suite via `scripts/run-tests.mjs` (`tests/*.test.ts`, `src/**/*.spec.ts`, `scripts/test-*`) |
+| `npm run test:coverage` | Vitest with v8 coverage |
+| `npm test` | Vitest (`tests/`, `src/**/*.spec.ts`) then Node script tests (`scripts/test-*`) |
 | `npm run companies:gen` | Rebuild company packs from upstream CSVs |
 | `npm run dsa:gen` | Rebuild the DSA interview index |
 

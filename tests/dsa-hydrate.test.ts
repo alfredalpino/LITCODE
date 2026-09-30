@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 import { buildGeneratedProblem, buildLeetCodeProblem } from "../src/lib/dsa/hydrate.ts";
 import type { DsaIndexItem } from "../src/lib/dsa/types.ts";
 

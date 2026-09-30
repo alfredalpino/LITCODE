@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
-import { getJudgeLanguage, toRunnerLanguage } from "./judge-languages.ts";
+import { describe, it } from "vitest";
+import { getJudgeLanguage, toRunnerLanguage } from "./judge-languages";
 
 describe("judge-languages", () => {
   it("maps python3 to the browser runner id", () => {

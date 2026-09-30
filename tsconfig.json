@@ -38,10 +38,14 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "dist",
-    "public",
+    "**/*.spec.ts",
+    "**/*.test.ts",
     ".cache",
-    "scripts"
+    "dist",
+    "node_modules",
+    "public",
+    "scripts",
+    "tests",
+    "vitest.config.mts"
   ]
 }

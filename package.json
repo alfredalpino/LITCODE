@@ -13,8 +13,10 @@
     "start": "next start -p 3000 -H 0.0.0.0",
     "lint": "oxlint .",
     "typecheck": "tsc --noEmit",
-    "test": "node scripts/run-tests.mjs",
-    "test:unit": "node scripts/run-tests.mjs",
+    "test": "vitest run && node scripts/run-tests.mjs --scripts-only",
+    "test:unit": "vitest run",
+    "test:scripts": "node scripts/run-tests.mjs --scripts-only",
+    "test:coverage": "vitest run --coverage",
     "dsa:phase6": "node scripts/phase6-build-judged-bank.mjs && npm run dsa:gen",
     "test:runners": "node scripts/smoke-runners.mjs"
   },
@@ -40,9 +42,11 @@
     "@types/node": "^24.19.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
+    "@vitest/coverage-v8": "^5.0.3",
     "eslint-config-next": "16.3.7",
     "oxlint": "^1.81.0",
     "tsx": "^4.20.5",
-    "typescript": "~6.0.2"
+    "typescript": "~6.0.2",
+    "vitest": "^5.0.3"
   }
 }

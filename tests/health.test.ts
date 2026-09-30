@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
+import { describe, it } from "vitest";
 import { GET as health } from "../app/api/health/route.ts";
 import { GET as metrics } from "../app/api/metrics/route.ts";
 

@@ -32,3 +32,5 @@ typescript-development-laboratory/node_modules/
 python-dsa-laboratory/.venv/
 **/__pycache__/
 tsconfig.tsbuildinfo
+coverage/
+

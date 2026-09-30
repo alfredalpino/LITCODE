@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import { describe, it } from "node:test";
-import { remoteExecutable } from "./remote-execute.ts";
+import { describe, it } from "vitest";
+import { remoteExecutable } from "./remote-execute";
 
 describe("remoteExecutable", () => {
   it("keeps browser languages local", () => {
