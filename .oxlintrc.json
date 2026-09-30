@@ -15,6 +15,7 @@
     "public/**",
     "dist/**",
     "coverage/**",
+    "laboratories/**",
     "**/*-laboratory/**"
   ]
 }
